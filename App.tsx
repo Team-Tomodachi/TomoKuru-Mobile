@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { StyleProvider } from "react-native-zephyr";
 import HomeScreen from "./screens/HomeScreen"
 import ExploreScreen from './screens/ExploreScreen';
 import SafetyScreen from './screens/SafetyScreen';
@@ -41,8 +42,10 @@ function MyTabs() {
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <MyTabs />
-    </NavigationContainer>
+    <StyleProvider>
+      <NavigationContainer>
+        <MyTabs />
+      </NavigationContainer>
+    </StyleProvider>
   );
 }
