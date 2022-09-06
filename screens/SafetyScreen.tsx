@@ -13,7 +13,7 @@ export default function SafetyScreen() {
 
   return (
     <RootSiblingParent>
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <View style={{flex: 1, justifyContent: "center", alignItems: "center" }}>
         <View style={styles("bg:green-600", "rounded:lg", "p:2", "flex:row", "justify:evenly", "m:10")}>
           <Feather name="star" color="white" size={30}></Feather>
           <Button title="I'M OK" color="white" onPress={() => setShowToast(true)}/>
@@ -23,7 +23,7 @@ export default function SafetyScreen() {
           <Feather name="alert-sharp" color="white" size={30}></Feather>
           <Button title="NOTIFY CONTACT" color="white" onPress={() => setShowToast(true)}/>
         </View>
-        <View style={styles("bg:red-700", "rounded:lg", "p:2", "flex:row", "justify:evenly")}>
+        <View style={styles("bg:red-500", "rounded:lg", "p:2", "flex:row", "justify:evenly", "m:5", "w:5" )}>
           <Feather name="alert-circle-outline" color="white" size={30}></Feather>
           <Button title="NOTIFY POLICE" color="white" onPress={() => setShowToast(true)}/>
         </View>
