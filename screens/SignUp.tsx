@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { styles } from "../styles/styles";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
-import Constants from "expo-constants";
 
 export default function SignIn() {
   const [email, setEmail] = useState("");
@@ -25,8 +24,6 @@ export default function SignIn() {
       Alert.alert("Error", `${e}`);
     }
   };
-
-  console.log(Constants?.manifest?.extra?.enableComments);
 
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
