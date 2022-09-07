@@ -2,31 +2,37 @@
     {"groupName": "Canada Soccer FanZ",
     "groupDescription": "For all true Canuck Fans of Canadian soccer. We often gather at the Hubs to watch our team play.",
     "isPrivate": "public",
-    "groupMemberCount": 69
+    "groupMemberCount": 69,
+    "groupPhoto": "../DummyData/DummyGroupPhotos/canada-soccer-fans.jpeg"
     }, 
     {"groupName": "Ping-Pong Players International",
     "groupDescription": "A group for those who love ping-pong. All levels welcome. We usually play on Sundays in Tamachi",
     "isPrivate": "public",
-    "groupMemberCount": 45
+    "groupMemberCount": 45,
+    "groupPhoto": "require('../DummyData/DummyGroupPhotos/ping-pong-players-international.jpg')"
     }, 
     {"groupName": "Basket Weavers Guild",
     "groupDescription": "For those who love the most exciting hobby in world, come join us!",
     "isPrivate": "public",
-    "groupMemberCount": 9
+    "groupMemberCount": 9,
+    "groupPhoto": "require('../DummyData/DummyGroupPhotos/basket-weavers-guild.jpeg')"
     }, 
     {"groupName": "Chess Masters Society",
     "groupDescription": "Only advanced players with an IQ over 150 are welcome. Must beat a member to join.",
     "isPrivate": "private",
-    "groupMemberCount": 24
+    "groupMemberCount": 24,
+    "groupPhoto": "require('../DummyData/DummyGroupPhotos/chess-masters-society.jpeg')"
     }, 
     {"groupName": "Coding Nerds Unite!",
     "groupDescription": "Love JavaScript? Think React is the bet thing on earth? Join us for our monthly hackathon and party!",
     "isPrivate": "public",
-    "groupMemberCount": 1010
+    "groupMemberCount": 1010,
+    "groupPhoto": "require('../DummyData/DummyGroupPhotos/coding-nerds-unite!.jpeg')"
     },
     {"groupName": "Sunday Futsal in Kinshicho",
     "groupDescription": "Join our weekly futsal match in Kishicho. All nationalities welcome, but you should have moderate to advanced skills and fitness level.",
     "isPrivate": "public",
-    "groupMemberCount": 134
+    "groupMemberCount": 134,
+    "groupPhoto": "require('../DummyData/DummyGroupPhotos/sunday-futsal-in-kinshicho.jpeg')"
     }
 ]

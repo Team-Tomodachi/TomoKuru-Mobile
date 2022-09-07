@@ -8,43 +8,50 @@ import { useState, useEffect } from "react";
 
 const {height, width} = Dimensions.get("screen");
 
-const DummyVenues = require("../DummyData/DummyVenues.json");
-const DummyGroups = require("../DummyData/DummyGroups.json");
-const DummyEvents = require("../DummyData/DummyVenues.json");
-
-const DummyVenueImage = require("../DummyData/DummyVenuePhotos/venuePhoto.jpeg");
-const DummyGroupImage = require("../DummyData/DummyGroupPhotos/groupPhoto.jpeg");
-const DummyEventImage = require("../DummyData/DummyEventPhotos/eventPhoto.jpeg");
-
-const groups = [
-    {
-        groupName: "Canada Soccer FanZ",
-        groupDescription: "For all true Canuck Fans of Canadian soccer. We often gather at the Hubs to watch our team play.",
-        isPrivate: "public",
-        groupMemberCount: 69
-    },
-]
+import DummyVenues from "../DummyData/DummyVenues.json";
+import DummyGroups from "../DummyData/DummyGroups.json";
+import DummyEvents from "../DummyData/DummyVenues.json";
 
 export default function ListItems(props: any) {
 
     let [showList, setShowList] = useState([]);
 
-    // let groups = JSON.parse(DummyGroups);
-
     useEffect(() => {
         return setShowList(DummyGroups);
     }, [])
-    console.log(DummyGroups);
+
+
+    const groupPhotoArray = 
+    ["require('../DummyData/DummyGroupPhotos/canada-soccer-fans.jpeg')", 
+    "require('../DummyData/DummyGroupPhotos/ping-pong-players-international.jpg')", 
+    "require('../DummyData/DummyGroupPhotos/basket-weavers-guild.jpeg')", 
+    "require('../DummyData/DummyGroupPhotos/chess-masters-society.jpeg')", 
+    "require('../DummyData/DummyGroupPhotos/coding-nerds-unite!.jpeg')", 
+    "require('../DummyData/DummyGroupPhotos/sunday-futsal-in-kinshicho.jpeg')"]
   return (
     <ScrollView>
     {DummyGroups.map((group, index) => {
+        console.log(group.groupPhoto)
         return (
-            <View key={index}>
-             <Text>{group.groupName}</Text>
-             <Text>{group.groupDescription}</Text>
-             <Text>{group.isPrivate}</Text>
-             <Text>{group.groupMemberCount}</Text>
-             <Image style={{height: height/2, width: width}}source={require("../DummyData/DummyVenuePhotos/venuePhoto.jpeg")}></Image>
+            <View style={{flexDirection: "row"}} key={index}>
+            
+            <Image style={{height: height*.1, 
+             width: width*.2, 
+
+             marginTop: 10,
+             marginLeft: 20,
+             marginRight: 30,
+             marginBottom: 50,
+            }}
+             source={require("../DummyData/DummyGroupPhotos/sunday-futsal-in-kinshicho.jpeg")}></Image>
+            <View style={{flexDirection: "column", 
+                height: height*.1, 
+                width: width*.5, }}>
+                <Text style= {{ fontSize: 20}}>{group.groupName}</Text>
+                <Text>Description: {group.groupDescription}</Text>
+                <Text>Privacy: {group.isPrivate}</Text>
+                <Text>Members: {group.groupMemberCount}</Text>
+            </View>
              </View>
     )})}
     </ScrollView>
