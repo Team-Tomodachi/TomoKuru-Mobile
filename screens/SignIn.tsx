@@ -16,10 +16,6 @@ export default function SignIn({ navigation }) {
     }
   };
 
-  const navigateToSignUp = () => {
-    navigation.navigate("Modal User", { screen: "Sign Up" });
-  };
-
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
       <Text style={styles("w:56", "text-align:justify")}>Email</Text>
@@ -59,7 +55,7 @@ export default function SignIn({ navigation }) {
       </Pressable>
       <Text>or</Text>
       <Pressable
-        onPress={navigateToSignUp}
+        onPress={() => navigation.navigate("Modal User", { screen: "Sign Up" })}
         style={styles(
           "bg:orange-400",
           "rounded:lg",
