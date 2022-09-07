@@ -1,7 +1,7 @@
 require("dotenv").config();
 
 module.exports = {
-  name: "CoolApp",
+  name: "TomoKuru",
   version: "1.0.0",
   extra: {
     fbApiKey: process.env.FB_APIKEY,
