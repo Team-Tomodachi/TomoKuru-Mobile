@@ -4,7 +4,7 @@ import { styles } from "../styles/styles";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
 
-export default function SignIn() {
+export default function SignIn({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -14,6 +14,10 @@ export default function SignIn() {
     } catch (e) {
       Alert.alert("Error", `${e}`);
     }
+  };
+
+  const navigateToSignUp = () => {
+    navigation.navigate("Modal User", { screen: "Sign Up" });
   };
 
   return (
@@ -55,6 +59,7 @@ export default function SignIn() {
       </Pressable>
       <Text>or</Text>
       <Pressable
+        onPress={navigateToSignUp}
         style={styles(
           "bg:orange-400",
           "rounded:lg",
