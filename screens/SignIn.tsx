@@ -2,10 +2,13 @@ import { View, Text, TextInput, Alert, Pressable } from "react-native";
 import React, { useState } from "react";
 import { styles } from "../styles/styles";
 import UserUtils from "../utils/user";
+import useAuthStore from "../store/auth";
 
 export default function SignIn({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const { isUserSignedIn, signUserIn } = useAuthStore();
 
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
@@ -33,7 +36,11 @@ export default function SignIn({ navigation }) {
         autoCapitalize="none"
         secureTextEntry></TextInput>
       <Pressable
-        onPress={() => UserUtils.handleSignIn(email, password)}
+        onPress={() => {
+          UserUtils.handleSignIn(email, password);
+          signUserIn();
+          navigation.navigate("Home");
+        }}
         style={styles(
           "bg:green-600",
           "rounded:lg",

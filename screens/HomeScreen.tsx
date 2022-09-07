@@ -1,10 +1,15 @@
 import * as React from "react";
 import { Button, Text, View } from "react-native";
+import useAuthStore from "../store/auth";
 
 export default function HomeScreen({ navigation }) {
+  const { isUserSignedIn } = useAuthStore();
+
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>Home!</Text>
+      <Text>
+        {isUserSignedIn ? "You are signed in" : "You need to sign in"}
+      </Text>
       <Button
         onPress={() => navigation.navigate("Modal User")}
         title="Sign In"
