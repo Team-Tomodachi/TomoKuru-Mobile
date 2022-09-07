@@ -1,29 +1,12 @@
 import { View, Text, TextInput, Alert, Pressable } from "react-native";
 import React, { useState } from "react";
 import { styles } from "../styles/styles";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase";
+import UserUtils from "../utils/user";
 
 export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-
-  const handleSignUp = async () => {
-    if (confirmPassword !== password) {
-      Alert.alert("Error", "Passwords must match");
-      return;
-    }
-    if (password.length < 6) {
-      Alert.alert("Error", "Password must contains at least 6 characters");
-      return;
-    }
-    try {
-      await createUserWithEmailAndPassword(auth, email, password);
-    } catch (e) {
-      Alert.alert("Error", `${e}`);
-    }
-  };
 
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
@@ -63,7 +46,7 @@ export default function SignIn() {
         autoCapitalize="none"
         secureTextEntry></TextInput>
       <Pressable
-        onPress={handleSignUp}
+        onPress={() => UserUtils.handleSignUp(email, password, confirmPassword)}
         style={styles(
           "bg:green-600",
           "rounded:lg",

@@ -1,20 +1,11 @@
 import { View, Text, TextInput, Alert, Pressable } from "react-native";
 import React, { useState } from "react";
 import { styles } from "../styles/styles";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase";
+import UserUtils from "../utils/user";
 
 export default function SignIn({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  const handleSignIn = async () => {
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
-    } catch (e) {
-      Alert.alert("Error", `${e}`);
-    }
-  };
 
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
@@ -42,7 +33,7 @@ export default function SignIn({ navigation }) {
         autoCapitalize="none"
         secureTextEntry></TextInput>
       <Pressable
-        onPress={handleSignIn}
+        onPress={() => UserUtils.handleSignIn(email, password)}
         style={styles(
           "bg:green-600",
           "rounded:lg",
