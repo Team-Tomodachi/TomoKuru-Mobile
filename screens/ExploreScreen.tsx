@@ -7,6 +7,7 @@ import Toast from 'react-native-root-toast'
 import { useState } from "react";
 import ListItems from "../components/ListItems";
 import ListVenues from "../components/ListVenues";
+import ListEvents from "../components/ListEvents";
 
 export default function ExploreScreen() {
   let [showToast, setShowToast] = useState(false);
@@ -27,6 +28,7 @@ export default function ExploreScreen() {
         <Button title="Explore More Groups" onPress={() => setShowToast(true)}/>
       </View>
     <Text style= {{ fontSize: 30}} > Explore Events</Text>
+    <ListEvents />
       <View>
         <Button title="Explore More Events" onPress={() => setShowToast(true)}/>
       </View>

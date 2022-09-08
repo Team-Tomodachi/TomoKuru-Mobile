@@ -6,6 +6,7 @@ import HomeScreen from "./screens/HomeScreen"
 import ExploreScreen from './screens/ExploreScreen';
 import SafetyScreen from './screens/SafetyScreen';
 import Feather from "@expo/vector-icons/Ionicons"
+import { useFonts } from 'expo-font';
 
 const Tab = createBottomTabNavigator();
 
@@ -41,6 +42,7 @@ function MyTabs() {
 }
 
 export default function App() {
+
   return (
     <StyleProvider>
       <NavigationContainer>
