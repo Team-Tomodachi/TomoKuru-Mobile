@@ -17,7 +17,7 @@ export default function ListItems(props: any) {
     // let [showList, setShowList] = useState([]);
 
     // useEffect(() => {
-    //     return setShowList(DummyGroups);
+    //     return setShowList(DummyVenues);
     // }, [])
 
     const shortenDescription = (description: string) =>{
@@ -29,12 +29,13 @@ export default function ListItems(props: any) {
         }
     }
   return (
+
     <ScrollView style={{backgroundColor: "black"}}>
-    {DummyGroups.map((group, index) => {
-        console.log(group.groupPhoto)
+    {DummyVenues.map((venue, index) => {
+        console.log(venue.venuePhoto)
         return (
             
-            <View style={{
+        <View style={{
             flexDirection: "row",
             borderWidth: 3,
             borderRadius: 10,
@@ -52,16 +53,18 @@ export default function ListItems(props: any) {
              marginRight: 50,
              marginBottom: 20,
             }}
-             source={require("../DummyData/DummyGroupPhotos/sunday-futsal-in-kinshicho.jpeg")}></Image>
+             source={require("../DummyData/DummyVenuePhotos/ce-la-vi.jpeg")}></Image>
             <View style={{flexDirection: "column", 
                 height: height*.1, 
-                width: width*.5, }}>
-                <Text style= {{ fontSize: 20}}>{group.groupName}</Text>
-                <Text>Description: {shortenDescription(group.groupDescription)}</Text>
-                <Text>Privacy: {group.isPrivate}</Text>
-                <Text>Members: {group.groupMemberCount}</Text>
+                width: width*.5,
+                marginTop: 20,
+                justifyContent: "space-evenly" }}>
+                <Text style= {{ fontSize: 20}}>{venue.venueName}</Text>
+                <Text>Type: {venue.venueType}</Text>
+                <Text>Location: {venue.venueLocation}</Text>
+                <Text>Contact: {venue.venueContact}</Text>
             </View>
-             </View>
+        </View>
     )})}
     </ScrollView>
   )

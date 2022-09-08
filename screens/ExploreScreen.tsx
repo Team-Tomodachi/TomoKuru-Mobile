@@ -6,6 +6,7 @@ import { RootSiblingParent } from 'react-native-root-siblings';
 import Toast from 'react-native-root-toast'
 import { useState } from "react";
 import ListItems from "../components/ListItems";
+import ListVenues from "../components/ListVenues";
 
 export default function ExploreScreen() {
   let [showToast, setShowToast] = useState(false);
@@ -15,38 +16,22 @@ export default function ExploreScreen() {
 
   return (
     <ScrollView>
-      <ListItems />
       <View style={{ 
         flex: 3, 
         justifyContent: "center", 
         alignItems: "center"
         }}>
-      
       <Text style= {{ fontSize: 30}}> Explore Groups</Text>
-      <View style={{ 
-        height: (height/2), 
-        width: width,
-        backgroundColor: "blue",
-      }}> 
-      </View>
+      <ListItems />
       <View>
         <Button title="Explore More Groups" onPress={() => setShowToast(true)}/>
       </View>
     <Text style= {{ fontSize: 30}} > Explore Events</Text>
-    <View style={{ 
-      height: (height/2),
-      width: width,
-      backgroundColor: "pink",
-    }}/> 
       <View>
         <Button title="Explore More Events" onPress={() => setShowToast(true)}/>
       </View>
     <Text style= {{ fontSize: 30}}> Explore Venues</Text>
-    <View style={{ 
-      height: (height/2),
-      width: width,
-      backgroundColor: "green",
-    }}/> 
+    <ListVenues />
       <View>
         <Button title="Explore More Venues" onPress={() => setShowToast(true)}/>
       </View>
