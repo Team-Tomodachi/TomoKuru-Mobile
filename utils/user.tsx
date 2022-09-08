@@ -17,7 +17,7 @@ class UserUtils {
     password: string,
     confirmPassword: string,
   ) {
-    if (email.length != 0) {
+    if (email.length === 0) {
       Alert.alert("Error", "Email is required");
       return;
     }
