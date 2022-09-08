@@ -16,7 +16,7 @@ export default function ExploreScreen() {
   return (
     <ScrollView>
       <ListItems />
-      {/* <View style={{ 
+      <View style={{ 
         flex: 3, 
         justifyContent: "center", 
         alignItems: "center"
@@ -50,7 +50,7 @@ export default function ExploreScreen() {
       <View>
         <Button title="Explore More Venues" onPress={() => setShowToast(true)}/>
       </View>
-    </View> */}
+    </View>
     </ScrollView>
   );
 }

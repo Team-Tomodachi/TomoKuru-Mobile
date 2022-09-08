@@ -20,6 +20,15 @@ export default function ListItems(props: any) {
         return setShowList(DummyGroups);
     }, [])
 
+    const shortenDescription = (description: string) =>{
+        if (description.length > 75){
+            return description.slice(0, 75) + "...";
+        }
+        else{
+            return description;
+        }
+    }
+
 
     const groupPhotoArray = 
     ["require('../DummyData/DummyGroupPhotos/canada-soccer-fans.jpeg')", 
@@ -33,22 +42,23 @@ export default function ListItems(props: any) {
     {DummyGroups.map((group, index) => {
         console.log(group.groupPhoto)
         return (
-            <View style={{flexDirection: "row"}} key={index}>
             
-            <Image style={{height: height*.1, 
+            <View style={{flexDirection: "row", borderWidth: 3, borderRadius: 10}} key={index}>
+            
+            <Image style={{
+             height: height*.1, 
              width: width*.2, 
-
-             marginTop: 10,
+             marginTop: 20,
              marginLeft: 20,
-             marginRight: 30,
-             marginBottom: 50,
+             marginRight: 50,
+             marginBottom: 20,
             }}
              source={require("../DummyData/DummyGroupPhotos/sunday-futsal-in-kinshicho.jpeg")}></Image>
             <View style={{flexDirection: "column", 
                 height: height*.1, 
                 width: width*.5, }}>
                 <Text style= {{ fontSize: 20}}>{group.groupName}</Text>
-                <Text>Description: {group.groupDescription}</Text>
+                <Text>Description: {shortenDescription(group.groupDescription)}</Text>
                 <Text>Privacy: {group.isPrivate}</Text>
                 <Text>Members: {group.groupMemberCount}</Text>
             </View>
