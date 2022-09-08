@@ -20,31 +20,36 @@ export default function SignIn() {
         onChangeText={text => {
           setEmail(text);
         }}
-        autoCapitalize="none"></TextInput>
+        autoCapitalize="none">
+      </TextInput>
       <Text style={styles("w:56", "text-align:justify")}>Password</Text>
       <TextInput
         style={styles("border:1", "p:1", "w:56", "m:5")}
         placeholder="Password"
         clearButtonMode="while-editing"
-        keyboardType="email-address"
+        // keyboardType="default"
         returnKeyType="done"
         onChangeText={text => {
           setPassword(text);
         }}
-        autoCapitalize="none"
-        secureTextEntry></TextInput>
+        autoCapitalize={'none'}
+        secureTextEntry={true}
+      >
+      </TextInput>
       <Text style={styles("w:56", "text-align:justify")}>Confirm password</Text>
       <TextInput
         style={styles("border:1", "p:1", "w:56", "m:5")}
         placeholder="Password"
         clearButtonMode="while-editing"
-        keyboardType="email-address"
+        // keyboardType="default"
         returnKeyType="done"
         onChangeText={text => {
           setConfirmPassword(text);
         }}
-        autoCapitalize="none"
-        secureTextEntry></TextInput>
+        autoCapitalize={'none'}
+        secureTextEntry={true}
+      >
+      </TextInput>
       <Pressable
         onPress={() => UserUtils.handleSignUp(email, password, confirmPassword)}
         style={styles(

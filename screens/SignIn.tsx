@@ -28,13 +28,14 @@ export default function SignIn({ navigation }) {
         style={styles("border:1", "p:1", "w:56", "m:5")}
         placeholder="Password"
         clearButtonMode="while-editing"
-        keyboardType="email-address"
+        // keyboardType="email-address"
         returnKeyType="done"
         onChangeText={text => {
           setPassword(text);
         }}
-        autoCapitalize="none"
-        secureTextEntry></TextInput>
+        autoCapitalize={'none'}
+        secureTextEntry={true}
+        ></TextInput>
       <Pressable
         onPress={() => {
           UserUtils.handleSignIn(email, password);
