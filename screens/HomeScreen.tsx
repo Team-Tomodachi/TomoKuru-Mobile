@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Button, Text, View } from "react-native";
 import useAuthStore from "../store/auth";
+import { GroupForm } from "../components/GroupForm";
 
 export default function HomeScreen({ navigation }) {
   const { isUserSignedIn } = useAuthStore();
@@ -14,6 +15,7 @@ export default function HomeScreen({ navigation }) {
         onPress={() => navigation.navigate("Modal User")}
         title="Sign In"
       />
+      <GroupForm />
     </View>
   );
 }
