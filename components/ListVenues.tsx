@@ -5,6 +5,7 @@ import Feather from "@expo/vector-icons/Ionicons";
 import { RootSiblingParent } from 'react-native-root-siblings';
 import Toast from 'react-native-root-toast'
 import { useState, useEffect } from "react";
+import { useFonts } from 'expo-font';
 
 const {height, width} = Dimensions.get("screen");
 
@@ -12,7 +13,16 @@ import DummyVenues from "../DummyData/DummyVenues.json";
 import DummyGroups from "../DummyData/DummyGroups.json";
 import DummyEvents from "../DummyData/DummyVenues.json";
 
+
 export default function ListItems(props: any) {
+
+    const [loaded] = useFonts({
+        OpenSans: require('../assets/fonts/OpenSans-Medium.ttf'),
+      });
+      if (!loaded) {
+        return null;
+      }
+
 
     // let [showList, setShowList] = useState([]);
 
@@ -30,7 +40,7 @@ export default function ListItems(props: any) {
     }
   return (
 
-    <ScrollView style={{backgroundColor: "black"}}>
+    <ScrollView style={{backgroundColor: "rgba(182, 182, 182, 1)"}}>
     {DummyVenues.map((venue, index) => {
         console.log(venue.venuePhoto)
         return (
@@ -43,7 +53,7 @@ export default function ListItems(props: any) {
             marginLeft: 20,
             marginRight: 20,
             marginBottom: 20,
-            backgroundColor: "white"}} key={index}>
+            backgroundColor: "rgba(252, 245, 59, 1)"}} key={index}>
             
             <Image style={{
              height: height*.1, 
@@ -60,9 +70,9 @@ export default function ListItems(props: any) {
                 marginTop: 20,
                 justifyContent: "space-evenly" }}>
                 <Text style= {{ fontSize: 20}}>{venue.venueName}</Text>
-                <Text>Type: {venue.venueType}</Text>
-                <Text>Location: {venue.venueLocation}</Text>
-                <Text>Contact: {venue.venueContact}</Text>
+                <Text style= {{ fontFamily: 'OpenSans' }}>Type: {venue.venueType}</Text>
+                <Text style= {{ fontFamily: 'OpenSans' }}>Location: {venue.venueLocation}</Text>
+                <Text style= {{ fontFamily: 'OpenSans' }}>Contact: {venue.venueContact}</Text>
             </View>
         </View>
     )})}

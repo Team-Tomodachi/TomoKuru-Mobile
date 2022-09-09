@@ -31,7 +31,6 @@ export default function ListItems(props: any) {
 
     <ScrollView style={{backgroundColor: "black"}}>
     {DummyEvents.map((event, index) => {
-
         return (
             
         <View style={{
@@ -42,7 +41,7 @@ export default function ListItems(props: any) {
             marginLeft: 20,
             marginRight: 20,
             marginBottom: 20,
-            backgroundColor: "Canary"}} key={index}>
+            backgroundColor: "rgba(252, 245, 59, 1)"}} key={index}>
             
             <Image style={{
              height: height*.1, 
@@ -58,7 +57,7 @@ export default function ListItems(props: any) {
                 width: width*.5,
                 marginTop: 20,
                 justifyContent: "space-evenly" }}>
-                <Text style= {{ fontFamily: 'OpenSans', fontSize: 20 }}>{event.eventName}</Text>
+                <Text style={{fontFamily: 'OpenSans', fontSize: 20 }}>{event.eventName}</Text>
                 <Text style={{fontFamily: 'OpenSans'}}> Group: {event.eventGroupName}</Text>
                 <Text style={{fontFamily: 'OpenSans'}}>Venue: {event.eventLocation}</Text>
                 <Text style={{fontFamily: 'OpenSans'}}>Date/Time: {event.eventDate} {event.eventStartTime} ~ {event.eventEndTime}</Text>

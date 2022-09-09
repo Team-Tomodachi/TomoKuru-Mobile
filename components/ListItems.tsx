@@ -29,7 +29,7 @@ export default function ListItems(props: any) {
         }
     }
   return (
-    <ScrollView style={{backgroundColor: "black"}}>
+    <ScrollView style={{backgroundColor: "rgba(252, 245, 59, 1)"}}>
     {DummyGroups.map((group, index) => {
         console.log(group.groupPhoto)
         return (
