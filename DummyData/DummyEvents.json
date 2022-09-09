@@ -19,7 +19,7 @@
     "eventCapacity": 14, 
     "eventCreator": "Cindy Li"
     },
-    {"eventName": "Best basket-weaving practices discussion",
+    {"eventName": "Weave and Drink!",
     "eventGroupName": "Basket Weavers Guild",
     "eventLocation": "Øl Tokyo",
      "eventDescription": "Join us for our monthly discussion on how to weave the perfect basket and enjoy a taste of Scandenavia!", 
@@ -29,7 +29,7 @@
     "eventCapacity": 12, 
     "eventCreator": "Julie Weaver"
     },
-    {"eventName": "Champions Celebration Dinner",
+    {"eventName": "Champions Dinner",
     "eventGroupName": "Chess Masters Society",
     "eventLocation": "Quays Pacific Grill",
     "eventDescription": "Join us we toast our annual tournamets champion!", 
@@ -39,7 +39,7 @@
     "eventCapacity": 12, 
     "eventCreator": "Garry Kasparov"
     },
-    {"eventName": "Monthly Social Nomikai",
+    {"eventName": "Monthly Nomikai",
     "eventGroupName": "Coding Nerds Unite!",
     "eventLocation": "Rio Brewing & Co Bistro and Garden",
      "eventDescription": "Join us for our monthly nomikai as we discuss new tech and welcome new members", 

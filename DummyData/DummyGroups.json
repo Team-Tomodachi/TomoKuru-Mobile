@@ -6,7 +6,7 @@
     "groupMemberCount": 69,
     "groupPhoto": "../DummyData/DummyGroupPhotos/canada-soccer-fans.jpeg"
     }, 
-    {"groupName": "Ping-Pong Players International",
+    {"groupName": "Ping-Pong Players Int'l",
     "groupDescription": "A group for those who love ping-pong. All levels welcome. We usually play on Sundays in Tamachi",
     "isPrivate": "public",
     "groupType": "Sports",
@@ -33,7 +33,7 @@
     "groupMemberCount": 1010,
     "groupPhoto": "require('../DummyData/DummyGroupPhotos/coding-nerds-unite!.jpeg')"
     },
-    {"groupName": "Sunday Futsal in Kinshicho",
+    {"groupName": "Sunday Futsal",
     "groupDescription": "Join our weekly futsal match in Kishicho. All nationalities welcome, but you should have moderate to advanced skills and fitness level.",
     "isPrivate": "public",
     "groupType": "Sports",

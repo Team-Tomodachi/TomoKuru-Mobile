@@ -69,10 +69,10 @@ export default function ListItems(props: any) {
                 width: width*.5,
                 marginTop: 20,
                 justifyContent: "space-evenly" }}>
-                <Text style= {{ fontSize: 20}}>{venue.venueName}</Text>
-                <Text style= {{ fontFamily: 'OpenSans' }}>Type: {venue.venueType}</Text>
-                <Text style= {{ fontFamily: 'OpenSans' }}>Location: {venue.venueLocation}</Text>
-                <Text style= {{ fontFamily: 'OpenSans' }}>Contact: {venue.venueContact}</Text>
+                <Text style= {{ fontSize: 18, fontFamily: 'OpenSans'}}>{venue.venueName}</Text>
+                <Text style= {{ fontFamily: 'OpenSans', textDecorationLine: 'underline' }}>Type: {venue.venueType}</Text>
+                <Text style= {{ fontFamily: 'OpenSans', textDecorationLine: 'underline' }}>Location: {venue.venueLocation}</Text>
+                <Text style= {{ fontFamily: 'OpenSans', textDecorationLine: 'underline' }}>Contact: {venue.venueContact}</Text>
             </View>
         </View>
     )})}

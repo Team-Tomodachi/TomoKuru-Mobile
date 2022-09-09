@@ -16,7 +16,7 @@ export default function ExploreScreen() {
   const {height, width} = Dimensions.get("screen");
 
   return (
-    <ScrollView>
+    <ScrollView style={{backgroundColor: "rgba(182, 182, 182, 1)"}}>
       <View style={{ 
         flex: 3, 
         justifyContent: "center", 
