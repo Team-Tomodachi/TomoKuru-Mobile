@@ -8,14 +8,14 @@ export default function HomeScreen({ navigation }) {
 
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>
-        {isUserSignedIn ? "You are signed in" : "You need to sign in"}
-      </Text>
-      <Button
-        onPress={() => navigation.navigate("Modal User")}
-        title="Sign In"
-      />
-      <GroupForm />
+      {isUserSignedIn ? (
+        <GroupForm />
+      ) : (
+        <Button
+          onPress={() => navigation.navigate("Modal User")}
+          title="Sign In"
+        />
+      )}
     </View>
   );
 }
