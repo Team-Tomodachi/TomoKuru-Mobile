@@ -10,5 +10,6 @@ module.exports = {
     fbStorageBucket: process.env.FB_STORAGEBUCKET,
     fbMessagingSenderId: process.env.FB_MESSAGINGSENDERID,
     fbAppId: process.env.FB_APPID,
+    apiURL: process.env.API_URL,
   },
 };

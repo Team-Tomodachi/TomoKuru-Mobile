@@ -6,9 +6,9 @@ import { Alert } from "react-native";
 class UserUtils {
   static async handleSignIn(email: string, password: string) {
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      signInWithEmailAndPassword(auth, email, password);
     } catch (e) {
-      Alert.alert("Error", `${e}`);
+      Alert.alert("Error", `${e.errorcode}`);
     }
   }
 
@@ -17,7 +17,7 @@ class UserUtils {
     password: string,
     confirmPassword: string,
   ) {
-    if (email.length != 0) {
+    if (email.length === 0) {
       Alert.alert("Error", "Email is required");
       return;
     }
@@ -30,7 +30,12 @@ class UserUtils {
       return;
     }
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      const userCredentials = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password,
+      );
+      return userCredentials.user;
     } catch (e) {
       Alert.alert("Error", `${e}`);
     }
