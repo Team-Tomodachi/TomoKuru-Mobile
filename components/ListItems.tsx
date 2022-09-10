@@ -35,14 +35,14 @@ export default function ListItems(props: any) {
         return null;
       }
 
-    // const shortenDescription = (description: string) =>{
-    //     if (description.length > 75){
-    //         return description.slice(0, 75) + "...";
-    //     }
-    //     else{
-    //         return description;
-    //     }
-    // }
+    const shortenDescription = (description: string) =>{
+        if (description.length > 60){
+            return description.slice(0, 60) + "...";
+        }
+        else{
+            return description;
+        }
+    }
 
     const isPrivate = (privacy: boolean) =>{
         return privacy === false ? "public" : "private"
@@ -77,8 +77,8 @@ export default function ListItems(props: any) {
                 width: width*.5, }}>
                 <Text style= {{ fontSize: 18, fontFamily: 'OpenSans'}}>{group.group_name}</Text>
                 <Text style={{fontFamily: 'OpenSans'}}>Privacy: {isPrivate(group.private)}</Text>
-                <Text style={{fontFamily: 'OpenSans'}}>Members: {group.groupMemberCount}</Text>
-                <Text style={{fontFamily: 'OpenSans'}}>Description: {}</Text>
+                <Text style={{fontFamily: 'OpenSans'}}>Members: {group.members_num}</Text>
+                <Text style={{fontFamily: 'OpenSans'}}>Description: {shortenDescription(group.group_description)}</Text>
             </View>
              </View>
     )})}
