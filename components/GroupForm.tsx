@@ -1,8 +1,10 @@
 // Formik x React Native example
 import React from "react";
 import { Button, TextInput, View, Switch, Text } from "react-native";
-import { Formik, validateYupSchema } from "formik";
+import { Formik } from "formik";
 import { styles } from "../styles/styles";
+import useAuthStore from "../store/auth";
+import Constants from "expo-constants";
 import Axios from "axios";
 
 interface Group {
@@ -17,14 +19,16 @@ export function GroupForm() {
     groupDesciption: "",
     isPrivate: false,
   };
+  const { userId } = useAuthStore();
+
   return (
     <Formik
       initialValues={initialValues}
       onSubmit={(values: Group) => {
-        Axios.post("http://tomokuru.i-re.io/api/groups", {
+        Axios.post(`${Constants?.manifest?.extra?.apiURL}/api/groups`, {
           group_name: values.groupName,
           group_description: values.groupDesciption,
-          user_id: "9f41b8f-1f6f-4e32-9623-d48acd5578ed",
+          user_id: userId,
           private: values.isPrivate,
         })
           .then(function (response) {

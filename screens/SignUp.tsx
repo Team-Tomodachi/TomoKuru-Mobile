@@ -4,7 +4,7 @@ import { styles } from "../styles/styles";
 import UserUtils from "../utils/user";
 import useAuthStore from "../store/auth";
 import Constants from "expo-constants";
-const axios = require("axios").default;
+import Axios from "axios";
 
 export default function SignIn({ navigation }) {
   const [email, setEmail] = useState("");
@@ -12,21 +12,18 @@ export default function SignIn({ navigation }) {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [username, setUsername] = useState("");
 
-  const { signUserIn } = useAuthStore();
+  const { signUserIn, setUserId } = useAuthStore();
 
   //Handler
 
   function addUserToDB(email: string, uid: string, name: string) {
-    axios
-      .post(`${Constants?.manifest?.extra?.apiURL}/api/users`, {
-        user_email: email,
-        firebase_id: uid,
-        first_name: name,
-        account_type: "user",
-      })
-      .then(function (response: JSON) {
-        console.log(response);
-      })
+    Axios.post(`${Constants?.manifest?.extra?.apiURL}/api/users`, {
+      user_email: email,
+      firebase_id: uid,
+      first_name: name,
+      account_type: "user",
+    })
+      .then(response => setUserId(response))
       .catch(function (error: JSON) {
         console.log(error);
       });
