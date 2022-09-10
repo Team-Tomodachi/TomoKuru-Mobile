@@ -7,6 +7,7 @@ import Toast from 'react-native-root-toast'
 import { useState, useEffect } from "react";
 import { useFonts } from 'expo-font'
 import DummyGroups from "../DummyData/DummyGroups.json";
+import axios from "axios"
 
 const {height, width} = Dimensions.get("screen");
 
@@ -18,6 +19,15 @@ export default function ListItems(props: any) {
     //     return setShowList(DummyGroups);
     // }, [])
 
+    const [groupData, setGroupData] = useState([]);
+
+    useEffect(() => {
+        axios.get('http://tomokuru.i-re.io/api/groups')
+        .then(function (response) {
+        setGroupData(response.data)
+        console.log(groupData)});
+      }, []);
+
     const [loaded] = useFonts({
         OpenSans: require('../assets/fonts/OpenSans-Medium.ttf'),
       });
@@ -25,18 +35,22 @@ export default function ListItems(props: any) {
         return null;
       }
 
-    const shortenDescription = (description: string) =>{
-        if (description.length > 75){
-            return description.slice(0, 75) + "...";
-        }
-        else{
-            return description;
-        }
+    // const shortenDescription = (description: string) =>{
+    //     if (description.length > 75){
+    //         return description.slice(0, 75) + "...";
+    //     }
+    //     else{
+    //         return description;
+    //     }
+    // }
+
+    const isPrivate = (privacy: boolean) =>{
+        return privacy === false ? "public" : "private"
     }
   return (
+
     <ScrollView style={{backgroundColor: "rgba(182, 182, 182, 1)"}}>
-    {DummyGroups.map((group, index) => {
-        console.log(group.groupPhoto)
+    {groupData.map((group, index) => {
         return (
             
             <View style={{
@@ -61,10 +75,10 @@ export default function ListItems(props: any) {
             <View style={{flexDirection: "column", 
                 height: height*.1, 
                 width: width*.5, }}>
-                <Text style= {{ fontSize: 18, fontFamily: 'OpenSans'}}>{group.groupName}</Text>
-                <Text style={{fontFamily: 'OpenSans'}}>Privacy: {group.isPrivate}</Text>
+                <Text style= {{ fontSize: 18, fontFamily: 'OpenSans'}}>{group.group_name}</Text>
+                <Text style={{fontFamily: 'OpenSans'}}>Privacy: {isPrivate(group.private)}</Text>
                 <Text style={{fontFamily: 'OpenSans'}}>Members: {group.groupMemberCount}</Text>
-                <Text style={{fontFamily: 'OpenSans'}}>Description: {shortenDescription(group.groupDescription)}</Text>
+                <Text style={{fontFamily: 'OpenSans'}}>Description: {}</Text>
             </View>
              </View>
     )})}

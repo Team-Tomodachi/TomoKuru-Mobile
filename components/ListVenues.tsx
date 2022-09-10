@@ -78,7 +78,7 @@ export default function ListItems(props: any) {
                 justifyContent: "space-evenly" }}>
                 <Text style= {{ fontSize: 18, fontFamily: 'OpenSans'}}>{venue.location_name}</Text>
                 <Text style= {{ fontFamily: 'OpenSans', textDecorationLine: 'underline' }}>Type: {venue.venue_type}</Text>
-                <Text style= {{ fontFamily: 'OpenSans', textDecorationLine: 'underline' }}>Location: {shortenDescription(venue.address)}</Text>
+                <Text style= {{ fontFamily: 'OpenSans', textDecorationLine: 'underline' }}>Location: {venue.city_ward}</Text>
                 <Text style= {{ fontFamily: 'OpenSans', textDecorationLine: 'underline' }}>Contact: {venue.phone_num}</Text>
             </View>
         </View>
