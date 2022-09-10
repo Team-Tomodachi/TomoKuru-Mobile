@@ -53,6 +53,7 @@ function MainTabs() {
 }
 
 export default function App() {
+
   return (
     <StyleProvider>
       <NavigationContainer>
