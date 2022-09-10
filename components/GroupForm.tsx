@@ -1,8 +1,9 @@
 // Formik x React Native example
 import React from "react";
 import { Button, TextInput, View, Switch, Text } from "react-native";
-import { Formik } from "formik";
+import { Formik, validateYupSchema } from "formik";
 import { styles } from "../styles/styles";
+import Axios from "axios";
 
 interface Group {
   groupName: string;
@@ -19,7 +20,20 @@ export function GroupForm() {
   return (
     <Formik
       initialValues={initialValues}
-      onSubmit={(values: Group) => console.log(values)}>
+      onSubmit={(values: Group) => {
+        Axios.post("http://tomokuru.i-re.io/api/groups", {
+          group_name: values.groupName,
+          group_description: values.groupDesciption,
+          user_id: "9f41b8f-1f6f-4e32-9623-d48acd5578ed",
+          private: values.isPrivate,
+        })
+          .then(function (response) {
+            console.log(response);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      }}>
       {({ handleChange, handleBlur, handleSubmit, setFieldValue, values }) => (
         <View>
           <Text>Group Name</Text>
