@@ -22,6 +22,7 @@ export function GroupForm() {
       onSubmit={(values: Group) => console.log(values)}>
       {({ handleChange, handleBlur, handleSubmit, setFieldValue, values }) => (
         <View>
+          <Text>Group Name</Text>
           <TextInput
             style={styles("border:1", "p:1", "w:56", "m:5")}
             onChangeText={handleChange("groupName")}
@@ -29,20 +30,29 @@ export function GroupForm() {
             value={values.groupName}
             placeholder={values.groupName}
           />
-          <TextInput
-            style={styles("border:1", "p:1", "w:56", "m:5")}
-            onChangeText={handleChange("groupDesciption")}
-            onBlur={handleBlur("groupDesciption")}
-            value={values.groupDesciption}
-            placeholder={values.groupDesciption}
-          />
-          <View style={styles("flex:row")}>
-            <Text>Public</Text>
+          <Text>Group Description</Text>
+          <View style={styles("border:1", "p:1", "w:56", "m:5", "h:20")}>
+            <TextInput
+              onChangeText={handleChange("groupDesciption")}
+              onBlur={handleBlur("groupDesciption")}
+              multiline={true}
+              value={values.groupDesciption}
+              placeholder={values.groupDesciption}></TextInput>
+          </View>
+          <Text>Group Privacy</Text>
+          <View
+            style={styles(
+              "flex:row",
+              "items:center",
+              "w:56",
+              "m:5",
+              "justify:evenly",
+            )}>
+            <Text>Private</Text>
             <Switch
               value={values.isPrivate}
               onValueChange={value => setFieldValue("isPrivate", value)}
             />
-            <Text>Private</Text>
           </View>
 
           <Button onPress={handleSubmit} title="Submit" />
