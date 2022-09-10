@@ -2,6 +2,7 @@ import { auth } from "../firebase";
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
+  signOut,
 } from "firebase/auth";
 import { Alert } from "react-native";
 
@@ -26,6 +27,14 @@ class UserUtils {
         password,
       );
       return userCredentials.user;
+    } catch (e) {
+      Alert.alert("Error", `${e}`);
+    }
+  }
+
+  static async handleSignOut() {
+    try {
+      await signOut(auth);
     } catch (e) {
       Alert.alert("Error", `${e}`);
     }
