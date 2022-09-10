@@ -85,8 +85,8 @@ export default function SignIn({ navigation }) {
             confirmPassword,
           );
           addUserToDB(String(user?.email), String(user?.uid), username);
-          // signUserIn();
-          // navigation.navigate("Home");
+          signUserIn();
+          navigation.navigate("Home");
         }}
         style={styles(
           "bg:green-600",
