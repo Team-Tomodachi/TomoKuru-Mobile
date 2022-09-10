@@ -6,15 +6,23 @@ import { RootSiblingParent } from 'react-native-root-siblings';
 import Toast from 'react-native-root-toast'
 import { useState, useEffect } from "react";
 import { useFonts } from 'expo-font';
+import DummyVenues from "../DummyData/DummyVenues.json";
+import axios from "axios"
 
 const {height, width} = Dimensions.get("screen");
 
-import DummyVenues from "../DummyData/DummyVenues.json";
-import DummyGroups from "../DummyData/DummyGroups.json";
-import DummyEvents from "../DummyData/DummyVenues.json";
 
 
 export default function ListItems(props: any) {
+
+    const [venueData, setVenueData] = useState([]);
+
+    useEffect(() => {
+        axios.get('http://tomokuru.i-re.io/api/venues')
+        .then(function (response) {
+        setVenueData(response.data)
+        console.log(venueData)});
+      }, []);
 
     const [loaded] = useFonts({
         OpenSans: require('../assets/fonts/OpenSans-Medium.ttf'),
@@ -23,6 +31,15 @@ export default function ListItems(props: any) {
         return null;
       }
 
+      const shortenDescription = (description: string) =>{
+        if (description.length > 75){
+            return description.slice(0, 40) + "...";
+        }
+        else{
+            return description;
+        }
+    }
+
 
     // let [showList, setShowList] = useState([]);
 
@@ -30,19 +47,9 @@ export default function ListItems(props: any) {
     //     return setShowList(DummyVenues);
     // }, [])
 
-    const shortenDescription = (description: string) =>{
-        if (description.length > 75){
-            return description.slice(0, 75) + "...";
-        }
-        else{
-            return description;
-        }
-    }
   return (
-
     <ScrollView style={{backgroundColor: "rgba(182, 182, 182, 1)"}}>
-    {DummyVenues.map((venue, index) => {
-        console.log(venue.venuePhoto)
+    {venueData.map((venue, index) => {
         return (
             
         <View style={{
@@ -69,10 +76,10 @@ export default function ListItems(props: any) {
                 width: width*.5,
                 marginTop: 20,
                 justifyContent: "space-evenly" }}>
-                <Text style= {{ fontSize: 18, fontFamily: 'OpenSans'}}>{venue.venueName}</Text>
-                <Text style= {{ fontFamily: 'OpenSans', textDecorationLine: 'underline' }}>Type: {venue.venueType}</Text>
-                <Text style= {{ fontFamily: 'OpenSans', textDecorationLine: 'underline' }}>Location: {venue.venueLocation}</Text>
-                <Text style= {{ fontFamily: 'OpenSans', textDecorationLine: 'underline' }}>Contact: {venue.venueContact}</Text>
+                <Text style= {{ fontSize: 18, fontFamily: 'OpenSans'}}>{venue.location_name}</Text>
+                <Text style= {{ fontFamily: 'OpenSans', textDecorationLine: 'underline' }}>Type: {venue.venue_type}</Text>
+                <Text style= {{ fontFamily: 'OpenSans', textDecorationLine: 'underline' }}>Location: {shortenDescription(venue.address)}</Text>
+                <Text style= {{ fontFamily: 'OpenSans', textDecorationLine: 'underline' }}>Contact: {venue.phone_num}</Text>
             </View>
         </View>
     )})}

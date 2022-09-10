@@ -6,12 +6,9 @@ import { RootSiblingParent } from 'react-native-root-siblings';
 import Toast from 'react-native-root-toast'
 import { useState, useEffect } from "react";
 import { useFonts } from 'expo-font'
+import DummyGroups from "../DummyData/DummyGroups.json";
 
 const {height, width} = Dimensions.get("screen");
-
-import DummyVenues from "../DummyData/DummyVenues.json";
-import DummyGroups from "../DummyData/DummyGroups.json";
-import DummyEvents from "../DummyData/DummyVenues.json";
 
 export default function ListItems(props: any) {
 
