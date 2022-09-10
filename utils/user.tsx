@@ -1,6 +1,8 @@
 import { auth } from "../firebase";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+} from "firebase/auth";
 import { Alert } from "react-native";
 
 class UserUtils {
@@ -17,18 +19,6 @@ class UserUtils {
     password: string,
     confirmPassword: string,
   ) {
-    if (email.length === 0) {
-      Alert.alert("Error", "Email is required");
-      return;
-    }
-    if (confirmPassword !== password) {
-      Alert.alert("Error", "Passwords must match");
-      return;
-    }
-    if (password.length < 6) {
-      Alert.alert("Error", "Password must contains at least 6 characters");
-      return;
-    }
     try {
       const userCredentials = await createUserWithEmailAndPassword(
         auth,
