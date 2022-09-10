@@ -53,6 +53,8 @@ export default function ListItems(props: any) {
         return (
             
         <View style={{
+            height: height*.15,
+            width: width*.9,
             flexDirection: "row",
             borderWidth: 3,
             borderRadius: 10,

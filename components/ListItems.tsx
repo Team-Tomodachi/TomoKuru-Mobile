@@ -54,6 +54,8 @@ export default function ListItems(props: any) {
         return (
             
             <View style={{
+            height: height*.15,
+            width: width*.9,
             flexDirection: "row",
             borderWidth: 3,
             borderRadius: 10,
@@ -71,7 +73,9 @@ export default function ListItems(props: any) {
              marginRight: 50,
              marginBottom: 20,
             }}
-             source={require("../DummyData/DummyGroupPhotos/sunday-futsal-in-kinshicho.jpeg")}></Image>
+             source={require("../DummyData/DummyGroupPhotos/sunday-futsal-in-kinshicho.jpeg")}>
+            </Image>
+
             <View style={{flexDirection: "column", 
                 height: height*.1, 
                 width: width*.5, }}>
@@ -80,7 +84,7 @@ export default function ListItems(props: any) {
                 <Text style={{fontFamily: 'OpenSans'}}>Members: {group.members_num}</Text>
                 <Text style={{fontFamily: 'OpenSans'}}>Description: {shortenDescription(group.group_description)}</Text>
             </View>
-             </View>
+        </View>
     )})}
     </ScrollView>
   )
