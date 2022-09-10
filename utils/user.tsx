@@ -35,6 +35,7 @@ class UserUtils {
   static async handleSignOut() {
     try {
       await signOut(auth);
+      Alert.alert("Signed Out", "You have sucessfully signed out");
     } catch (e) {
       Alert.alert("Error", `${e}`);
     }
