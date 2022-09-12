@@ -7,13 +7,16 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
   Platform,
+  Alert,
 } from "react-native";
 import React, { useState } from "react";
 import { styles } from "../styles/styles";
-import UserUtils from "../utils/user";
 import useAuthStore from "../store/auth";
 import Constants from "expo-constants";
 import Axios from "axios";
+import { auth } from "../firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import authError from "../utils/authError";
 
 export default function SignIn({ navigation }) {
   const [email, setEmail] = useState("");
@@ -31,11 +34,7 @@ export default function SignIn({ navigation }) {
       firebase_id: uid,
       first_name: name,
       account_type: "user",
-    })
-      .then(response => setUserId(response))
-      .catch(function (error: JSON) {
-        console.log(error);
-      });
+    });
   }
 
   return (
@@ -95,14 +94,19 @@ export default function SignIn({ navigation }) {
             secureTextEntry={true}></TextInput>
           <Pressable
             onPress={async () => {
-              const user = await UserUtils.handleSignUp(
-                email,
-                password,
-                confirmPassword,
-              );
-              addUserToDB(String(user?.email), String(user?.uid), username);
-              signUserIn();
-              navigation.navigate("Home");
+              try {
+                const userCredentials = await createUserWithEmailAndPassword(
+                  auth,
+                  email,
+                  password,
+                );
+                await addUserToDB(email, userCredentials?.user?.uid, username);
+                signUserIn();
+                navigation.navigate("Home");
+              } catch (error) {
+                console.log(error);
+                Alert.alert("Error", authError[error.code]);
+              }
             }}
             style={styles(
               "bg:green-600",

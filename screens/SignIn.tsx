@@ -7,11 +7,17 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
   Platform,
+  Alert,
 } from "react-native";
 import React, { useState } from "react";
 import { styles } from "../styles/styles";
 import UserUtils from "../utils/user";
 import useAuthStore from "../store/auth";
+import Axios from "axios";
+import Constants from "expo-constants";
+import { auth } from "../firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import authError from "../utils/authError";
 
 export default function SignIn({ navigation }) {
   const [email, setEmail] = useState("");
@@ -50,10 +56,14 @@ export default function SignIn({ navigation }) {
             autoCapitalize={"none"}
             secureTextEntry={true}></TextInput>
           <Pressable
-            onPress={() => {
-              UserUtils.handleSignIn(email, password);
-              signUserIn();
-              navigation.navigate("Home");
+            onPress={async () => {
+              try {
+                await signInWithEmailAndPassword(auth, email, password);
+                signUserIn();
+                navigation.navigate("Home");
+              } catch (error) {
+                Alert.alert("Error", authError[error.code]);
+              }
             }}
             style={styles(
               "bg:green-600",
