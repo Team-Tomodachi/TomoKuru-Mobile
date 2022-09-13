@@ -3,12 +3,12 @@ import { getAuth } from "firebase/auth";
 import Constants from "expo-constants";
 
 const firebaseConfig = {
-  apiKey: Constants.manifest.extra.fbApiKey,
-  authDomain: Constants.manifest.extra.fbAuthDomain,
-  projectId: Constants.manifest.extra.fbProjectId,
-  storageBucket: Constants.manifest.extra.fbStorageBucket,
-  messagingSenderId: Constants.manifest.extra.fbMessagingSenderId,
-  appId: Constants.manifest.extra.fbAppId,
+  apiKey: Constants.expoConfig.extra.fbApiKey,
+  authDomain: Constants.expoConfig.extra.fbAuthDomain,
+  projectId: Constants.expoConfig.extra.fbProjectId,
+  storageBucket: Constants.expoConfig.extra.fbStorageBucket,
+  messagingSenderId: Constants.expoConfig.extra.fbMessagingSenderId,
+  appId: Constants.expoConfig.extra.fbAppId,
 };
 
 const app = initializeApp(firebaseConfig);
