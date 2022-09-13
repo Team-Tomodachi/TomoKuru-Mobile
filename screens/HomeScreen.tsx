@@ -2,7 +2,8 @@ import * as React from "react";
 import { Button, Text, View } from "react-native";
 import useAuthStore from "../store/auth";
 import { GroupForm } from "../components/GroupForm";
-import UserUtils from "../utils/user";
+import { signOut } from "firebase/auth";
+import { auth } from "../firebase";
 
 export default function HomeScreen({ navigation }) {
   const { isUserSignedIn, signUserOut } = useAuthStore();
@@ -13,9 +14,13 @@ export default function HomeScreen({ navigation }) {
         <View>
           <Button
             title="Sign Out"
-            onPress={() => {
-              UserUtils.handleSignOut();
-              signUserOut();
+            onPress={async () => {
+              try {
+                await signOut(auth);
+                signUserOut();
+              } catch (error) {
+                console.log(error);
+              }
             }}
           />
           <GroupForm />
