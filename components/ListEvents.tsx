@@ -13,6 +13,7 @@ export default function ListItems(props: any) {
     return null;
   }
   return (
+  <View>
     <ScrollView style={{ backgroundColor: "rgba(182, 182, 182, 1)" }}>
       {DummyEvents.map((event, index) => {
         return (
@@ -66,5 +67,6 @@ export default function ListItems(props: any) {
         );
       })}
     </ScrollView>
+  </View>
   );
 }
