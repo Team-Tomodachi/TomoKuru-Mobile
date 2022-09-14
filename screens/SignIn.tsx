@@ -11,19 +11,28 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import { styles } from "../styles/styles";
-import UserUtils from "../utils/user";
 import useAuthStore from "../store/auth";
-import Axios from "axios";
-import Constants from "expo-constants";
+import useUserStore from "../store/user";
 import { auth } from "../firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import authError from "../utils/authError";
+import axios from "axios";
+import Constants from "expo-constants";
+import { FirebaseError } from "firebase/app";
 
 export default function SignIn({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const { isUserSignedIn, signUserIn } = useAuthStore();
+  const { signUserIn } = useAuthStore();
+  const { setUserInfo } = useUserStore();
+
+  async function getUserFromDB(email: string) {
+    const userRes = await axios.get(
+      `${Constants?.expoConfig?.extra?.apiURL}/api/users/${email}`,
+    );
+    return userRes.data[0];
+  }
 
   return (
     <KeyboardAvoidingView
@@ -48,7 +57,6 @@ export default function SignIn({ navigation }) {
             style={styles("border:1", "p:1", "w:56", "m:5")}
             placeholder="Password"
             clearButtonMode="while-editing"
-            // keyboardType="email-address"
             returnKeyType="done"
             onChangeText={text => {
               setPassword(text);
@@ -59,10 +67,14 @@ export default function SignIn({ navigation }) {
             onPress={async () => {
               try {
                 await signInWithEmailAndPassword(auth, email, password);
+                const userInfo = await getUserFromDB(email);
+                setUserInfo(userInfo.first_name, userInfo.id, email);
                 signUserIn();
                 navigation.navigate("Home");
               } catch (error) {
-                Alert.alert("Error", authError[error.code]);
+                if (error instanceof FirebaseError) {
+                  Alert.alert("Error", authError[error.code]);
+                }
               }
             }}
             style={styles(

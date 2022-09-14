@@ -14,20 +14,23 @@ import {
 import { Formik } from "formik";
 import { styles } from "../styles/styles";
 import Constants from "expo-constants";
-import Axios from "axios";
+import axios from "axios";
+import useUserStore from "../store/user";
 
 interface Event {
-  groupName: string;
-  groupDesciption: string;
-  isPrivate: boolean;
+  eventName: string;
+  eventDescription: string;
+  eventDate: string;
 }
 
 export default function CreateEventScreen() {
   const initialValues: Event = {
-    groupName: "",
-    groupDesciption: "",
-    isPrivate: false,
+    eventName: "",
+    eventDescription: "",
+    eventDate: "",
   };
+
+  const { id } = useUserStore();
 
   return (
     <KeyboardAvoidingView
@@ -36,61 +39,48 @@ export default function CreateEventScreen() {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <Formik
           initialValues={initialValues}
-          onSubmit={async (values: Group) => {
-            await Axios.post(
-              `${Constants?.manifest?.extra?.apiURL}/api/groups`,
+          onSubmit={async (values: Event) => {
+            await axios.post(
+              `${Constants?.expoConfig?.extra?.apiURL}/api/groups`,
               {
-                group_name: values.groupName,
-                group_description: values.groupDesciption,
-                user_id: "29f41b8f-1f6f-4e32-9623-d48acd5578ed",
-                private: values.isPrivate,
+                user_id: id,
+                event_name: values.eventName,
+                event_description: values.eventDescription,
+                event_date: values.eventDate,
               },
             );
             Alert.alert(
-              "Group created",
-              "You have successfully created a group",
+              "Event created",
+              "You have successfully created an event",
             );
           }}>
-          {({
-            handleChange,
-            handleBlur,
-            handleSubmit,
-            setFieldValue,
-            values,
-          }) => (
+          {({ handleChange, handleBlur, handleSubmit, values }) => (
             <View>
-              <Text>Group Name</Text>
+              <Text>Event Name</Text>
               <TextInput
                 style={styles("border:1", "p:1", "w:56", "m:5")}
                 onChangeText={handleChange("groupName")}
                 onBlur={handleBlur("groupName")}
-                value={values.groupName}
-                placeholder={values.groupName}
+                value={values.eventName}
+                placeholder={values.eventName}
               />
-              <Text>Group Description</Text>
+              <Text>Event Description</Text>
               <View style={styles("border:1", "p:1", "w:56", "m:5", "h:20")}>
                 <TextInput
                   onChangeText={handleChange("groupDesciption")}
                   onBlur={handleBlur("groupDesciption")}
                   multiline={true}
-                  value={values.groupDesciption}
-                  placeholder={values.groupDesciption}></TextInput>
+                  value={values.eventDescription}
+                  placeholder={values.eventDescription}></TextInput>
               </View>
-              <Text>Group Privacy</Text>
-              <View
-                style={styles(
-                  "flex:row",
-                  "items:center",
-                  "w:56",
-                  "m:5",
-                  "justify:evenly",
-                )}>
-                <Text>Private</Text>
-                <Switch
-                  value={values.isPrivate}
-                  onValueChange={value => setFieldValue("isPrivate", value)}
-                />
-              </View>
+              <Text>Event Date</Text>
+              <TextInput
+                style={styles("border:1", "p:1", "w:56", "m:5")}
+                onChangeText={handleChange("groupName")}
+                onBlur={handleBlur("groupName")}
+                value={values.eventDate}
+                placeholder={values.eventDate}
+              />
               <Button onPress={handleSubmit} title="Submit" />
             </View>
           )}
