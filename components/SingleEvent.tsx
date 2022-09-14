@@ -7,11 +7,12 @@ import axios from "axios";
 const { height, width } = Dimensions.get("screen");
 
 export default function SingleEvent(props: any) {
-  const [groupData, setGroupData] = useState([]);
+
+  const [eventData, setEventData] = useState([]);
 
   useEffect(() => {
-    axios.get("http://tomokuru.i-re.io/api/groups").then(function (response) {
-      setGroupData(response.data);
+    axios.get("http://tomokuru.i-re.io/api/events").then(function (response) {
+      setEventData(response.data);
     });
   }, []);
 
@@ -21,5 +22,26 @@ export default function SingleEvent(props: any) {
   if (!loaded) {
     return null;
   }
+
+  const singleEvent = eventData[props.IndexValue];
+
+  return (
+    <View>
+        <ScrollView>
+            <Text> {props.IndexValue} </Text>
+            <Text> {eventData[props.IndexValue]} </Text>
+            <Text> {singleEvent.event_name} </Text>
+            <Text> {singleEvent.event_creator} </Text>
+            <Text> {singleEvent.event_description} </Text>
+            <Text> {singleEvent.event_date} </Text>
+            <Text> {singleEvent.event_start_time} </Text>
+            <Text> {singleEvent.event_end_time} </Text>
+            <Text> {singleEvent.event_capacity} </Text>
+            <Text> {singleEvent.event_venue} </Text>
+        </ScrollView>
+
+    </View>
+
+  );
 
 }

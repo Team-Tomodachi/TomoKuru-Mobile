@@ -7,6 +7,7 @@ import axios from "axios";
 const { height, width } = Dimensions.get("screen");
 
 export default function SingleGroup(props: any) {
+
   const [groupData, setGroupData] = useState([]);
 
   useEffect(() => {
@@ -21,21 +22,17 @@ export default function SingleGroup(props: any) {
   if (!loaded) {
     return null;
   }
+  const singleGroup = groupData[props.IndexValue]
 
   return (
     <View>
         <ScrollView>
-
-        <Text> Single Group has been loaded!</Text>
-        <Text> Single Group has been loaded!</Text>
-        <Text> Single Group has been loaded!</Text>
-        <Text> Single Group has been loaded!</Text>
-        <Text> Single Group has been loaded!</Text>
-        <Text> Single Group has been loaded!</Text>
-        <Text> Single Group has been loaded!</Text>
-        <Text> Single Group has been loaded!</Text>
-
-
+        <Text> {props.IndexValue} </Text>
+        <Text> {VenueData[props.IndexValue]} </Text>
+        <Text>{singleGroup.group_name} </Text>
+        <Text>{singleGroup.group_description} </Text>
+        <Text>{singleGroup.group_leader} </Text>
+        <Text>{singleGroup.private} </Text>
         </ScrollView>
 
     </View>

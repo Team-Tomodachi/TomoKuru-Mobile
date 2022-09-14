@@ -8,8 +8,11 @@ import SingleGroup from "../components/SingleGroup";
 
 const { height, width } = Dimensions.get("screen");
 
-export default function ListItems(props: any) {
+export default function ListItems() {
+
   const [groupData, setGroupData] = useState([]);
+  const [singleView, setSingleView] = useState("");
+  const [IndexValue, setIndexValue] = useState(Number)
 
   useEffect(() => {
     axios.get("http://tomokuru.i-re.io/api/groups").then(function (response) {
@@ -17,7 +20,7 @@ export default function ListItems(props: any) {
     });
   }, []);
 
-  const [singleView, setSingleView] = useState("");
+
 
   const shortenDescription = (description: string) => {
     if (description.length > 60) {
@@ -32,7 +35,9 @@ export default function ListItems(props: any) {
   };
   return (
     <View>
-      {singleView === "SingleView" ? (<SingleGroup />) :
+      {singleView === "SingleView" ? (<SingleGroup 
+      IndexValue={IndexValue}
+      />) :
         (
         <ScrollView style={{ backgroundColor: "rgba(182, 182, 182, 1)" }}>
           {groupData.map((group, index) => {
@@ -71,7 +76,10 @@ export default function ListItems(props: any) {
                   <Text 
                   onPress={ () => {
                     console.log("single group button has been pressed!")
-                    setSingleView("SingleGroup")}}
+                    setSingleView("SingleView")
+                    setIndexValue(index);
+                    console.log(index + "index")
+                    }}
                   style={{ fontSize: 18, fontFamily: "OpenSans" }}>
                     {group.group_name}
                   </Text>

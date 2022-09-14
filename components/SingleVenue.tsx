@@ -7,11 +7,12 @@ import axios from "axios";
 const { height, width } = Dimensions.get("screen");
 
 export default function SingleVenue(props: any) {
-  const [groupData, setGroupData] = useState([]);
+
+  const [VenueData, setVenueData] = useState([]);
 
   useEffect(() => {
-    axios.get("http://tomokuru.i-re.io/api/groups").then(function (response) {
-      setGroupData(response.data);
+    axios.get("http://tomokuru.i-re.io/api/venues").then(function (response) {
+      setVenueData(response.data);
     });
   }, []);
 
@@ -21,5 +22,32 @@ export default function SingleVenue(props: any) {
   if (!loaded) {
     return null;
   }
+
+  const singleVenue = VenueData[props.IndexValue];
+
+  return (
+    <View>
+        <ScrollView>
+        <Text> {props.IndexValue} </Text>
+        <Text> {VenueData[props.IndexValue]} </Text>
+        <Text> {singleVenue.location_name} </Text>
+        <Text> {singleVenue.city_ward} </Text>
+        <Text> {singleVenue.prefecture} </Text>
+        <Text> {singleVenue.phone_num} </Text>
+        <Text> {singleVenue.address} </Text>
+        <Text> {singleVenue.venue_email} </Text>
+        <Text> {singleVenue.description} </Text>
+        <Text> {singleVenue.num_seats} </Text>
+        <Text> {singleVenue.smoking} </Text>
+        <Text> {singleVenue.outdoor_seating} </Text>
+        <Text> {singleVenue.venue_url} </Text>
+        <Text> {singleVenue.photo_link} </Text>
+        <Text> {singleVenue.venue_type} </Text>
+        <Text> {singleVenue.user_id} </Text>
+        </ScrollView>
+
+    </View>
+
+  );
 
 }

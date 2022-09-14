@@ -3,13 +3,12 @@ import { Button, Text, View, ScrollView, Dimensions } from "react-native";
 import ListGroups from "../components/ListGroups";
 import ListVenues from "../components/ListVenues";
 import ListEvents from "../components/ListEvents";
-import { createMaterialTopTabNavigator } from "react-navigation-tabs";
 
 
 const { height, width } = Dimensions.get("screen");
 
 
-export default function ExploreScreen() {
+export default function ExploreScreen(props: any) {
 
 const [screenView, setScreenView] = useState("ListGroups")
 
