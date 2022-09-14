@@ -15,6 +15,7 @@ import { Formik } from "formik";
 import { styles } from "../styles/styles";
 import Constants from "expo-constants";
 import Axios from "axios";
+import useUserStore from "../store/user";
 
 interface Group {
   groupName: string;
@@ -29,6 +30,8 @@ export default function CreateGroupScreen() {
     isPrivate: false,
   };
 
+  const { id } = useUserStore();
+
   return (
     <KeyboardAvoidingView
       style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
@@ -38,11 +41,11 @@ export default function CreateGroupScreen() {
           initialValues={initialValues}
           onSubmit={async (values: Group) => {
             await Axios.post(
-              `${Constants?.manifest?.extra?.apiURL}/api/groups`,
+              `${Constants?.expoConfig?.extra?.apiURL}/api/groups`,
               {
                 group_name: values.groupName,
                 group_description: values.groupDesciption,
-                user_id: "29f41b8f-1f6f-4e32-9623-d48acd5578ed",
+                group_leader: id,
                 private: values.isPrivate,
               },
             );
