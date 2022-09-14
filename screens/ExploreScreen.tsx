@@ -8,17 +8,6 @@ import { createMaterialTopTabNavigator } from "react-navigation-tabs";
 
 const { height, width } = Dimensions.get("screen");
 
-// const ExploreTab = createMaterialTopTabNavigator();
-
-// function ExploreScreen() {
-//   return (
-//     <Navigator>
-//       <ExploreTab.Screen name="Groups" component={ListGroups} />
-//       <ExploreTab.Screen name="Events" component={ListEvents} />
-//       <ExploreTab.Screen name="Venues" component={ListEvents} />
-//     </Navigator>
-//   );
-// }
 
 export default function ExploreScreen() {
 
