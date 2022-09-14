@@ -1,13 +1,15 @@
 import create from "zustand";
 
-const useAuthStore = create(set => ({
+interface AuthState {
+  isUserSignedIn: boolean;
+  signUserIn: () => void;
+  signUserOut: () => void;
+}
+
+const useAuthStore = create<AuthState>()(set => ({
   isUserSignedIn: false,
-  userId: "",
-  userInfo: {},
-  signUserIn: () => set(state => ({ isUserSignedIn: true })),
-  setUserId: (id: string) => set(state => ({ userId: id })),
-  signUserOut: () => set(state => ({ isUserSignedIn: false })),
-  setUserInfo: (user: object) => set(state => ({ userInfo: user })),
+  signUserIn: () => set(() => ({ isUserSignedIn: true })),
+  signUserOut: () => set(() => ({ isUserSignedIn: false })),
 }));
 
 export default useAuthStore;
