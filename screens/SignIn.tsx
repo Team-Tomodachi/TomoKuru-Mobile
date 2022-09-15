@@ -31,7 +31,7 @@ export default function SignIn({ navigation }) {
     const userRes = await axios.get(
       `${Constants?.expoConfig?.extra?.apiURL}/api/users/${email}`,
     );
-    return userRes.data[0];
+    return userRes.data;
   }
 
   return (
