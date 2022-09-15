@@ -2,15 +2,10 @@ import * as React from "react";
 import { Text, View, ScrollView, Dimensions, Image } from "react-native";
 import { useState, useEffect } from "react";
 import { useFonts } from "expo-font";
-import axios from "axios";
-import SingleVenue from "../components/SingleVenue";
 
 const { height, width } = Dimensions.get("screen");
 
-export default function ListItems(props: any) {
-  // const [venueData, setVenueData] = useState([]);
-  // const [singleView, setSingleView] = useState(false);
-  // const [IndexValue, setIndexValue] = useState(Number);
+export default function ListVenues(props: any) {
 
   const [loaded] = useFonts({
     OpenSans: require("../assets/fonts/OpenSans-Medium.ttf"),

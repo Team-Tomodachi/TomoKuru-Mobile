@@ -7,16 +7,7 @@ import axios from "axios";
 
 const { height, width } = Dimensions.get("screen");
 
-export default function ListEvents() {
-
-  const [EventData, setEventData] = useState([]);
-  const [singleView, setSingleView] = useState("");
-
-  useEffect(() => {
-    axios.get("http://tomokuru.i-re.io/api/events").then(function (response) {
-      setEventData(response.data);
-    });
-  }, []);
+export default function ListEvents(props: any) {
 
   const [loaded] = useFonts({
     OpenSans: require("../assets/fonts/OpenSans-Medium.ttf"),
@@ -28,10 +19,8 @@ export default function ListEvents() {
 
   return (
   <View>
-    {singleView === "SingleView" ? (<SingleEvent />) :
-        (
         <ScrollView style={{ backgroundColor: "rgba(182, 182, 182, 1)" }}>
-          {EventData.map((event, index) => {
+          {props.EventData.map((event, index) => {
             return (
               <View
                 style={{
@@ -67,8 +56,12 @@ export default function ListEvents() {
                   }}>
                   <Text 
                     onPress={ () => {
-                      console.log("single event button has been pressed!")
-                      setSingleView("SingleView")}}
+                      props.setIndexValue(index)
+                      props.setSingleView(true)
+                      props.setSelectedEvent(props.EventData[index])
+                      console.log("selected event: " + props.selectedEvent)
+                      console.log("index passed from OnPress: " + index)}
+                    }
                     style={{ fontFamily: "OpenSans", fontSize: 18 }}>
                     {event.event_name}
                   </Text>
@@ -87,8 +80,6 @@ export default function ListEvents() {
             );
           })}
         </ScrollView>
-        )
-      }
   </View>
   );
 }
