@@ -28,6 +28,16 @@ export default function SingleEvent(props: any) {
   return (
     <View>
         <ScrollView>
+        <Image
+                  style={{
+                    height: height * 0.3,
+                    width: width * 0.9,
+                    marginTop: 20,
+                    marginLeft: 20,
+                    marginRight: 50,
+                    marginBottom: 20,
+                  }}
+                  source={require("../DummyData/DummyEventPhotos/canada-world-cup.jpeg")}></Image>
             <Text> {props.IndexValue} </Text>
             <Text> {eventData[props.IndexValue]} </Text>
             <Text> {singleEvent.event_name} </Text>

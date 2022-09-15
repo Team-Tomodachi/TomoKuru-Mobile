@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Button, Text, View, ScrollView, Dimensions } from "react-native";
 import ListGroups from "../components/ListGroups";
-import ListVenues from "../components/ListVenues";
 import ListEvents from "../components/ListEvents";
+import Venues from "../components/Venues";
 
 
 const { height, width } = Dimensions.get("screen");
@@ -22,7 +22,7 @@ const [screenView, setScreenView] = useState("ListGroups")
         }}>
             <Button title="Groups" onPress={ () => setScreenView("ListGroups")}/>
             <Button title="Events" onPress={ () => setScreenView("ListEvents")}/>
-            <Button title="Venues" onPress={ () => setScreenView("ListVenues")}/>
+            <Button title="Venues" onPress={ () => setScreenView("Venues")}/>
         </View>
         <ScrollView style={{ backgroundColor: "rgba(182, 182, 182, 1)" }}>
           <View style={{ 
@@ -40,7 +40,7 @@ const [screenView, setScreenView] = useState("ListGroups")
             }}>    
             {screenView=== "ListGroups" ? <ListGroups /> : <View></View>}
             {screenView=== "ListEvents" ? <ListEvents /> : <View></View>}
-            {screenView=== "ListVenues" ? <ListVenues /> : <View></View>}
+            {screenView=== "Venues" ? <Venues /> : <View></View>}
           </View>
         </ScrollView>
       </View>

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Text, View, ScrollView, Dimensions, Image } from "react-native";
+import { Text, View, ScrollView, Dimensions, Image, Button } from "react-native";
 import { useState, useEffect } from "react";
 import { useFonts } from "expo-font";
 import axios from "axios";
@@ -8,14 +8,6 @@ const { height, width } = Dimensions.get("screen");
 
 export default function SingleVenue(props: any) {
 
-  const [VenueData, setVenueData] = useState([]);
-
-  useEffect(() => {
-    axios.get("http://tomokuru.i-re.io/api/venues").then(function (response) {
-      setVenueData(response.data);
-    });
-  }, []);
-
   const [loaded] = useFonts({
     OpenSans: require("../assets/fonts/OpenSans-Medium.ttf"),
   });
@@ -23,13 +15,16 @@ export default function SingleVenue(props: any) {
     return null;
   }
 
-  const singleVenue = VenueData[props.IndexValue];
+console.log("selected venue in SingleVenue: " + props.selectedVenue)
+
+const singleVenue = props.selectedVenue
+
+
 
   return (
     <View>
         <ScrollView>
         <Text> {props.IndexValue} </Text>
-        <Text> {VenueData[props.IndexValue]} </Text>
         <Text> {singleVenue.location_name} </Text>
         <Text> {singleVenue.city_ward} </Text>
         <Text> {singleVenue.prefecture} </Text>
@@ -44,6 +39,7 @@ export default function SingleVenue(props: any) {
         <Text> {singleVenue.photo_link} </Text>
         <Text> {singleVenue.venue_type} </Text>
         <Text> {singleVenue.user_id} </Text>
+        <Button title="Back" onPress={ () => props.setSingleView(false)}/>
         </ScrollView>
 
     </View>

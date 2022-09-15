@@ -8,15 +8,9 @@ import SingleVenue from "../components/SingleVenue";
 const { height, width } = Dimensions.get("screen");
 
 export default function ListItems(props: any) {
-  const [venueData, setVenueData] = useState([]);
-  const [singleView, setSingleView] = useState("");
-  const [IndexValue, setIndexValue] = useState(Number);
-
-  useEffect(() => {
-    axios.get("http://tomokuru.i-re.io/api/venues").then(function (response) {
-      setVenueData(response.data);
-    });
-  }, []);
+  // const [venueData, setVenueData] = useState([]);
+  // const [singleView, setSingleView] = useState(false);
+  // const [IndexValue, setIndexValue] = useState(Number);
 
   const [loaded] = useFonts({
     OpenSans: require("../assets/fonts/OpenSans-Medium.ttf"),
@@ -25,20 +19,10 @@ export default function ListItems(props: any) {
     return null;
   }
 
-  const shortenDescription = (description: string) => {
-    if (description.length > 75) {
-      return description.slice(0, 40) + "...";
-    } else {
-      return description;
-    }
-  };
-
   return (
     <View>
-      {singleView === "SingleView" ? (<SingleVenue />) :
-        (
         <ScrollView style={{ backgroundColor: "rgba(182, 182, 182, 1)" }}>
-          {venueData.map((venue, index) => {
+          {props.venueData.map((venue, index) => {
             return (
               <View
                 style={{
@@ -74,10 +58,11 @@ export default function ListItems(props: any) {
                   }}>
                   <Text 
                     onPress={ () => {
-                      console.log("single group button has been pressed!")
-                      setSingleView("SingleView")
-                      setIndexValue(index)
-                      console.log(index + "index")}
+                      props.setIndexValue(index)
+                      props.setSingleView(true)
+                      props.setSelectedVenue(props.venueData[index])
+                      console.log("selected venue: " + props.selectedVenue)
+                      console.log("index passed from OnPress: " + index)}
                     }
                     style={{ fontSize: 18, fontFamily: "OpenSans" }}>
                     {venue.location_name}
@@ -108,7 +93,6 @@ export default function ListItems(props: any) {
             );
           })}
         </ScrollView>
-      )}
     </View>
   );
 }
