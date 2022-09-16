@@ -17,7 +17,7 @@ import { styles } from "../styles/styles";
 import Constants from "expo-constants";
 import axios from "axios";
 import useUserStore from "../store/user";
-import DateTimePicker from "@react-native-community/datetimepicker";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 interface Event {
   eventName: string;
@@ -29,6 +29,15 @@ interface Event {
 export default function CreateEventScreen({ navigation, route }) {
   const [venueId, setVenueId] = useState("");
   const [venueName, setVenueName] = useState("No venue");
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+
+  const showDatePicker = () => {
+    setDatePickerVisibility(true);
+  };
+
+  const hideDatePicker = () => {
+    setDatePickerVisibility(false);
+  };
 
   const initialValues: Event = {
     eventName: "",
@@ -43,6 +52,12 @@ export default function CreateEventScreen({ navigation, route }) {
     }
   }, [route.params?.venueName]);
 
+  useEffect(() => {
+    if (route.params?.venueId) {
+      setVenueId(route.params?.venueId);
+    }
+  }, [route.params?.venueId]);
+
   const { id } = useUserStore();
 
   return (
@@ -52,23 +67,31 @@ export default function CreateEventScreen({ navigation, route }) {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <Formik
           initialValues={initialValues}
-          // onSubmit={async (values: Event) => {
-          //   await axios.post(
-          //     `${Constants?.expoConfig?.extra?.apiURL}/api/groups`,
-          //     {
-          //       user_id: id,
-          //       event_name: values.eventName,
-          //       event_description: values.eventDescription,
-          //       event_date: values.eventDate,
-          //     },
-          //   );
-          //   Alert.alert(
-          //     "Event created",
-          //     "You have successfully created an event",
-          //   );
-          // }}>
-          onSubmit={values => console.log(values)}>
-          {({ handleChange, handleBlur, handleSubmit, values }) => (
+          onSubmit={async (values: Event) => {
+            await axios.post(
+              `${Constants?.expoConfig?.extra?.apiURL}/api/events`,
+              {
+                user_id: id,
+                name: values.eventName,
+                description: values.eventDescription,
+                date: new Intl.DateTimeFormat("en-US", {
+                  dateStyle: "long",
+                }).format(values.eventDate),
+                venue_id: venueId,
+              },
+            );
+            Alert.alert(
+              "Event created",
+              "You have successfully created an event",
+            );
+          }}>
+          {({
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            values,
+            setFieldValue,
+          }) => (
             <View>
               <Text>Event Name</Text>
               <TextInput
@@ -88,13 +111,21 @@ export default function CreateEventScreen({ navigation, route }) {
                   placeholder={values.eventDescription}></TextInput>
               </View>
               <Text>Event Date</Text>
-              <View>
-                <DateTimePicker
-                  mode="date"
-                  value={values.eventDate}
-                  onChange={() => handleChange("eventDate")}
-                />
-              </View>
+              <Button
+                title={new Intl.DateTimeFormat("en-US", {
+                  dateStyle: "long",
+                }).format(values.eventDate)}
+                onPress={showDatePicker}
+              />
+              <DateTimePickerModal
+                isVisible={isDatePickerVisible}
+                mode="date"
+                onConfirm={date => {
+                  setFieldValue("eventDate", date);
+                  hideDatePicker();
+                }}
+                onCancel={hideDatePicker}
+              />
               <Text>Event Venue</Text>
               <Pressable onPress={() => navigation.push("Select Venue")}>
                 <Text>{venueName}</Text>
