@@ -3,6 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { StyleProvider } from "react-native-zephyr";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import HomeStack from "./screens/HomeStack";
 import ExploreScreen from "./screens/ExploreScreen";
 import SafetyScreen from "./screens/SafetyScreen";
@@ -10,6 +11,7 @@ import Feather from "@expo/vector-icons/Ionicons";
 import SignIn from "./screens/SignIn";
 import SignUp from "./screens/SignUp";
 
+const queryClient = new QueryClient();
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
@@ -54,21 +56,23 @@ function MainTabs() {
 
 export default function App() {
   return (
-    <StyleProvider>
-      <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen
-            name="Main Tab"
-            component={MainTabs}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="Modal User"
-            component={ModalUser}
-            options={{ headerShown: false, presentation: "modal" }}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </StyleProvider>
+    <QueryClientProvider client={queryClient}>
+      <StyleProvider>
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen
+              name="Main Tab"
+              component={MainTabs}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Modal User"
+              component={ModalUser}
+              options={{ headerShown: false, presentation: "modal" }}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </StyleProvider>
+    </QueryClientProvider>
   );
 }
