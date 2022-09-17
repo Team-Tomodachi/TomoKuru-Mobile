@@ -50,14 +50,39 @@ export default function SingleEvent(props: any) {
                     marginBottom: 20,
                   }}
                   source={require("../DummyData/DummyEventPhotos/canada-world-cup.jpeg")}></Image>
-            <Text> {singleEvent.name} </Text>
-            <Text> Group: {groupData.name || ""} </Text>
-            <Text> {singleEvent.description} </Text>
-            <Text> Date: {singleEvent.date} </Text>
-            <Text> Start Time: {singleEvent.start_time} </Text>
-            <Text> End Time: {singleEvent.end_time} </Text>
-            <Text> Capacity {singleEvent.capacity} </Text>
-            <Text> Venue: {venueData.name || ""} </Text>
+            <Text style={{ 
+            fontSize: 30, 
+            fontFamily: "OpenSans",
+            textDecorationLine: 'underline'
+          }}> {singleEvent.name} </Text>
+            <Text style={{ 
+            fontSize: 20, 
+            fontFamily: "OpenSans",
+          }}> Group: {groupData.name || ""} </Text>
+            <Text style={{ 
+            fontSize: 20, 
+            fontFamily: "OpenSans",
+          }}> {singleEvent.description} </Text>
+            <Text style={{ 
+            fontSize: 20, 
+            fontFamily: "OpenSans",
+          }}> Date: {singleEvent.date} </Text>
+            <Text style={{ 
+            fontSize: 20, 
+            fontFamily: "OpenSans",
+          }}> Start Time: {singleEvent.start_time} </Text>
+            <Text style={{ 
+            fontSize: 20, 
+            fontFamily: "OpenSans",
+          }}> End Time: {singleEvent.end_time} </Text>
+            <Text style={{ 
+            fontSize: 20, 
+            fontFamily: "OpenSans",
+          }}> Capacity {singleEvent.capacity} </Text>
+            <Text style={{ 
+            fontSize: 20, 
+            fontFamily: "OpenSans",
+          }}> Venue: {venueData.name || ""} </Text>
             <Button title="Back" onPress={ () => props.setSingleView(false)}/>
         </ScrollView>
     </View>
