@@ -1,34 +1,49 @@
-import * as React from "react";
-import { Button, Text, View, ScrollView } from "react-native";
-import ListItems from "../components/ListItems";
-import ListVenues from "../components/ListVenues";
-import ListEvents from "../components/ListEvents";
+import React, { useState, useEffect } from "react";
+import { Button, Text, View, ScrollView, Dimensions } from "react-native";
+import Venues from "../components/Venues";
+import Groups from "../components/Groups";
+import Events from "../components/Events";
 
-export default function ExploreScreen() {
+
+
+const { height, width } = Dimensions.get("screen");
+
+
+export default function ExploreScreen(props: any) {
+
+const [screenView, setScreenView] = useState("Groups")
+
   return (
-    <ScrollView style={{ backgroundColor: "rgba(182, 182, 182, 1)" }}>
-      <View
-        style={{
-          flex: 3,
-          justifyContent: "center",
-          alignItems: "center",
+    <View>
+        <View style={{ 
+          flexDirection: "row",
+          height: height * 0.05,
+          width: width * 0.95,
+          justifyContent: "space-between",
         }}>
-        <Text style={{ fontSize: 30 }}> Explore Groups</Text>
-        <ListItems />
-        <View>
-          <Button title="Explore More Groups" />
+            <Button title="Groups" onPress={ () => setScreenView("Groups")}/>
+            <Button title="Events" onPress={ () => setScreenView("Events")}/>
+            <Button title="Venues" onPress={ () => setScreenView("Venues")}/>
         </View>
-        <Text style={{ fontSize: 30 }}> Explore Events</Text>
-        <ListEvents />
-        <View>
-          <Button title="Explore More Events" />
-        </View>
-        <Text style={{ fontSize: 30 }}> Explore Venues</Text>
-        <ListVenues />
-        <View>
-          <Button title="Explore More Venues" />
-        </View>
+        <ScrollView style={{ backgroundColor: "rgba(182, 182, 182, 1)" }}>
+          <View style={{ 
+              flexDirection: "row",
+              height: height * 0.05,
+              width: width * 0.95,
+              justifyContent: "space-between",
+              position: "absolute",
+          }}>
+          </View>
+          <View
+            style={{
+              justifyContent: "center",
+              alignItems: "center",
+            }}>    
+            {screenView=== "Groups" ? <Groups /> : <View></View>}
+            {screenView=== "Events" ? <Events /> : <View></View>}
+            {screenView=== "Venues" ? <Venues /> : <View></View>}
+          </View>
+        </ScrollView>
       </View>
-    </ScrollView>
   );
 }
