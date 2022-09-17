@@ -1,6 +1,7 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import SignIn from "./SignIn";
-import SignUp from "./SignUp";
+import SignInScreen from "./SignInScreen";
+import SignUpScreen from "./SignUpScreen";
+import UserCustomiseScreen from "./UserCustomiseScreen";
 import useAuthStore from "../store/auth";
 
 const Stack = createNativeStackNavigator();
@@ -11,11 +12,13 @@ export default function ModalUser() {
   return (
     <Stack.Navigator>
       {isUserSignedIn ? (
-        <></>
+        <>
+          <Stack.Screen name="User" component={UserCustomiseScreen} />
+        </>
       ) : (
         <>
-          <Stack.Screen name="Sign In" component={SignIn} />
-          <Stack.Screen name="Sign Up" component={SignUp} />
+          <Stack.Screen name="Sign In" component={SignInScreen} />
+          <Stack.Screen name="Sign Up" component={SignUpScreen} />
         </>
       )}
     </Stack.Navigator>

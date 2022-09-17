@@ -19,7 +19,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import authError from "../utils/authError";
 import { FirebaseError } from "firebase/app";
 
-export default function SignIn({ navigation }) {
+export default function SignInScreen({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");

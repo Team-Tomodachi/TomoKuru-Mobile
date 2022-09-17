@@ -20,7 +20,7 @@ import axios from "axios";
 import Constants from "expo-constants";
 import { FirebaseError } from "firebase/app";
 
-export default function SignIn({ navigation }) {
+export default function SignInScreen({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
