@@ -16,7 +16,7 @@ export default function ListVenues(props: any) {
 
   const shortenDescription = (description: any) => {
     if (!description) {
-      return "description is empty" 
+      return "-" 
     } 
     else if (description.length > 120) {
       return description.slice(0, 120) + "...";

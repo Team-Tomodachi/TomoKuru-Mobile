@@ -99,7 +99,7 @@ export default function ListGroups(props: any) {
                   </Text>
                 </View>
               </View>
-                </TouchableOpacity>
+              </TouchableOpacity>
             );
           })}
         </ScrollView>
