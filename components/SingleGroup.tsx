@@ -3,6 +3,7 @@ import { Text, View, ScrollView, Dimensions, Image, StyleSheet, TouchableOpacity
 import { useState, useEffect } from "react";
 import { useFonts } from "expo-font";
 import axios from "axios";
+// import useUserStore from "../store/user";
 
 const { height, width } = Dimensions.get("screen");
 
@@ -16,7 +17,12 @@ export default function SingleGroup(props: any) {
   }
   const singleGroup = props.selectedGroup
 
+
+
+  // const { id } = useUserStore()
+
   console.log("selected group in SingleGroup: " + props.selectedGroup)
+  console.log(singleGroup.id)
 
 
   return (
@@ -67,6 +73,15 @@ export default function SingleGroup(props: any) {
             fontFamily: "OpenSans",
             textDecorationLine: 'underline'
           }}>Privacy:{singleGroup.private} </Text>
+          <TouchableOpacity
+            onPress={ () => axios.post(`http://tomokuru.i-re.io/api/groups/${singleGroup.id}/${id}`)} 
+            style={styles.button}>
+            <Text 
+            style={{ 
+            fontSize: 20, 
+            fontFamily: "OpenSans"}}>
+            Join This Group</Text>
+          </TouchableOpacity>
           <TouchableOpacity
             onPress={ () => props.setSingleView(false)}
             style={styles.button}>

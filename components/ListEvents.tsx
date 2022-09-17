@@ -16,6 +16,7 @@ export default function ListEvents(props: any) {
     return null;
   }
 
+  console.log(props.EventData);
 
   return (
   <View>
@@ -63,17 +64,16 @@ export default function ListEvents(props: any) {
                       console.log("index passed from OnPress: " + index)}
                     }
                     style={{ fontFamily: "OpenSans", fontSize: 18 }}>
-                    {event.event_name}
+                    {event.name}
                   </Text>
                   <Text style={{ fontFamily: "OpenSans" }}>
-                    Group: {event.group_name}
+                    Description: {event.description}
                   </Text>
                   <Text style={{ fontFamily: "OpenSans" }}>
-                    Venue: {event.location}
+                    : {event.location}
                   </Text>
                   <Text style={{ fontFamily: "OpenSans" }}>
-                    Date/Time: {event.event_date} {event.event_start_time} ~{" "}
-                    {event.event_end_time}
+                    Date: {event.date} {event.start_time} ~ {event.end_time}
                   </Text>
                 </View>
               </View>
