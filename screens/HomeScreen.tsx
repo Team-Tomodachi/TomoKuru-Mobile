@@ -1,7 +1,6 @@
 import * as React from "react";
 import { Button, Text, View } from "react-native";
 import useAuthStore from "../store/auth";
-import { GroupForm } from "../components/GroupForm";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase";
 
@@ -13,6 +12,14 @@ export default function HomeScreen({ navigation }) {
       {isUserSignedIn ? (
         <View>
           <Button
+            onPress={() => navigation.navigate("Create Group")}
+            title="Create Group"
+          />
+          <Button
+            onPress={() => navigation.navigate("Create Event")}
+            title="Create Event"
+          />
+          <Button
             title="Sign Out"
             onPress={async () => {
               try {
@@ -23,7 +30,6 @@ export default function HomeScreen({ navigation }) {
               }
             }}
           />
-          <GroupForm />
         </View>
       ) : (
         <Button
