@@ -7,18 +7,35 @@ import axios from "axios";
 const { height, width } = Dimensions.get("screen");
 
 export default function SingleEvent(props: any) {
-
-  const [loaded] = useFonts({
-    OpenSans: require("../assets/fonts/OpenSans-Medium.ttf"),
-  });
-  if (!loaded) {
-    return null;
-  }
   const singleEvent = props.selectedEvent;
+  const [groupData, setGroupData] = useState({})
+  const [venueData, setVenueData] = useState({})
 
-  console.log("selected event in SingleEvent: " + props.selectedEvent)
+  // const [loaded] = useFonts({
+  //   OpenSans: require("../assets/fonts/OpenSans-Medium.ttf"),
+  // });
+  // if (!loaded) {
+  //   return null;
+  // }
+  
+  console.log(props.selectedEvent)
 
+  useEffect(() => {
+    if (singleEvent.group_id) {
+      axios.get(`http://tomokuru.i-re.io/api/groups/${singleEvent.group_id}`).then(function (response) {
+      setGroupData(response.data);
+    });
+    }
+  }, []);
+  useEffect(() => {
+    if (singleEvent.venue_id) {
+      axios.get(`http://tomokuru.i-re.io/api/venues/${singleEvent.venue_id}`).then(function (response) {
+      setVenueData(response.data);
+    });
+    }
+  }, []);
 
+  console.log(groupData);
 
   return (
     <View>
@@ -33,15 +50,14 @@ export default function SingleEvent(props: any) {
                     marginBottom: 20,
                   }}
                   source={require("../DummyData/DummyEventPhotos/canada-world-cup.jpeg")}></Image>
-            <Text> {props.IndexValue} </Text>
-            <Text> {singleEvent.event_name} </Text>
-            <Text> {singleEvent.event_creator} </Text>
-            <Text> {singleEvent.event_description} </Text>
-            <Text> {singleEvent.event_date} </Text>
-            <Text> {singleEvent.event_start_time} </Text>
-            <Text> {singleEvent.event_end_time} </Text>
-            <Text> {singleEvent.event_capacity} </Text>
-            <Text> {singleEvent.event_venue} </Text>
+            <Text> {singleEvent.name} </Text>
+            <Text> Group: {groupData.name || ""} </Text>
+            <Text> {singleEvent.description} </Text>
+            <Text> Date: {singleEvent.date} </Text>
+            <Text> Start Time: {singleEvent.start_time} </Text>
+            <Text> End Time: {singleEvent.end_time} </Text>
+            <Text> Capacity {singleEvent.capacity} </Text>
+            <Text> Venue: {venueData.name || ""} </Text>
             <Button title="Back" onPress={ () => props.setSingleView(false)}/>
         </ScrollView>
     </View>

@@ -7,23 +7,20 @@ import axios from "axios";
 
 const { height, width } = Dimensions.get("screen");
 
-export default function SingleGroup(props: any) {
+export default function SingleGroup({ route }) {
 
-  const [loaded] = useFonts({
-    OpenSans: require("../assets/fonts/OpenSans-Medium.ttf"),
-  });
-  if (!loaded) {
-    return null;
-  }
-  const singleGroup = props.selectedGroup
-
-
+  // const [loaded] = useFonts({
+  //   OpenSans: require("../assets/fonts/OpenSans-Medium.ttf"),
+  // });
+  // if (!loaded) {
+  //   return null;
+  // }
+  const singleGroup = route.params.selectedGroup;
 
   // const { id } = useUserStore()
 
-  console.log("selected group in SingleGroup: " + props.selectedGroup)
+  console.log("selected group in SingleGroup: " + singleGroup)
   console.log(singleGroup.id)
-
 
   return (
     <View>

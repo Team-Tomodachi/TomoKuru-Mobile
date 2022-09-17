@@ -8,9 +8,14 @@ import SingleGroup from "../components/SingleGroup";
 
 const { height, width } = Dimensions.get("screen");
 
-export default function ListGroups(props: any) {
-
-
+export default function ListGroups({ navigation }) {
+  const [groupData, setGroupData] = useState([]);
+  
+  useEffect(() => {
+    axios.get("http://tomokuru.i-re.io/api/groups").then(function (response) {
+      setGroupData(response.data);
+    });
+  }, []);
 
   const shortenDescription = (description: any) => {
     if (!description) {
@@ -28,11 +33,9 @@ export default function ListGroups(props: any) {
     return privacy === false ? "public" : "private";
   };
   return (
-
-
      <View>
         <ScrollView style={{ backgroundColor: "#B6B6B6" }}>
-          {props.GroupData.map((group, index) => {
+          {groupData.map((group, index) => {
             return (
               <View
                 style={{
@@ -64,11 +67,15 @@ export default function ListGroups(props: any) {
                   >
                   <Text 
                   onPress={ () => {
-                    props.setIndexValue(index)
-                    props.setSingleView(true)
-                    props.setSelectedGroup(props.GroupData[index])
-                    console.log("selected group: " + props.selectedGroup)
-                    console.log("index passed from OnPress: " + index)}
+                    navigation.navigate({
+                      name: "Group Details",
+                      params: { selectedGroup: groupData[index]}
+                    })}
+                    // props.setIndexValue(index)
+                    // props.setSingleView(true)
+                    // props.setSelectedGroup(props.GroupData[index])
+                    // console.log("selected group: " + props.selectedGroup)
+                    // console.log("index passed from OnPress: " + index)}
                   }
                   style={{ fontSize: 18, fontFamily: "OpenSans" }}>
                     {group.group_name}
