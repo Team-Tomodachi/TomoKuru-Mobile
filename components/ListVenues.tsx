@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Text, View, ScrollView, Dimensions, Image } from "react-native";
+import { Text, View, ScrollView, Dimensions, Image, TouchableOpacity } from "react-native";
 import { useState, useEffect } from "react";
 import { useFonts } from "expo-font";
 
@@ -14,23 +14,45 @@ export default function ListVenues(props: any) {
     return null;
   }
 
+  const shortenDescription = (description: any) => {
+    if (!description) {
+      return "description is empty" 
+    } 
+    else if (description.length > 120) {
+      return description.slice(0, 120) + "...";
+    } 
+    else{
+      return description;
+    }
+  };
+
   return (
     <View>
         <ScrollView style={{ backgroundColor: "rgba(182, 182, 182, 1)" }}>
           {props.venueData.map((venue, index) => {
             return (
+              <TouchableOpacity
+              onPress={ () => {
+                props.setIndexValue(index)
+                props.setSingleView(true)
+                props.setSelectedVenue(props.venueData[index])
+                console.log("selected venue: " + props.selectedVenue)
+                console.log("index passed from OnPress: " + index)}
+              }
+              key={index}
+              >
               <View
                 style={{
-                  height: height * 0.15,
-                  width: width * 0.9,
                   flexDirection: "row",
-                  borderWidth: 3,
-                  borderRadius: 10,
-                  marginTop: 20,
-                  marginLeft: 20,
-                  marginRight: 20,
-                  marginBottom: 20,
-                  backgroundColor: "rgba(252, 245, 59, 1)",
+                  borderWidth: 0,
+                  borderRadius: 5,
+                  margin: 10,
+                  marginLeft: 15,
+                  marginRight: 15,
+                  // padding: 10,
+                  paddingTop: 10,
+                  paddingBottom: 10,
+                  backgroundColor: "white",
                 }}
                 key={index}>
                 <Image
@@ -46,10 +68,8 @@ export default function ListVenues(props: any) {
                 <View
                   style={{
                     flexDirection: "column",
-                    height: height * 0.1,
+                    // height: height * 0.1,
                     width: width * 0.5,
-                    marginTop: 20,
-                    justifyContent: "space-evenly",
                   }}>
                   <Text 
                     onPress={ () => {
@@ -59,32 +79,22 @@ export default function ListVenues(props: any) {
                       console.log("selected venue: " + props.selectedVenue)
                       console.log("index passed from OnPress: " + index)}
                     }
-                    style={{ fontSize: 18, fontFamily: "OpenSans" }}>
+                    style={{ fontSize: 18, fontFamily: "OpenSans", fontWeight: "700"}}>
                     {venue.location_name}
                   </Text>
                   <Text
-                    style={{
-                      fontFamily: "OpenSans",
-                      textDecorationLine: "underline",
-                    }}>
-                    Type: {venue.venue_type}
+                      style={{ fontFamily: "OpenSans", fontStyle: "italic", color: "#8F8F8F"}}>
+                      {venue.venue_type} {venue.prefecture} {venue.city_ward}
                   </Text>
                   <Text
                     style={{
                       fontFamily: "OpenSans",
-                      textDecorationLine: "underline",
                     }}>
-                    Location: {venue.city_ward}
-                  </Text>
-                  <Text
-                    style={{
-                      fontFamily: "OpenSans",
-                      textDecorationLine: "underline",
-                    }}>
-                    Contact: {venue.phone_num}
+                    {shortenDescription(venue.description)}
                   </Text>
                 </View>
               </View>
+              </TouchableOpacity>
             );
           })}
         </ScrollView>
