@@ -2,25 +2,35 @@ import * as React from "react";
 import {
   Text,
   View,
-  ScrollView,
   Dimensions,
   Image,
-  TouchableOpacity,
+  FlatList,
+  Pressable,
+  TextInput,
 } from "react-native";
-import { useState, useEffect } from "react";
-import { useFonts } from "expo-font";
 import axios from "axios";
+import Constants from "expo-constants";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { Searchbar } from "react-native-paper";
 
 const { height, width } = Dimensions.get("screen");
 
 export default function ListGroups({ navigation }) {
-  const [groupData, setGroupData] = useState([]);
+  const [query, setQuery] = React.useState<string>("");
+  const [tag, setTag] = React.useState<string>("");
+  const [groupData, setGroupData] = React.useState([]);
 
-  useEffect(() => {
-    axios.get("http://tomokuru.i-re.io/api/groups").then(function (response) {
-      setGroupData(response.data);
-    });
+  React.useEffect(() => {
+    axios
+      .get(`${Constants?.expoConfig?.extra?.apiURL}/api/groups`)
+      .then(res => setGroupData(res.data));
   }, []);
+
+  React.useEffect(() => {
+    axios
+      .get(`${Constants?.expoConfig?.extra?.apiURL}/api/groups/${tag}/${query}`)
+      .then(res => setGroupData(res.data));
+  }, [tag, query]);
 
   const shortenDescription = (description: any) => {
     if (!description) {
@@ -35,19 +45,25 @@ export default function ListGroups({ navigation }) {
   const isPrivate = (privacy: boolean) => {
     return privacy === false ? "public" : "private";
   };
+
   return (
     <View>
-      <ScrollView style={{ backgroundColor: "#B6B6B6" }}>
-        {groupData.map((group, index) => {
+      <Searchbar
+        placeholder="Search"
+        onChangeText={text => setQuery(text)}
+        value={query}
+      />
+      <FlatList
+        data={groupData}
+        renderItem={({ item }) => {
           return (
-            <TouchableOpacity
+            <Pressable
               onPress={() => {
                 navigation.navigate({
                   name: "Group Details",
-                  params: { selectedGroup: groupData[index] },
+                  params: { selectedGroup: item },
                 });
-              }}
-              key={index}>
+              }}>
               <View
                 style={{
                   flexDirection: "row",
@@ -59,8 +75,7 @@ export default function ListGroups({ navigation }) {
                   paddingTop: 10,
                   paddingBottom: 10,
                   backgroundColor: "white",
-                }}
-                key={index}>
+                }}>
                 <Image
                   style={{
                     height: height * 0.1,
@@ -70,8 +85,8 @@ export default function ListGroups({ navigation }) {
                     marginRight: 50,
                     marginBottom: 20,
                   }}
-                  source={require("../DummyData/DummyGroupPhotos/sunday-futsal-in-kinshicho.jpeg")}></Image>
-
+                  source={require("../DummyData/DummyGroupPhotos/sunday-futsal-in-kinshicho.jpeg")}
+                />
                 <View
                   style={{
                     flexDirection: "column",
@@ -83,7 +98,7 @@ export default function ListGroups({ navigation }) {
                       fontFamily: "OpenSans",
                       fontWeight: "700",
                     }}>
-                    {group.group_name}
+                    {item.group_name}
                   </Text>
                   <Text
                     style={{
@@ -91,23 +106,21 @@ export default function ListGroups({ navigation }) {
                       fontStyle: "italic",
                       color: "#8F8F8F",
                     }}>
-                    {isPrivate(group.private) === "private"
+                    {isPrivate(item.private) === "private"
                       ? "Private Group"
                       : "Public Group"}
-                    , {group.members_num} Members
+                    , {item.members_num} Members
                   </Text>
-                  {/* <Text style={{ fontFamily: "OpenSans" }}>
-                    {group.members_num} Members
-                  </Text> */}
                   <Text style={{ fontFamily: "OpenSans" }}>
-                    {shortenDescription(group.group_description)}
+                    {shortenDescription(item.group_description)}
                   </Text>
                 </View>
               </View>
-            </TouchableOpacity>
+            </Pressable>
           );
-        })}
-      </ScrollView>
+        }}
+        keyExtractor={item => item.id}
+      />
     </View>
   );
 }
