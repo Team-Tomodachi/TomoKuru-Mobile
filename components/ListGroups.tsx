@@ -11,14 +11,16 @@ import {
 import axios from "axios";
 import Constants from "expo-constants";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { Searchbar } from "react-native-paper";
+import { Searchbar, Chip } from "react-native-paper";
+import BottomModal from "./BottomModal";
 
 const { height, width } = Dimensions.get("screen");
 
 export default function ListGroups({ navigation }) {
   const [query, setQuery] = React.useState<string>("");
-  const [tag, setTag] = React.useState<string>("");
+  const [tag, setTag] = React.useState<string>("any tags");
   const [groupData, setGroupData] = React.useState([]);
+  const [isModalVisibile, setModalVisibile] = React.useState<boolean>(false);
 
   React.useEffect(() => {
     axios
@@ -26,11 +28,11 @@ export default function ListGroups({ navigation }) {
       .then(res => setGroupData(res.data));
   }, []);
 
-  React.useEffect(() => {
-    axios
-      .get(`${Constants?.expoConfig?.extra?.apiURL}/api/groups/${tag}/${query}`)
-      .then(res => setGroupData(res.data));
-  }, [tag, query]);
+  // React.useEffect(() => {
+  //   axios
+  //     .get(`${Constants?.expoConfig?.extra?.apiURL}/api/groups/${tag}/${query}`)
+  //     .then(res => setGroupData(res.data));
+  // }, [tag, query]);
 
   const shortenDescription = (description: any) => {
     if (!description) {
@@ -48,11 +50,19 @@ export default function ListGroups({ navigation }) {
 
   return (
     <View>
+      <BottomModal
+        isVisible={isModalVisibile}
+        setIsVisible={setModalVisibile}
+        setTag={setTag}
+      />
       <Searchbar
         placeholder="Search"
         onChangeText={text => setQuery(text)}
         value={query}
       />
+      <Chip icon="tag" onPress={() => setModalVisibile(true)}>
+        {tag}
+      </Chip>
       <FlatList
         data={groupData}
         renderItem={({ item }) => {
