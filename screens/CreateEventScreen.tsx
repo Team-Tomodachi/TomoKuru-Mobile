@@ -23,6 +23,7 @@ interface Event {
   eventName: string;
   eventDescription: string;
   eventDate: Date;
+  eventTime: Date;
   venueId: string;
 }
 
@@ -30,6 +31,7 @@ export default function CreateEventScreen({ navigation, route }) {
   const [venueId, setVenueId] = useState("");
   const [venueName, setVenueName] = useState("No venue");
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -39,10 +41,19 @@ export default function CreateEventScreen({ navigation, route }) {
     setDatePickerVisibility(false);
   };
 
+  const showTimePicker = () => {
+    setTimePickerVisibility(true);
+  };
+
+  const hideTimePicker = () => {
+    setTimePickerVisibility(false);
+  };
+
   const initialValues: Event = {
     eventName: "",
     eventDescription: "",
     eventDate: new Date(),
+    eventTime: new Date(),
     venueId: "",
   };
 
@@ -74,9 +85,8 @@ export default function CreateEventScreen({ navigation, route }) {
                 user_id: id,
                 name: values.eventName,
                 description: values.eventDescription,
-                date: new Intl.DateTimeFormat("en-US", {
-                  dateStyle: "long",
-                }).format(values.eventDate),
+                date: values.eventDate,
+                time: values.eventTime,
                 venue_id: venueId,
               },
             );
@@ -112,9 +122,7 @@ export default function CreateEventScreen({ navigation, route }) {
               </View>
               <Text>Event Date</Text>
               <Button
-                title={new Intl.DateTimeFormat("en-US", {
-                  dateStyle: "long",
-                }).format(values.eventDate)}
+                title={values.eventDate.toLocaleDateString()}
                 onPress={showDatePicker}
               />
               <DateTimePickerModal
@@ -126,9 +134,26 @@ export default function CreateEventScreen({ navigation, route }) {
                 }}
                 onCancel={hideDatePicker}
               />
+              <Text>Event Time</Text>
+              <Button
+                title={values.eventTime.toLocaleTimeString([], {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
+                onPress={showTimePicker}
+              />
+              <DateTimePickerModal
+                isVisible={isTimePickerVisible}
+                mode="time"
+                onConfirm={time => {
+                  setFieldValue("eventTime", time);
+                  hideTimePicker();
+                }}
+                onCancel={hideTimePicker}
+              />
               <Text>Event Venue</Text>
               <Pressable onPress={() => navigation.push("Select Venue")}>
-                <Text>{venueName}</Text>
+                <Text style={styles("text:2xl")}>{venueName}</Text>
               </Pressable>
               <Button onPress={handleSubmit} title="Submit" />
             </View>
