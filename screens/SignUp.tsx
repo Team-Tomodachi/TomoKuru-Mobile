@@ -13,10 +13,11 @@ import React, { useState } from "react";
 import { styles } from "../styles/styles";
 import useAuthStore from "../store/auth";
 import Constants from "expo-constants";
-import Axios from "axios";
+import axios from "axios";
 import { auth } from "../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import authError from "../utils/authError";
+import { FirebaseError } from "firebase/app";
 
 export default function SignIn({ navigation }) {
   const [email, setEmail] = useState("");
@@ -24,17 +25,19 @@ export default function SignIn({ navigation }) {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [username, setUsername] = useState("");
 
-  const { signUserIn, setUserId } = useAuthStore();
+  const { signUserIn } = useAuthStore();
 
   //Handler
 
-  function addUserToDB(email: string, uid: string, name: string) {
-    Axios.post(`${Constants?.manifest?.extra?.apiURL}/api/users`, {
-      user_email: email,
-      firebase_id: uid,
-      first_name: name,
-      account_type: "user",
-    });
+  async function addUserToDB(email: string, uid: string, name: string) {
+    await axios
+      .post(`${Constants?.expoConfig?.extra?.apiURL}/api/users`, {
+        user_email: email,
+        firebase_id: uid,
+        first_name: name,
+        account_type: "user",
+      })
+      .then(res => console.log(res.data));
   }
 
   return (
@@ -71,7 +74,6 @@ export default function SignIn({ navigation }) {
             style={styles("border:1", "p:1", "w:56", "m:5")}
             placeholder="Password"
             clearButtonMode="while-editing"
-            // keyboardType="default"
             returnKeyType="done"
             onChangeText={text => {
               setPassword(text);
@@ -85,7 +87,6 @@ export default function SignIn({ navigation }) {
             style={styles("border:1", "p:1", "w:56", "m:5")}
             placeholder="Password"
             clearButtonMode="while-editing"
-            // keyboardType="default"
             returnKeyType="done"
             onChangeText={text => {
               setConfirmPassword(text);
@@ -100,12 +101,13 @@ export default function SignIn({ navigation }) {
                   email,
                   password,
                 );
-                await addUserToDB(email, userCredentials?.user?.uid, username);
+                addUserToDB(email, userCredentials?.user?.uid, username);
                 signUserIn();
                 navigation.navigate("Home");
               } catch (error) {
-                console.log(error);
-                Alert.alert("Error", authError[error.code]);
+                if (error instanceof FirebaseError) {
+                  Alert.alert("Error", authError[error.code]);
+                }
               }
             }}
             style={styles(
