@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Text, View, ScrollView, Dimensions, Image } from "react-native";
+import { Text, View, ScrollView, Dimensions, Image, TouchableOpacity } from "react-native";
 import { useState, useEffect } from "react";
 import { useFonts } from "expo-font";
 import axios from "axios";
@@ -8,16 +8,21 @@ import SingleGroup from "../components/SingleGroup";
 
 const { height, width } = Dimensions.get("screen");
 
-export default function ListGroups(props: any) {
-
-
+export default function ListGroups({ navigation }) {
+  const [groupData, setGroupData] = useState([]);
+  
+  useEffect(() => {
+    axios.get("http://tomokuru.i-re.io/api/groups").then(function (response) {
+      setGroupData(response.data);
+    });
+  }, []);
 
   const shortenDescription = (description: any) => {
     if (!description) {
       return "description is empty" 
     } 
-    else if (description.length > 60) {
-      return description.slice(0, 60) + "...";
+    else if (description.length > 120) {
+      return description.slice(0, 120) + "...";
     } 
     else{
       return description;
@@ -28,26 +33,35 @@ export default function ListGroups(props: any) {
     return privacy === false ? "public" : "private";
   };
   return (
-
-
      <View>
-        <ScrollView style={{ backgroundColor: "rgba(182, 182, 182, 1)" }}>
-          {props.GroupData.map((group, index) => {
+        <ScrollView style={{ backgroundColor: "#B6B6B6" }}>
+          {groupData.map((group, index) => {
             return (
+              <TouchableOpacity
+                onPress={ () => {
+                  props.setIndexValue(index)
+                  props.setSingleView(true)
+                  props.setSelectedGroup(props.GroupData[index])
+                  console.log("selected group: " + props.selectedGroup)
+                  console.log("index passed from OnPress: " + index)}
+                }
+                key={index}
+                >
               <View
                 style={{
-                  height: height * 0.15,
-                  width: width * 0.9,
                   flexDirection: "row",
-                  borderWidth: 3,
-                  borderRadius: 10,
-                  marginTop: 20,
-                  marginLeft: 20,
-                  marginRight: 20,
-                  marginBottom: 20,
-                  backgroundColor: "rgba(252, 245, 59, 1)",
+                  borderWidth: 0,
+                  borderRadius: 5,
+                  margin: 10,
+                  marginLeft: 15,
+                  marginRight: 15,
+                  // padding: 10,
+                  paddingTop: 10,
+                  paddingBottom: 10,
+                  backgroundColor: "white",
                 }}
                 key={index}>
+                
                 <Image
                   style={{
                     height: height * 0.1,
@@ -62,31 +76,37 @@ export default function ListGroups(props: any) {
                 <View
                   style={{
                     flexDirection: "column",
-                    height: height * 0.1,
+                    // height: height * 0.1,
                     width: width * 0.5,
-                  }}>
+                  }}
+                  >
                   <Text 
                   onPress={ () => {
-                    props.setIndexValue(index)
-                    props.setSingleView(true)
-                    props.setSelectedGroup(props.GroupData[index])
-                    console.log("selected group: " + props.selectedGroup)
-                    console.log("index passed from OnPress: " + index)}
+                    navigation.navigate({
+                      name: "Group Details",
+                      params: { selectedGroup: groupData[index]}
+                    })}
+                    // props.setIndexValue(index)
+                    // props.setSingleView(true)
+                    // props.setSelectedGroup(props.GroupData[index])
+                    // console.log("selected group: " + props.selectedGroup)
+                    // console.log("index passed from OnPress: " + index)}
                   }
-                  style={{ fontSize: 18, fontFamily: "OpenSans" }}>
+                  style={{ fontSize: 18, fontFamily: "OpenSans", fontWeight: "700"}}>
                     {group.group_name}
                   </Text>
-                  <Text style={{ fontFamily: "OpenSans" }}>
-                    Privacy: {isPrivate(group.private)}
+                  <Text style={{ fontFamily: "OpenSans", fontStyle: "italic", color: "#8F8F8F"   }}>
+                    {isPrivate(group.private) === "private" ? "Private Group" : "Public Group"},  {group.members_num} Members
                   </Text>
-                  <Text style={{ fontFamily: "OpenSans" }}>
-                    Members: {group.members_num}
-                  </Text>
-                  <Text style={{ fontFamily: "OpenSans" }}>
-                    Description: {shortenDescription(group.group_description)}
+                  {/* <Text style={{ fontFamily: "OpenSans" }}>
+                    {group.members_num} Members
+                  </Text> */}
+                  <Text style={{ fontFamily: "OpenSans"}}>
+                    {shortenDescription(group.group_description)}
                   </Text>
                 </View>
               </View>
+              </TouchableOpacity>
             );
           })}
         </ScrollView>

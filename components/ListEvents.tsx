@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Text, View, ScrollView, Dimensions, Image } from "react-native";
+import { Text, View, ScrollView, Dimensions, Image, TouchableOpacity } from "react-native";
 import { useState, useEffect } from "react";
 import { useFonts } from "expo-font";
 import SingleEvent from "../components/SingleEvent";
@@ -9,6 +9,18 @@ const { height, width } = Dimensions.get("screen");
 
 export default function ListEvents(props: any) {
 
+  const shortenDescription = (description: any) => {
+    if (!description) {
+      return "description is empty" 
+    } 
+    else if (description.length > 120) {
+      return description.slice(0, 120) + "...";
+    } 
+    else{
+      return description;
+    }
+  };
+
   const [loaded] = useFonts({
     OpenSans: require("../assets/fonts/OpenSans-Medium.ttf"),
   });
@@ -16,24 +28,35 @@ export default function ListEvents(props: any) {
     return null;
   }
 
+  console.log(props.EventData);
 
   return (
   <View>
         <ScrollView style={{ backgroundColor: "rgba(182, 182, 182, 1)" }}>
           {props.EventData.map((event, index) => {
             return (
+              <TouchableOpacity
+              onPress={ () => {
+                props.setIndexValue(index)
+                props.setSingleView(true)
+                props.setSelectedEvent(props.EventData[index])
+                console.log("selected event: " + props.selectedEvent)
+                console.log("index passed from OnPress: " + index)}
+              }
+              key={index}
+              >
               <View
                 style={{
-                  height: height * 0.15,
-                  width: width * 0.9,
                   flexDirection: "row",
-                  borderWidth: 3,
-                  borderRadius: 10,
-                  marginTop: 20,
-                  marginLeft: 20,
-                  marginRight: 20,
-                  marginBottom: 20,
-                  backgroundColor: "rgba(252, 245, 59, 1)",
+                  borderWidth: 0,
+                  borderRadius: 5,
+                  margin: 10,
+                  marginLeft: 15,
+                  marginRight: 15,
+                  // padding: 10,
+                  paddingTop: 10,
+                  paddingBottom: 10,
+                  backgroundColor: "white",
                 }}
                 key={index}>
                 <Image
@@ -49,10 +72,8 @@ export default function ListEvents(props: any) {
                 <View
                   style={{
                     flexDirection: "column",
-                    height: height * 0.1,
+                    // height: height * 0.1,
                     width: width * 0.5,
-                    marginTop: 20,
-                    justifyContent: "space-evenly",
                   }}>
                   <Text 
                     onPress={ () => {
@@ -62,21 +83,18 @@ export default function ListEvents(props: any) {
                       console.log("selected event: " + props.selectedEvent)
                       console.log("index passed from OnPress: " + index)}
                     }
-                    style={{ fontFamily: "OpenSans", fontSize: 18 }}>
-                    {event.event_name}
+                    style={{ fontSize: 18, fontFamily: "OpenSans", fontWeight: "700"}}>
+                    {event.name}
+                  </Text>
+                  <Text style={{ fontFamily: "OpenSans", fontStyle: "italic", color: "#8F8F8F"   }}>
+                    {event.date}
                   </Text>
                   <Text style={{ fontFamily: "OpenSans" }}>
-                    Group: {event.group_name}
-                  </Text>
-                  <Text style={{ fontFamily: "OpenSans" }}>
-                    Venue: {event.location}
-                  </Text>
-                  <Text style={{ fontFamily: "OpenSans" }}>
-                    Date/Time: {event.event_date} {event.event_start_time} ~{" "}
-                    {event.event_end_time}
+                  {shortenDescription(event.description)}
                   </Text>
                 </View>
               </View>
+              </TouchableOpacity>
             );
           })}
         </ScrollView>

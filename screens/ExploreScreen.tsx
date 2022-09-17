@@ -1,49 +1,18 @@
-import React, { useState, useEffect } from "react";
-import { Button, Text, View, ScrollView, Dimensions } from "react-native";
+import React from "react";
+import { Button, Text, View, ScrollView } from "react-native";
 import Venues from "../components/Venues";
 import Groups from "../components/Groups";
 import Events from "../components/Events";
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
+const Tab = createMaterialTopTabNavigator();
 
-
-const { height, width } = Dimensions.get("screen");
-
-
-export default function ExploreScreen(props: any) {
-
-const [screenView, setScreenView] = useState("Groups")
-
+export default function ExploreScreen() {
   return (
-    <View>
-        <View style={{ 
-          flexDirection: "row",
-          height: height * 0.05,
-          width: width * 0.95,
-          justifyContent: "space-between",
-        }}>
-            <Button title="Groups" onPress={ () => setScreenView("Groups")}/>
-            <Button title="Events" onPress={ () => setScreenView("Events")}/>
-            <Button title="Venues" onPress={ () => setScreenView("Venues")}/>
-        </View>
-        <ScrollView style={{ backgroundColor: "rgba(182, 182, 182, 1)" }}>
-          <View style={{ 
-              flexDirection: "row",
-              height: height * 0.05,
-              width: width * 0.95,
-              justifyContent: "space-between",
-              position: "absolute",
-          }}>
-          </View>
-          <View
-            style={{
-              justifyContent: "center",
-              alignItems: "center",
-            }}>    
-            {screenView=== "Groups" ? <Groups /> : <View></View>}
-            {screenView=== "Events" ? <Events /> : <View></View>}
-            {screenView=== "Venues" ? <Venues /> : <View></View>}
-          </View>
-        </ScrollView>
-      </View>
+    <Tab.Navigator>
+      <Tab.Screen name="Groups" component={Groups} />
+      <Tab.Screen name="Events" component={Events} />
+      <Tab.Screen name="Venues" component={Venues} />
+    </Tab.Navigator>
   );
 }

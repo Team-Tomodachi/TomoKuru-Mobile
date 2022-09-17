@@ -5,7 +5,9 @@ import { useFonts } from "expo-font";
 import axios from "axios";
 import SingleGroup from "../components/SingleGroup";
 import ListGroups from "../components/ListGroups";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
+const Stack = createNativeStackNavigator();
 
 export default function ListItems() {
   const [GroupData, setGroupData] = useState([]);
@@ -27,22 +29,26 @@ export default function ListItems() {
   }
 
   return (
-        <View>
-          {singleView === true ? (
-                <SingleGroup 
-                    IndexValue={IndexValue}
-                    selectedGroup={selectedGroup}
-                    setSingleView={setSingleView}
-                /> 
-            ) : (
-                <ListGroups 
-                    GroupData={GroupData}
-                    setIndexValue={setIndexValue}
-                    setSingleView={setSingleView}
-                    setSelectedGroup={setSelectedGroup}
-                    selectedGroup={selectedGroup}
-                />
-            )}
-        </View>
+    <Stack.Navigator>
+      <Stack.Screen name="Group List" component={ListGroups} options={{ headerShown: false }}/>
+      <Stack.Screen name="Group Details" component={SingleGroup} />
+    </Stack.Navigator>
+        // <View>
+        //   {singleView === true ? (
+        //         <SingleGroup 
+        //             IndexValue={IndexValue}
+        //             selectedGroup={selectedGroup}
+        //             setSingleView={setSingleView}
+        //         /> 
+        //     ) : (
+        //         <ListGroups 
+        //             GroupData={GroupData}
+        //             setIndexValue={setIndexValue}
+        //             setSingleView={setSingleView}
+        //             setSelectedGroup={setSelectedGroup}
+        //             selectedGroup={selectedGroup}
+        //         />
+        //     )}
+        // </View>
         )
 }

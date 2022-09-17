@@ -16,11 +16,12 @@ export default function SafetyScreen() {
           "flex:row",
           "justify:evenly",
           "m:10",
+          
         )}>
         <Feather name="star" color="white" size={30}></Feather>
         <Button
           title="I'M OK"
-          color="white"
+          color="green-600"
           onPress={() => setShowToast(true)}
         />
       </View>
