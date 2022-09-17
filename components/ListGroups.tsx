@@ -13,6 +13,7 @@ import Constants from "expo-constants";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Searchbar, Chip } from "react-native-paper";
 import BottomModal from "./BottomModal";
+import { styles } from "../styles/styles";
 
 const { height, width } = Dimensions.get("screen");
 
@@ -60,7 +61,11 @@ export default function ListGroups({ navigation }) {
         onChangeText={text => setQuery(text)}
         value={query}
       />
-      <Chip icon="tag" onPress={() => setModalVisibile(true)}>
+      <Chip
+        mode="outlined"
+        style={styles("w:28")}
+        icon="tag"
+        onPress={() => setModalVisibile(true)}>
         {tag}
       </Chip>
       <FlatList
