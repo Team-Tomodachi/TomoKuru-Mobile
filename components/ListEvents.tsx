@@ -1,5 +1,12 @@
 import * as React from "react";
-import { Text, View, ScrollView, Dimensions, Image, TouchableOpacity } from "react-native";
+import {
+  Text,
+  View,
+  ScrollView,
+  Dimensions,
+  Image,
+  TouchableOpacity,
+} from "react-native";
 import { useState, useEffect } from "react";
 import { useFonts } from "expo-font";
 import SingleEvent from "../components/SingleEvent";
@@ -8,15 +15,12 @@ import axios from "axios";
 const { height, width } = Dimensions.get("screen");
 
 export default function ListEvents(props: any) {
-
   const shortenDescription = (description: any) => {
     if (!description) {
-      return "description is empty" 
-    } 
-    else if (description.length > 120) {
+      return "description is empty";
+    } else if (description.length > 120) {
       return description.slice(0, 120) + "...";
-    } 
-    else{
+    } else {
       return description;
     }
   };
@@ -28,23 +32,20 @@ export default function ListEvents(props: any) {
     return null;
   }
 
-  console.log(props.EventData);
-
   return (
-  <View>
-        <ScrollView style={{ backgroundColor: "rgba(182, 182, 182, 1)" }}>
-          {props.EventData.map((event, index) => {
-            return (
-              <TouchableOpacity
-              onPress={ () => {
-                props.setIndexValue(index)
-                props.setSingleView(true)
-                props.setSelectedEvent(props.EventData[index])
-                console.log("selected event: " + props.selectedEvent)
-                console.log("index passed from OnPress: " + index)}
-              }
-              key={index}
-              >
+    <View>
+      <ScrollView style={{ backgroundColor: "rgba(182, 182, 182, 1)" }}>
+        {props.EventData.map((event, index) => {
+          return (
+            <TouchableOpacity
+              onPress={() => {
+                props.setIndexValue(index);
+                props.setSingleView(true);
+                props.setSelectedEvent(props.EventData[index]);
+                console.log("selected event: " + props.selectedEvent);
+                console.log("index passed from OnPress: " + index);
+              }}
+              key={index}>
               <View
                 style={{
                   flexDirection: "row",
@@ -75,29 +76,38 @@ export default function ListEvents(props: any) {
                     // height: height * 0.1,
                     width: width * 0.5,
                   }}>
-                  <Text 
-                    onPress={ () => {
-                      props.setIndexValue(index)
-                      props.setSingleView(true)
-                      props.setSelectedEvent(props.EventData[index])
-                      console.log("selected event: " + props.selectedEvent)
-                      console.log("index passed from OnPress: " + index)}
-                    }
-                    style={{ fontSize: 18, fontFamily: "OpenSans", fontWeight: "700"}}>
+                  <Text
+                    onPress={() => {
+                      props.setIndexValue(index);
+                      props.setSingleView(true);
+                      props.setSelectedEvent(props.EventData[index]);
+                      console.log("selected event: " + props.selectedEvent);
+                      console.log("index passed from OnPress: " + index);
+                    }}
+                    style={{
+                      fontSize: 18,
+                      fontFamily: "OpenSans",
+                      fontWeight: "700",
+                    }}>
                     {event.name}
                   </Text>
-                  <Text style={{ fontFamily: "OpenSans", fontStyle: "italic", color: "#8F8F8F"   }}>
+                  <Text
+                    style={{
+                      fontFamily: "OpenSans",
+                      fontStyle: "italic",
+                      color: "#8F8F8F",
+                    }}>
                     {event.date}
                   </Text>
                   <Text style={{ fontFamily: "OpenSans" }}>
-                  {shortenDescription(event.description)}
+                    {shortenDescription(event.description)}
                   </Text>
                 </View>
               </View>
-              </TouchableOpacity>
-            );
-          })}
-        </ScrollView>
-  </View>
+            </TouchableOpacity>
+          );
+        })}
+      </ScrollView>
+    </View>
   );
 }
