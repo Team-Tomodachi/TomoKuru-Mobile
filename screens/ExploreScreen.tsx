@@ -25,7 +25,7 @@ const [screenView, setScreenView] = useState("Groups")
             <Button title="Events" onPress={ () => setScreenView("Events")}/>
             <Button title="Venues" onPress={ () => setScreenView("Venues")}/>
         </View>
-        <ScrollView style={{ backgroundColor: "rgba(182, 182, 182, 1)" }}>
+        <ScrollView style={{ backgroundColor: "#FFF" }}>
           <View style={{ 
               flexDirection: "row",
               height: height * 0.05,
@@ -35,10 +35,11 @@ const [screenView, setScreenView] = useState("Groups")
           }}>
           </View>
           <View
-            style={{
-              justifyContent: "center",
-              alignItems: "center",
-            }}>    
+            // style={{
+            //   justifyContent: "center",
+            //   alignItems: "center",
+            // }}
+            >    
             {screenView=== "Groups" ? <Groups /> : <View></View>}
             {screenView=== "Events" ? <Events /> : <View></View>}
             {screenView=== "Venues" ? <Venues /> : <View></View>}

@@ -31,21 +31,17 @@ export default function ListGroups(props: any) {
 
 
      <View>
-        <ScrollView style={{ backgroundColor: "rgba(182, 182, 182, 1)" }}>
+        <ScrollView style={{ backgroundColor: "#B6B6B6" }}>
           {props.GroupData.map((group, index) => {
             return (
               <View
                 style={{
-                  height: height * 0.15,
-                  width: width * 0.9,
                   flexDirection: "row",
-                  borderWidth: 3,
-                  borderRadius: 10,
-                  marginTop: 20,
-                  marginLeft: 20,
-                  marginRight: 20,
-                  marginBottom: 20,
-                  backgroundColor: "rgba(252, 245, 59, 1)",
+                  borderWidth: 0,
+                  borderRadius: 5,
+                  margin: 10,
+                  padding: 5,
+                  backgroundColor: "white",
                 }}
                 key={index}>
                 <Image
@@ -62,9 +58,10 @@ export default function ListGroups(props: any) {
                 <View
                   style={{
                     flexDirection: "column",
-                    height: height * 0.1,
+                    // height: height * 0.1,
                     width: width * 0.5,
-                  }}>
+                  }}
+                  >
                   <Text 
                   onPress={ () => {
                     props.setIndexValue(index)
@@ -82,7 +79,7 @@ export default function ListGroups(props: any) {
                   <Text style={{ fontFamily: "OpenSans" }}>
                     Members: {group.members_num}
                   </Text>
-                  <Text style={{ fontFamily: "OpenSans" }}>
+                  <Text style={{ fontFamily: "OpenSans"}}>
                     Description: {shortenDescription(group.group_description)}
                   </Text>
                 </View>
