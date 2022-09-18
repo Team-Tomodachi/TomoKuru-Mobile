@@ -13,7 +13,7 @@ export default function ModalUser() {
     <Stack.Navigator>
       {isUserSignedIn ? (
         <>
-          <Stack.Screen name="User" component={UserCustomiseScreen} />
+          <Stack.Screen name="Edit Details" component={UserCustomiseScreen} />
         </>
       ) : (
         <>
