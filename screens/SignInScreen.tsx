@@ -12,20 +12,31 @@ import {
 import React, { useState } from "react";
 import { styles } from "../styles/styles";
 import useAuthStore from "../store/auth";
-import useUserStore from "../store/user";
 import { auth } from "../firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import authError from "../utils/authError";
 import axios from "axios";
 import Constants from "expo-constants";
 import { FirebaseError } from "firebase/app";
+import { useQuery } from "@tanstack/react-query";
 
 export default function SignInScreen({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [canFetch, setCanFetch] = useState<boolean>(false);
 
   const { signUserIn } = useAuthStore();
-  const { setUserInfo } = useUserStore();
+
+  useQuery(
+    ["userInfo"],
+    () =>
+      axios
+        .get(`${Constants?.expoConfig?.extra?.apiURL}/api/users/${email}`)
+        .then(res => res.data),
+    {
+      enabled: canFetch,
+    },
+  );
 
   async function getUserFromDB(email: string) {
     const userRes = await axios.get(
@@ -67,8 +78,7 @@ export default function SignInScreen({ navigation }) {
             onPress={async () => {
               try {
                 await signInWithEmailAndPassword(auth, email, password);
-                const userInfo = await getUserFromDB(email);
-                setUserInfo(userInfo.first_name, userInfo.id, email);
+                setCanFetch(true);
                 signUserIn();
                 navigation.navigate("Home");
               } catch (error) {
