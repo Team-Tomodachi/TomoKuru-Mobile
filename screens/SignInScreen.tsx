@@ -38,13 +38,6 @@ export default function SignInScreen({ navigation }) {
     },
   );
 
-  async function getUserFromDB(email: string) {
-    const userRes = await axios.get(
-      `${Constants?.expoConfig?.extra?.apiURL}/api/users/${email}`,
-    );
-    return userRes.data;
-  }
-
   return (
     <KeyboardAvoidingView
       style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
