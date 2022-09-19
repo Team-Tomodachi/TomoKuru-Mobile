@@ -4,6 +4,7 @@ import SignUpScreen from "./SignUpScreen";
 import UserCustomiseScreen from "./UserCustomiseScreen";
 import UserScreen from "./UserScreen";
 import useAuthStore from "../store/auth";
+import { Button } from "react-native";
 
 const Stack = createNativeStackNavigator();
 
@@ -14,12 +15,28 @@ export default function ModalUser() {
     <Stack.Navigator>
       {isUserSignedIn ? (
         <>
-          <Stack.Screen name="User" component={UserScreen} />
+          <Stack.Screen
+            name="User"
+            component={UserScreen}
+            options={({ navigation }) => ({
+              headerLeft: () => (
+                <Button title="Close" onPress={() => navigation.popToTop()} />
+              ),
+            })}
+          />
           <Stack.Screen name="Edit Details" component={UserCustomiseScreen} />
         </>
       ) : (
         <>
-          <Stack.Screen name="Sign In" component={SignInScreen} />
+          <Stack.Screen
+            name="Sign In"
+            component={SignInScreen}
+            options={({ navigation }) => ({
+              headerLeft: () => (
+                <Button title="Close" onPress={() => navigation.popToTop()} />
+              ),
+            })}
+          />
           <Stack.Screen name="Sign Up" component={SignUpScreen} />
         </>
       )}
