@@ -6,13 +6,14 @@ import useAuthStore from "../store/auth";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase";
 import * as ImagePicker from "expo-image-picker";
-import Feather from "@expo/vector-icons/Ionicons";
+import { ActivityIndicator } from "react-native-paper";
 
 export default function UserScreen({ navigation }) {
   const { signUserOut } = useAuthStore();
   const [status, requestPermission] = ImagePicker.useCameraPermissions();
 
   const [image, setImage] = useState(null);
+  const [isUploading, setUploading] = useState<boolean>(false);
 
   const pickImage = async () => {
     if (!status?.granted) {
@@ -27,6 +28,8 @@ export default function UserScreen({ navigation }) {
       });
       if (!result.cancelled) {
         setImage(result.uri);
+        setUploading(true);
+        setTimeout(() => setUploading(false), 5000);
       }
     }
   };
@@ -53,8 +56,13 @@ export default function UserScreen({ navigation }) {
       <Button
         icon="camera"
         style={styles("bg:green-600", "my:2")}
-        onPress={pickImage}>
-        update profile picture
+        onPress={pickImage}
+        disabled={isUploading}>
+        {isUploading ? (
+          <ActivityIndicator animating={true} color="white" />
+        ) : (
+          "update profile picture"
+        )}
       </Button>
       <Button
         icon="pencil"
