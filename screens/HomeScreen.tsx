@@ -14,7 +14,7 @@ export default function HomeScreen({ navigation }) {
             title="Create Group"
           />
           <Button
-            onPress={() => navigation.navigate("Create Event")}
+            onPress={() => navigation.navigate("Create Event Stack")}
             title="Create Event"
           />
         </View>
