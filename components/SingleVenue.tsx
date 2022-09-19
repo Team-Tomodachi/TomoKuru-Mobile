@@ -8,13 +8,6 @@ const { height, width } = Dimensions.get("screen");
 
 export default function SingleVenue(props: any) {
 
-  const [loaded] = useFonts({
-    OpenSans: require("../assets/fonts/OpenSans-Medium.ttf"),
-  });
-  if (!loaded) {
-    return null;
-  }
-
 console.log("selected venue in SingleVenue: " + props.selectedVenue)
 
 const singleVenue = props.selectedVenue
