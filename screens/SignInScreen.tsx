@@ -80,7 +80,7 @@ export default function SignInScreen({ navigation }) {
                 await signInWithEmailAndPassword(auth, email, password);
                 setCanFetch(true);
                 signUserIn();
-                navigation.navigate("Home");
+                navigation.popToTop();
               } catch (error) {
                 if (error instanceof FirebaseError) {
                   Alert.alert("Error", authError[error.code]);

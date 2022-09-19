@@ -103,7 +103,6 @@ export default function SignInScreen({ navigation }) {
                 );
                 addUserToDB(email, userCredentials?.user?.uid, username);
                 signUserIn();
-                navigation.navigate("Home");
               } catch (error) {
                 if (error instanceof FirebaseError) {
                   Alert.alert("Error", authError[error.code]);
