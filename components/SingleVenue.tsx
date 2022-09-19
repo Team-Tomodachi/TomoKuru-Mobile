@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Text, View, ScrollView, Dimensions, Image, Button } from "react-native";
+import { Text, View, ScrollView, Dimensions, Image, Button, StyleSheet } from "react-native";
 import { useState, useEffect } from "react";
 import { useFonts } from "expo-font";
 import axios from "axios";
@@ -16,65 +16,80 @@ const singleVenue = props.selectedVenue
 
   return (
     <View>
-        <ScrollView>
+      <ScrollView>
         <View
           style={{
             flexDirection: "row",
             alignItems: "center",
             justifyContent: "center",
-            marginLeft: 20,
-
+            marginLeft: 25,
           }}>
             <Image
-                      style={{
-                        height: height * 0.3,
-                        width: width * 0.9,
-                        marginTop: 20,
-                        marginLeft: 20,
-                        marginRight: 50,
-                        marginBottom: 20,
-                      }}
+                      style={styles.image}
                       source={require("../DummyData/DummyVenuePhotos/ce-la-vi.jpeg")}></Image>
           </View>
-        <Text
-          style={{ 
-            fontSize: 30, 
-            fontFamily: "OpenSans",
-            textDecorationLine: 'underline'
-          }}>
-         {singleVenue.location_name} </Text>
-         <Text style={{ 
-            fontSize: 20, 
-            fontFamily: "OpenSans",
-          }}> {singleVenue.description} </Text>
-        <Text> {singleVenue.city_ward} </Text>
-        <Text> {singleVenue.prefecture} </Text>
-        <Text
-        style={{ 
-          fontSize: 20, 
-          fontFamily: "OpenSans",
-        }}> 📞 {singleVenue.phone_num} </Text>
-        <Text
-        style={{ 
-          fontSize: 20, 
-          fontFamily: "OpenSans",
-        }}>📍{singleVenue.address} </Text>
-        {/* <Text> {singleVenue.venue_email} </Text>
-        <Text> {singleVenue.num_seats} </Text>
-        <Text> {singleVenue.smoking} </Text>
-        <Text> {singleVenue.outdoor_seating} </Text>
+        <Text style={styles.title}>{singleVenue.location_name} </Text>
+        <Text style={styles.detailsItalicized}>{singleVenue.venue_type} </Text>
+        <Text style={styles.details}> {singleVenue.description} </Text>
+        <Text style={styles.details}>🏙{singleVenue.city_ward}, {singleVenue.prefecture}</Text>
+        <Text style={styles.details}> 📞 {singleVenue.phone_num} </Text>
+        <Text style={styles.details}>📍{singleVenue.address} </Text>
+        <Text style={styles.details}> ✉️ {singleVenue.venue_email} </Text>
+        <Text style={styles.details}>🪑{singleVenue.num_seats} </Text>
+        <Text style={styles.details}>🚬 {singleVenue.smoking} </Text>
+        {/* <Text> {singleVenue.outdoor_seating} </Text>
         <Text> {singleVenue.venue_url} </Text>
         <Text> {singleVenue.photo_link} </Text> */}
-        <Text
-        style={{ 
-          fontSize: 20, 
-          fontFamily: "OpenSans",
-        }}>Type: {singleVenue.venue_type} </Text>
         <Button title="Back" onPress={ () => props.setSingleView(false)}/>
-        </ScrollView>
-
+      </ScrollView>
     </View>
 
   );
 
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    paddingHorizontal: 10
+  },
+  button: {
+    height: height * 0.1,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "pink",
+    padding: 10,
+  },
+  countContainer: {
+    alignItems: "center",
+    padding: 10
+  },
+  title: {
+    fontSize: 30, 
+    fontFamily: "OpenSans",
+    textDecorationLine: 'underline'
+  },
+  details: {
+    fontSize: 20, 
+    fontFamily: "OpenSans",
+  },
+  detailsUnderlined: {
+    fontSize: 20, 
+    fontFamily: "OpenSans",
+    textDecorationLine: 'underline'
+  }, 
+  detailsItalicized: {
+    fontSize: 20, 
+    fontFamily: "OpenSans",
+    fontStyle: 'italic',
+  },
+  image: {
+    height: height * 0.3,
+    width: width * 0.9,
+    marginTop: 20,
+    marginLeft: 20,
+    marginRight: 50,
+    marginBottom: 20,
+  }
+});
