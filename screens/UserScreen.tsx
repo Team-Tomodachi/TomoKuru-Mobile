@@ -1,4 +1,4 @@
-import { Image, Pressable, View } from "react-native";
+import { Alert, Image, Pressable, View } from "react-native";
 import React, { useState } from "react";
 import { styles } from "../styles/styles";
 import { Button } from "react-native-paper";
@@ -29,7 +29,10 @@ export default function UserScreen({ navigation }) {
       if (!result.cancelled) {
         setImage(result.uri);
         setUploading(true);
-        setTimeout(() => setUploading(false), 5000);
+        setTimeout(() => {
+          setUploading(false);
+          Alert.alert("Success", "Your profile picture has been updated");
+        }, 5000);
       }
     }
   };
