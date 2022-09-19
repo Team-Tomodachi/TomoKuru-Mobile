@@ -6,15 +6,18 @@ import useAuthStore from "../store/auth";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase";
 import * as ImagePicker from "expo-image-picker";
+import Feather from "@expo/vector-icons/Ionicons";
 
 export default function UserScreen({ navigation }) {
   const { signUserOut } = useAuthStore();
-  const [image, setImage] = useState(null);
   const [status, requestPermission] = ImagePicker.useCameraPermissions();
 
-  const pickImage = async () => {
-    requestPermission();
+  const [image, setImage] = useState(null);
 
+  const pickImage = async () => {
+    if (!status?.granted) {
+      requestPermission();
+    }
     if (status?.granted) {
       let result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -22,36 +25,35 @@ export default function UserScreen({ navigation }) {
         aspect: [4, 3],
         quality: 1,
       });
-
       if (!result.cancelled) {
         setImage(result.uri);
       }
-    } else {
-      requestPermission();
     }
   };
 
   return (
     <View style={styles("flex:1", "flex:col", "justify:start", "items:center")}>
-      <Pressable style={styles("my:20")} onPress={pickImage}>
-        {image ? (
-          <Image
-            style={styles("rounded:full", "w:56", "h:56")}
-            source={{
-              uri: image,
-            }}
-          />
-        ) : (
-          <View
-            style={styles(
-              "rounded:full",
-              "w:56",
-              "h:56",
-              "bg:gray-700",
-            )}></View>
-        )}
-      </Pressable>
-      <Button icon="camera" style={styles("bg:green-600", "my:2")}>
+      {image ? (
+        <Image
+          style={styles("rounded:full", "w:56", "h:56", "my:20")}
+          source={{
+            uri: image,
+          }}
+        />
+      ) : (
+        <View
+          style={styles(
+            "rounded:full",
+            "w:56",
+            "h:56",
+            "bg:gray-700",
+            "my:20",
+          )}></View>
+      )}
+      <Button
+        icon="camera"
+        style={styles("bg:green-600", "my:2")}
+        onPress={pickImage}>
         update profile picture
       </Button>
       <Button
