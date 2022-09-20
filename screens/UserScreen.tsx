@@ -7,6 +7,10 @@ import { signOut } from "firebase/auth";
 import { auth } from "../firebase";
 import * as ImagePicker from "expo-image-picker";
 import { ActivityIndicator } from "react-native-paper";
+import { storage } from "../firebase";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import uuid from 'react-native-uuid';
+
 
 export default function UserScreen({ navigation }) {
   const { signUserOut } = useAuthStore();
@@ -27,15 +31,26 @@ export default function UserScreen({ navigation }) {
         quality: 1,
       });
       if (!result.cancelled) {
-        setImage(result.uri);
         setUploading(true);
+        const imageRef = ref(
+          storage,
+          `gs://tomokuru-auth.appspot.com/users/${uuid.v4()}-${Date.now()}`
+        );
+        uploadBytes(imageRef, result.uri).then(async (snapshot) => {
+          const url = await getDownloadURL(snapshot.ref);
+          setImage(url);
+        });
         setTimeout(() => {
           setUploading(false);
           Alert.alert("Success", "Your profile picture has been updated");
+          // console.log(JSON.stringify(result));
+          // const now = Date.now()
+          // console.log(now, typeof now)
         }, 5000);
       }
     }
   };
+  //TODO clean up this function, improve filenmaming, test pulling it. push the change to db
 
   return (
     <View style={styles("flex:1", "flex:col", "justify:start", "items:center")}>
