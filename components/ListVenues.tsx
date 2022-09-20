@@ -81,7 +81,11 @@ export default function ListVenues({ navigation }) {
                   </Text>
                   <Text
                       style={{ fontFamily: "OpenSans", fontStyle: "italic", color: "#8F8F8F"}}>
-                      {venue.venue_type} {venue.prefecture} {venue.city_ward}
+                      {venue.venue_type}
+                  </Text>
+                  <Text
+                      style={{ fontFamily: "OpenSans", fontStyle: "italic", color: "#8F8F8F"}}>
+                      {venue.prefecture} , {venue.city_ward}
                   </Text>
                   <Text
                     style={{

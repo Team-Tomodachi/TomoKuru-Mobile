@@ -1,8 +1,6 @@
 import * as React from "react";
-import { Text, View, ScrollView, Dimensions, Image, Button, StyleSheet } from "react-native";
-import { useState, useEffect } from "react";
-import { useFonts } from "expo-font";
-import axios from "axios";
+import { Text, View, ScrollView, Dimensions, Image, Button, StyleSheet, TouchableOpacity } from "react-native";
+import openMap, { createOpenLink } from 'react-native-open-maps';
 
 const { height, width } = Dimensions.get("screen");
 
@@ -11,6 +9,13 @@ export default function SingleVenue( { navigation, route }) {
 console.log("selected venue in SingleVenue: " + route.params.selectedVenue)
 
 const singleVenue = route.params.selectedVenue;
+
+const goToMaps = () => {
+openMap( { query: singleVenue.address,
+           provider: "google" } )
+console.log("button has been pressed!")
+console.log(singleVenue.address)
+}
 
 
 
@@ -34,6 +39,9 @@ const singleVenue = route.params.selectedVenue;
         <Text style={styles.details}>🏙{singleVenue.city_ward}, {singleVenue.prefecture}</Text>
         <Text style={styles.details}> 📞 {singleVenue.phone_num} </Text>
         <Text style={styles.details}>📍{singleVenue.address} </Text>
+          <TouchableOpacity> 
+            <Button title="🗺Open in Maps🗺" onPress={goToMaps}/>
+          </TouchableOpacity>
         <Text style={styles.details}> ✉️ {singleVenue.venue_email} </Text>
         <Text style={styles.details}>🪑{singleVenue.num_seats} </Text>
         <Text style={styles.details}>🚬 {singleVenue.smoking} </Text>

@@ -8,38 +8,22 @@ const { height, width } = Dimensions.get("screen");
 
 export default function SingleEvent({ navigation, route }) {
   const singleEvent = route.params.selectedEvent;
-  const [groupData, setGroupData] = useState({})
-  const [venueData, setVenueData] = useState({})
+  console.log(singleEvent.group_name);
+  console.log(singleEvent.location_name)
 
-  console.log(singleEvent)
-
-  useEffect(() => {
-    if (singleEvent.group_id) {
-      axios.get(`http://tomokuru.i-re.io/api/groups/${singleEvent.group_id}`).then(function (response) {
-      setGroupData(response.data);
-    });
-    }
-  }, []);
-  useEffect(() => {
-    if (singleEvent.venue_id) {
-      axios.get(`http://tomokuru.i-re.io/api/venues/${singleEvent.venue_id}`).then(function (response) {
-      setVenueData(response.data);
-    });
-    }
-  }, []);
 
   return (
     <View>
         <ScrollView>
           <Image style={styles.image} source={require("../DummyData/DummyEventPhotos/canada-world-cup.jpeg")}></Image>
             <Text style={styles.title}> {singleEvent.name} </Text>
-            <Text style={styles.details}> Group: {groupData.name || ""} </Text>
+            <Text style={styles.details}> Group: {singleEvent.group_name} </Text>
             <Text style={styles.details}> {singleEvent.description} </Text>
             <Text style={styles.details}> Date: {singleEvent.date} </Text>
             <Text style={styles.details}> Start Time: {singleEvent.start_time} </Text>
             <Text style={styles.details}> End Time: {singleEvent.end_time} </Text>
             <Text style={styles.details}> Capacity {singleEvent.capacity} </Text>
-            <Text style={styles.details}> Venue: {venueData.name || ""} </Text>
+            <Text style={styles.details}> Venue: {singleEvent.location_name} </Text>
             <Button title="Back" onPress={ () => navigation.goBack() }></Button>
         </ScrollView>
     </View>
