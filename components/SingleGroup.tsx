@@ -16,12 +16,7 @@ import useUserStore from "../store/user";
 const { height, width } = Dimensions.get("screen");
 
 export default function SingleGroup({ route }) {
-  // const [loaded] = useFonts({
-  //   OpenSans: require("../assets/fonts/OpenSans-Medium.ttf"),
-  // });
-  // if (!loaded) {
-  //   return null;
-  // }
+
   const [isMember, setIsMember] = React.useState(false);
   const singleGroup = route.params.selectedGroup;
   const { id } = useUserStore();
@@ -103,7 +98,4 @@ const styles = StyleSheet.create({
     marginRight: 50,
     marginBottom: 20,
   }
-});
-    padding: 10,
-  },
 });

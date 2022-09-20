@@ -8,7 +8,6 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { useState, useEffect } from "react";
-import { useFonts } from "expo-font";
 import axios from "axios";
 
 const { height, width } = Dimensions.get("screen");
@@ -71,7 +70,6 @@ export default function ListGroups({ navigation }) {
                     marginBottom: 20,
                   }}
                   source={require("../DummyData/DummyGroupPhotos/sunday-futsal-in-kinshicho.jpeg")}></Image>
-
                 <View
                   style={{
                     flexDirection: "column",

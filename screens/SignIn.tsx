@@ -65,6 +65,7 @@ export default function SignIn({ navigation }) {
             secureTextEntry={true}></TextInput>
           <Pressable
             onPress={async () => {
+              console.log("button pressed")
               try {
                 await signInWithEmailAndPassword(auth, email, password);
                 const userInfo = await getUserFromDB(email);
@@ -73,6 +74,7 @@ export default function SignIn({ navigation }) {
                 navigation.navigate("Home");
               } catch (error) {
                 if (error instanceof FirebaseError) {
+                  console.log("There was an error", error)
                   Alert.alert("Error", authError[error.code]);
                 }
               }

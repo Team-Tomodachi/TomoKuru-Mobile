@@ -6,8 +6,8 @@ import axios from "axios";
 
 const { height, width } = Dimensions.get("screen");
 
-export default function SingleEvent(props: any) {
-  const singleEvent = props.selectedEvent;
+export default function SingleEvent({ route }) {
+  const singleEvent = route.params.selectedEvent;
   const [groupData, setGroupData] = useState({})
   const [venueData, setVenueData] = useState({})
 
@@ -17,8 +17,6 @@ export default function SingleEvent(props: any) {
     if (singleEvent.group_id) {
       axios.get(`http://tomokuru.i-re.io/api/groups/${singleEvent.group_id}`).then(function (response) {
       setGroupData(response.data);
-      console.log("1")
-      console.log(response.data)
     });
     }
   }, []);
@@ -26,16 +24,9 @@ export default function SingleEvent(props: any) {
     if (singleEvent.venue_id) {
       axios.get(`http://tomokuru.i-re.io/api/venues/${singleEvent.venue_id}`).then(function (response) {
       setVenueData(response.data);
-      console.log( "2")
-      console.log(response.data)
     });
     }
   }, []);
-
-  console.log("3")
-  console.log(groupData);
-  console.log("4");
-  console.log(venueData);
 
   return (
     <View>
