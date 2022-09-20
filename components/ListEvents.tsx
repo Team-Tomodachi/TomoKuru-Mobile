@@ -42,8 +42,6 @@ export default function ListEvents(props: any) {
                 props.setIndexValue(index);
                 props.setSingleView(true);
                 props.setSelectedEvent(props.EventData[index]);
-                console.log("selected event: " + props.selectedEvent);
-                console.log("index passed from OnPress: " + index);
               }}
               key={index}>
               <View
@@ -81,8 +79,6 @@ export default function ListEvents(props: any) {
                       props.setIndexValue(index);
                       props.setSingleView(true);
                       props.setSelectedEvent(props.EventData[index]);
-                      console.log("selected event: " + props.selectedEvent);
-                      console.log("index passed from OnPress: " + index);
                     }}
                     style={{
                       fontSize: 18,
