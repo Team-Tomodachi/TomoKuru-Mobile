@@ -30,9 +30,10 @@ export default function SignInScreen({ navigation }) {
   //Handler
 
   async function addUserToDB(email: string, uid: string, name: string) {
+    console.log(email, uid, name);
     await axios
       .post(`${Constants?.expoConfig?.extra?.apiURL}/api/users`, {
-        user_email: email,
+        email: email,
         firebase_id: uid,
         first_name: name,
         account_type: "user",
