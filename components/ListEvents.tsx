@@ -8,13 +8,12 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { useState, useEffect } from "react";
-import { useFonts } from "expo-font";
-import SingleEvent from "../components/SingleEvent";
 import axios from "axios";
 
 const { height, width } = Dimensions.get("screen");
 
 export default function ListEvents({ navigation }) {
+
   const [eventData, setEventData] = useState([]);
 
   useEffect(() => {
@@ -37,7 +36,6 @@ export default function ListEvents({ navigation }) {
     <View>
       <ScrollView style={{ backgroundColor: "rgba(182, 182, 182, 1)" }}>
         {eventData.map((event, index) => {
-          console.log(event);
           return (
             <TouchableOpacity
               onPress={() => {

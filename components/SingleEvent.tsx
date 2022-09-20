@@ -6,7 +6,7 @@ import axios from "axios";
 
 const { height, width } = Dimensions.get("screen");
 
-export default function SingleEvent({ route }) {
+export default function SingleEvent({ navigation, route }) {
   const singleEvent = route.params.selectedEvent;
   const [groupData, setGroupData] = useState({})
   const [venueData, setVenueData] = useState({})
@@ -40,7 +40,7 @@ export default function SingleEvent({ route }) {
             <Text style={styles.details}> End Time: {singleEvent.end_time} </Text>
             <Text style={styles.details}> Capacity {singleEvent.capacity} </Text>
             <Text style={styles.details}> Venue: {venueData.name || ""} </Text>
-            <Button title="Back" onPress={ () => props.setSingleView(false)}/>
+            <Button title="Back" onPress={ () => navigation.goBack() }></Button>
         </ScrollView>
     </View>
 

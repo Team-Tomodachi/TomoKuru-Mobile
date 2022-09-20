@@ -6,11 +6,11 @@ import axios from "axios";
 
 const { height, width } = Dimensions.get("screen");
 
-export default function SingleVenue(props: any) {
+export default function SingleVenue( { navigation, route }) {
 
-console.log("selected venue in SingleVenue: " + props.selectedVenue)
+console.log("selected venue in SingleVenue: " + route.params.selectedVenue)
 
-const singleVenue = props.selectedVenue
+const singleVenue = route.params.selectedVenue;
 
 
 
@@ -25,8 +25,8 @@ const singleVenue = props.selectedVenue
             marginLeft: 25,
           }}>
             <Image
-                      style={styles.image}
-                      source={require("../DummyData/DummyVenuePhotos/ce-la-vi.jpeg")}></Image>
+              style={styles.image}
+              source={require("../DummyData/DummyVenuePhotos/ce-la-vi.jpeg")}></Image>
           </View>
         <Text style={styles.title}>{singleVenue.location_name} </Text>
         <Text style={styles.detailsItalicized}>{singleVenue.venue_type} </Text>
@@ -40,7 +40,7 @@ const singleVenue = props.selectedVenue
         {/* <Text> {singleVenue.outdoor_seating} </Text>
         <Text> {singleVenue.venue_url} </Text>
         <Text> {singleVenue.photo_link} </Text> */}
-        <Button title="Back" onPress={ () => props.setSingleView(false)}/>
+        <Button title="Back" onPress={ () => navigation.goBack() }></Button>
       </ScrollView>
     </View>
 
