@@ -1,27 +1,36 @@
 import * as React from "react";
-import { Text, View, ScrollView, Dimensions, Image, StyleSheet, TouchableOpacity } from "react-native";
-import { useState, useEffect } from "react";
+import {
+  Text,
+  View,
+  ScrollView,
+  Dimensions,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  Alert,
+} from "react-native";
 import { useFonts } from "expo-font";
 import axios from "axios";
-// import useUserStore from "../store/user";
+import useUserStore from "../store/user";
 
 const { height, width } = Dimensions.get("screen");
 
 export default function SingleGroup({ route }) {
-
-
-const singleGroup = route.params.selectedGroup;
-
-  // const { id } = useUserStore()
-
-  console.log("selected group in SingleGroup: " + singleGroup)
-  console.log(singleGroup.id)
+  // const [loaded] = useFonts({
+  //   OpenSans: require("../assets/fonts/OpenSans-Medium.ttf"),
+  // });
+  // if (!loaded) {
+  //   return null;
+  // }
+  const [isMember, setIsMember] = React.useState(false);
+  const singleGroup = route.params.selectedGroup;
+  const { id } = useUserStore();
 
   return (
     <View>
       <ScrollView
         style={{
-          backgroundColor: "white"
+          backgroundColor: "white",
         }}>
         <View
           style={{
@@ -29,7 +38,6 @@ const singleGroup = route.params.selectedGroup;
             alignItems: "center",
             justifyContent: "center",
             marginLeft: 20,
-
           }}>
             <Image
               style={styles.image}
@@ -52,18 +60,15 @@ const singleGroup = route.params.selectedGroup;
             <Text style={styles.details}>Go Back</Text>
           </TouchableOpacity> */}
       </ScrollView>
-
     </View>
-
   );
-
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    paddingHorizontal: 10
+    paddingHorizontal: 10,
   },
   button: {
     height: height * 0.1,
@@ -98,4 +103,7 @@ const styles = StyleSheet.create({
     marginRight: 50,
     marginBottom: 20,
   }
+});
+    padding: 10,
+  },
 });
