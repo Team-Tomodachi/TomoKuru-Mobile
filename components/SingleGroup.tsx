@@ -39,76 +39,25 @@ export default function SingleGroup({ route }) {
             justifyContent: "center",
             marginLeft: 20,
           }}>
-          <Image
-            style={{
-              height: height * 0.3,
-              width: width * 0.6,
-              marginTop: 20,
-              marginLeft: 20,
-              marginRight: 50,
-              marginBottom: 20,
-            }}
-            source={require("../DummyData/DummyGroupPhotos/sunday-futsal-in-kinshicho.jpeg")}></Image>
+            <Image
+              style={styles.image}
+              source={require("../DummyData/DummyGroupPhotos/sunday-futsal-in-kinshicho.jpeg")}></Image>
         </View>
-        <Text
-          style={{
-            fontSize: 30,
-            fontFamily: "OpenSans",
-            textDecorationLine: "underline",
-          }}>
-          {singleGroup.group_name}{" "}
-        </Text>
-        <Text
-          style={{
-            fontSize: 20,
-            fontFamily: "OpenSans",
-          }}>
-          {singleGroup.group_description}{" "}
-        </Text>
-        <Text
-          style={{
-            fontSize: 20,
-            fontFamily: "OpenSans",
-            textDecorationLine: "underline",
-          }}>
-          Group Leader: {singleGroup.group_leader}{" "}
-        </Text>
-        <Text
-          style={{
-            fontSize: 20,
-            fontFamily: "OpenSans",
-            textDecorationLine: "underline",
-          }}>
-          Privacy:{singleGroup.private}{" "}
-        </Text>
-        <TouchableOpacity
-          onPress={async () => {
-            if (!id) {
-              Alert.alert("Error", "Please log in first");
-              return;
-            }
-            await axios.post(
-              `http://tomokuru.i-re.io/api/groups/members/${singleGroup.id}/${id}`,
-            );
-            setIsMember(!isMember);
-          }}
-          style={styles.button}>
-          <Text
-            style={{
-              fontSize: 20,
-              fontFamily: "OpenSans",
-            }}>
-            {isMember ? "Leave this group" : "Join This Group"}
-          </Text>
-        </TouchableOpacity>
-        {/* <TouchableOpacity
+          <Text style={styles.title}>{singleGroup.group_name} </Text>
+          <Text style={styles.details}>{singleGroup.group_description} </Text>
+          <Text style={styles.detailsUnderlined}>Group Leader: {singleGroup.group_leader} </Text>
+          <Text style={styles.detailsUnderlined}>Privacy:{singleGroup.private} </Text>
+
+          <TouchableOpacity
+            onPress={ () => axios.post(`http://tomokuru.i-re.io/api/groups/${singleGroup.id}/${id}`)} 
+            style={styles.button}>
+            <Text style={styles.details}> Join This Group</Text>
+          </TouchableOpacity>
+          
+          {/* <TouchableOpacity
             onPress={ () => props.setSingleView(false)}
             style={styles.button}>
-            <Text 
-            style={{ 
-            fontSize: 20, 
-            fontFamily: "OpenSans"}}>
-            Go Back</Text>
+            <Text style={styles.details}>Go Back</Text>
           </TouchableOpacity> */}
       </ScrollView>
     </View>
@@ -130,6 +79,31 @@ const styles = StyleSheet.create({
   },
   countContainer: {
     alignItems: "center",
+    padding: 10
+  },
+  title: {
+    fontSize: 30, 
+    fontFamily: "OpenSans",
+    textDecorationLine: 'underline'
+  },
+  details: {
+    fontSize: 20, 
+    fontFamily: "OpenSans",
+  },
+  detailsUnderlined: {
+    fontSize: 20, 
+    fontFamily: "OpenSans",
+    textDecorationLine: 'underline'
+  }, 
+  image: {
+    height: height * 0.3,
+    width: width * 0.6,
+    marginTop: 20,
+    marginLeft: 20,
+    marginRight: 50,
+    marginBottom: 20,
+  }
+});
     padding: 10,
   },
 });
