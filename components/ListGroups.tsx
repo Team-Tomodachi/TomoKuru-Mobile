@@ -95,9 +95,6 @@ export default function ListGroups({ navigation }) {
                     , {group.members_num} Members
                   </Text>
                   <Text style={{ fontFamily: "OpenSans" }}>
-                    {group.members_num} Members
-                  </Text>
-                  <Text style={{ fontFamily: "OpenSans" }}>
                     {shortenDescription(group.group_description)}
                   </Text>
                 </View>
