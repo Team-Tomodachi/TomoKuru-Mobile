@@ -10,59 +10,54 @@ import { ActivityIndicator } from "react-native-paper";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { storage } from "../firebase";
 import { getStorage, getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import uuid from 'react-native-uuid';
+import uuid from "react-native-uuid";
 import axios from "axios";
 import Constants from "expo-constants";
 
-
 export default function UserScreen({ navigation }) {
-  
   const [image, setImage] = useState(null);
   const [isUploading, setUploading] = useState<boolean>(false);
   const [imageKey, setImageKey] = useState("");
 
-  //GET THIS WORKING
+  // //GET THIS WORKING
   // need loading indicators for images
-  // const queryClient = useQueryClient();
-
-  // const { email } = queryClient.getQueryData(
-  //   ["userInfo"],
-  // );
-  // console.log(email)
-
+  const queryClient = useQueryClient();
 
   async function loadUp() {
-    const pulledRef = await axios.get(`${Constants?.expoConfig?.extra?.apiURL}/api/users/adam1@test.com`) //don't hardcode this
+    const pulledRef = await axios.get(
+      `${Constants?.expoConfig?.extra?.apiURL}/api/users/adam1@test.com`,
+    ); //don't hardcode this
     // console.log("I pulled this", pulledRef.data.photo_url);
     const fileRef = ref(getStorage(), pulledRef.data.photo_url); //user ID
-    const myImg = await getDownloadURL(fileRef)
+    const myImg = await getDownloadURL(fileRef);
     //TODO !! solve getting user data
-  
+
     setImage(myImg);
   }
 
-    useEffect(() => {
-      loadUp();
-    }, []);
-  
+  useEffect(() => {
+    const { email, photo_url } = queryClient.getQueryData(["userInfo"]);
+    console.log(photo_url);
+    const fileRef = ref(getStorage(), photo_url);
+    getDownloadURL(fileRef).then(res => setImage(res));
+  }, []);
 
   const { signUserOut } = useAuthStore();
   const [status, requestPermission] = ImagePicker.useCameraPermissions();
 
-
   async function uploadImageAsync(uri) {
     const blob = await new Promise((resolve, reject) => {
-        const xhr = new XMLHttpRequest();
-        xhr.onload = function () {
-            resolve(xhr.response);
-        };
-        xhr.onerror = function (e) {
-            console.log(e);
-            reject(new TypeError('Network request failed'));
-        };
-        xhr.responseType = 'blob';
-        xhr.open('GET', uri, true);
-        xhr.send(null);
+      const xhr = new XMLHttpRequest();
+      xhr.onload = function () {
+        resolve(xhr.response);
+      };
+      xhr.onerror = function (e) {
+        console.log(e);
+        reject(new TypeError("Network request failed"));
+      };
+      xhr.responseType = "blob";
+      xhr.open("GET", uri, true);
+      xhr.send(null);
     });
     // const dbKey = `users/${userInfo.id}-${Date.now()}`;
     const dbKey = `users/${uuid.v4()}-${Date.now()}`;
@@ -70,79 +65,78 @@ export default function UserScreen({ navigation }) {
     console.log("USER INFO", dbKey);
     const fileRef = ref(getStorage(), dbKey); //user ID
     const result = await uploadBytes(fileRef, blob);
-    console.log('the is RESULT!', result)
+    console.log("the is RESULT!", result);
     //upload to server
     await axios.patch(
       `${Constants?.expoConfig?.extra?.apiURL}/api/users/adam1@test.com`,
       {
         photo_url: dbKey,
-      }
+      },
     );
-
-
 
     // We're done with the blob, close and release it
     blob.close();
 
     return await getDownloadURL(fileRef);
-}
-
-// getDownloadURL(starsRef)
-//   .then((url) => {
-//     // Insert url into an <img> tag to "download"
-//   })
-//   .catch((error) => {
-//     // A full list of error codes is available at
-//     // https://firebase.google.com/docs/storage/web/handle-errors
-//     switch (error.code) {
-//       case 'storage/object-not-found':
-//         // File doesn't exist
-//         break;
-//       case 'storage/unauthorized':
-//         // User doesn't have permission to access the object
-//         break;
-//       case 'storage/canceled':
-//         // User canceled the upload
-//         break;
-
-//       // ...
-
-//       case 'storage/unknown':
-//         // Unknown error occurred, inspect the server response
-//         break;
-//     }
-//   });
-
-const pickImage = async () => {
-  if (!status?.granted) {
-    requestPermission();
   }
-  if (status?.granted) {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: false,
-      aspect: [4, 3],
-      quality: 1,
-    });
-    if (!result.cancelled) {
-      setUploading(true);
-      await uploadImageAsync(result.uri);
-      const pulledRef = await axios.get(`${Constants?.expoConfig?.extra?.apiURL}/api/users/adam1@test.com`) //don't hardcode this
-      // console.log("I pulled this", pulledRef.data.photo_url);
-      const fileRef = ref(getStorage(), pulledRef.data.photo_url); //user ID
-      const myImg = await getDownloadURL(fileRef)
-      //TODO !! solve getting user data
 
-      setImage(myImg);
-      // console.log("WHAT", upload);
-      // setImageURL(JSON.stringify(upload));
-      // console.log("ZE URL", imageURl);
-      setUploading(false);
-      Alert.alert("Success", "Your profile picture has been updated");
+  // getDownloadURL(starsRef)
+  //   .then((url) => {
+  //     // Insert url into an <img> tag to "download"
+  //   })
+  //   .catch((error) => {
+  //     // A full list of error codes is available at
+  //     // https://firebase.google.com/docs/storage/web/handle-errors
+  //     switch (error.code) {
+  //       case 'storage/object-not-found':
+  //         // File doesn't exist
+  //         break;
+  //       case 'storage/unauthorized':
+  //         // User doesn't have permission to access the object
+  //         break;
+  //       case 'storage/canceled':
+  //         // User canceled the upload
+  //         break;
 
+  //       // ...
+
+  //       case 'storage/unknown':
+  //         // Unknown error occurred, inspect the server response
+  //         break;
+  //     }
+  //   });
+
+  const pickImage = async () => {
+    if (!status?.granted) {
+      requestPermission();
     }
-  }
-};
+    if (status?.granted) {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: false,
+        aspect: [4, 3],
+        quality: 1,
+      });
+      if (!result.cancelled) {
+        setUploading(true);
+        await uploadImageAsync(result.uri);
+        const pulledRef = await axios.get(
+          `${Constants?.expoConfig?.extra?.apiURL}/api/users/adam1@test.com`,
+        ); //don't hardcode this
+        // console.log("I pulled this", pulledRef.data.photo_url);
+        const fileRef = ref(getStorage(), pulledRef.data.photo_url); //user ID
+        const myImg = await getDownloadURL(fileRef);
+        //TODO !! solve getting user data
+
+        setImage(myImg);
+        // console.log("WHAT", upload);
+        // setImageURL(JSON.stringify(upload));
+        // console.log("ZE URL", imageURl);
+        setUploading(false);
+        Alert.alert("Success", "Your profile picture has been updated");
+      }
+    }
+  };
 
   return (
     <View style={styles("flex:1", "flex:col", "justify:start", "items:center")}>
