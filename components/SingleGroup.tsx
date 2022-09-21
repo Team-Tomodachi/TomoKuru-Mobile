@@ -39,22 +39,30 @@ export default function SingleGroup({ route }) {
             justifyContent: "center",
             marginLeft: 20,
           }}>
-            <Image
-              style={styles.image}
-              source={require("../DummyData/DummyGroupPhotos/sunday-futsal-in-kinshicho.jpeg")}></Image>
+          <Image
+            style={styles.image}
+            source={require("../DummyData/DummyGroupPhotos/sunday-futsal-in-kinshicho.jpeg")}></Image>
         </View>
-          <Text style={styles.title}>{singleGroup.group_name} </Text>
-          <Text style={styles.details}>{singleGroup.group_description} </Text>
-          <Text style={styles.detailsUnderlined}>Group Leader: {singleGroup.group_leader} </Text>
-          <Text style={styles.detailsUnderlined}>Privacy:{singleGroup.private} </Text>
+        <Text style={styles.title}>{singleGroup.group_name} </Text>
+        <Text style={styles.details}>{singleGroup.group_description} </Text>
+        <Text style={styles.detailsUnderlined}>
+          Group Leader: {singleGroup.group_leader}{" "}
+        </Text>
+        <Text style={styles.detailsUnderlined}>
+          Privacy:{singleGroup.private}{" "}
+        </Text>
 
-          <TouchableOpacity
-            onPress={ () => axios.post(`http://tomokuru.i-re.io/api/groups/${singleGroup.id}/${id}`)} 
-            style={styles.button}>
-            <Text style={styles.details}> Join This Group</Text>
-          </TouchableOpacity>
-          
-          {/* <TouchableOpacity
+        <TouchableOpacity
+          onPress={() =>
+            axios.post(
+              `http://tomokuru.i-re.io/api/groups/${singleGroup.id}/${id}`,
+            )
+          }
+          style={styles.button}>
+          <Text style={styles.details}> Join This Group</Text>
+        </TouchableOpacity>
+
+        {/* <TouchableOpacity
             onPress={ () => props.setSingleView(false)}
             style={styles.button}>
             <Text style={styles.details}>Go Back</Text>
@@ -79,22 +87,22 @@ const styles = StyleSheet.create({
   },
   countContainer: {
     alignItems: "center",
-    padding: 10
+    padding: 10,
   },
   title: {
-    fontSize: 30, 
+    fontSize: 30,
     fontFamily: "OpenSans",
-    textDecorationLine: 'underline'
+    textDecorationLine: "underline",
   },
   details: {
-    fontSize: 20, 
+    fontSize: 20,
     fontFamily: "OpenSans",
   },
   detailsUnderlined: {
-    fontSize: 20, 
+    fontSize: 20,
     fontFamily: "OpenSans",
-    textDecorationLine: 'underline'
-  }, 
+    textDecorationLine: "underline",
+  },
   image: {
     height: height * 0.3,
     width: width * 0.6,
@@ -102,8 +110,5 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     marginRight: 50,
     marginBottom: 20,
-  }
-});
-    padding: 10,
   },
 });
