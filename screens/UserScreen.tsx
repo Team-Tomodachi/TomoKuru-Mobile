@@ -16,32 +16,28 @@ import Constants from "expo-constants";
 import useUserStore from "../store/user";
 
 export default function UserScreen({ navigation }) {
+
   const [image, setImage] = useState(null);
   const [isUploading, setUploading] = useState<boolean>(false);
   const [imageKey, setImageKey] = useState("");
 
-  // //GET THIS WORKING
-  // need loading indicators for images
   const { email } = useUserStore();
+  const { signUserOut } = useAuthStore();
+  const [status, requestPermission] = ImagePicker.useCameraPermissions();
 
-  async function loadUp() {
+  async function downloadUserPFP() {
     const pulledRef = await axios.get(
       `${Constants?.expoConfig?.extra?.apiURL}/api/users/${email}`,
-    ); //don't hardcode this
-    // console.log("I pulled this", pulledRef.data.photo_url);
+    );
     const fileRef = ref(getStorage(), pulledRef.data.photo_url); //user ID
     const myImg = await getDownloadURL(fileRef);
-    //TODO !! solve getting user data
-
     setImage(myImg);
   }
 
   useEffect(() => {
-    loadUp();
+    downloadUserPFP();
   }, []);
 
-  const { signUserOut } = useAuthStore();
-  const [status, requestPermission] = ImagePicker.useCameraPermissions();
 
   async function uploadImageAsync(uri) {
     const blob = await new Promise((resolve, reject) => {
@@ -57,52 +53,19 @@ export default function UserScreen({ navigation }) {
       xhr.open("GET", uri, true);
       xhr.send(null);
     });
-    // const dbKey = `users/${userInfo.id}-${Date.now()}`;
+
     const dbKey = `users/${uuid.v4()}-${Date.now()}`;
-    // console.log("dbKey", dbKey);
-    console.log("USER INFO", dbKey);
     const fileRef = ref(getStorage(), dbKey); //user ID
-    const result = await uploadBytes(fileRef, blob);
-    console.log("the is RESULT!", result);
-    //upload to server
+    await uploadBytes(fileRef, blob);
     await axios.patch(
-      `${Constants?.expoConfig?.extra?.apiURL}/api/users/adam1@test.com`,
+      `${Constants?.expoConfig?.extra?.apiURL}/api/users/${email}`,
       {
         photo_url: dbKey,
       },
     );
-
-    // We're done with the blob, close and release it
     blob.close();
-
-    return await getDownloadURL(fileRef);
+    // return await getDownloadURL(fileRef);
   }
-
-  // getDownloadURL(starsRef)
-  //   .then((url) => {
-  //     // Insert url into an <img> tag to "download"
-  //   })
-  //   .catch((error) => {
-  //     // A full list of error codes is available at
-  //     // https://firebase.google.com/docs/storage/web/handle-errors
-  //     switch (error.code) {
-  //       case 'storage/object-not-found':
-  //         // File doesn't exist
-  //         break;
-  //       case 'storage/unauthorized':
-  //         // User doesn't have permission to access the object
-  //         break;
-  //       case 'storage/canceled':
-  //         // User canceled the upload
-  //         break;
-
-  //       // ...
-
-  //       case 'storage/unknown':
-  //         // Unknown error occurred, inspect the server response
-  //         break;
-  //     }
-  //   });
 
   const pickImage = async () => {
     if (!status?.granted) {
@@ -112,25 +75,20 @@ export default function UserScreen({ navigation }) {
       let result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: false,
-        aspect: [4, 3],
+        aspect: [1, 1],
         quality: 1,
       });
       if (!result.cancelled) {
         setUploading(true);
         await uploadImageAsync(result.uri);
         const pulledRef = await axios.get(
-          `${Constants?.expoConfig?.extra?.apiURL}/api/users/adam1@test.com`,
-        ); //don't hardcode this
-        // console.log("I pulled this", pulledRef.data.photo_url);
-        const fileRef = ref(getStorage(), pulledRef.data.photo_url); //user ID
+          `${Constants?.expoConfig?.extra?.apiURL}/api/users/${email}`,
+        );
+        const fileRef = ref(getStorage(), pulledRef.data.photo_url);
         const myImg = await getDownloadURL(fileRef);
-        //TODO !! solve getting user data
-
         setImage(myImg);
-        // console.log("WHAT", upload);
-        // setImageURL(JSON.stringify(upload));
-        // console.log("ZE URL", imageURl);
         setUploading(false);
+        //TODO Implement lazy loading
         Alert.alert("Success", "Your profile picture has been updated");
       }
     }
