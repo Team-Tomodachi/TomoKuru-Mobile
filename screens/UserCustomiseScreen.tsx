@@ -12,6 +12,7 @@ interface InfoToUpdate {
   name: string;
   cityWard: string;
   prefecture: string;
+  contact: string;
 }
 
 export default function UserCustomiseScreen({ navigation }) {
@@ -30,6 +31,7 @@ export default function UserCustomiseScreen({ navigation }) {
           first_name: values.name,
           city_ward: values.cityWard,
           prefecture: values.prefecture,
+          contact: values.contact,
         },
       ),
     {
@@ -62,6 +64,7 @@ export default function UserCustomiseScreen({ navigation }) {
     name: data.first_name,
     cityWard: data.city_ward,
     prefecture: data.prefecture,
+    contact: data.contact,
   };
 
   const enableButtons = () => {
@@ -112,6 +115,16 @@ export default function UserCustomiseScreen({ navigation }) {
               clearButtonMode="while-editing"
               onChangeText={text => {
                 setFieldValue("prefecture", text);
+                enableButtons();
+              }}
+            />
+            <TextInput
+              label="Emergency Contact"
+              value={values.contact}
+              placeholder={values.contact}
+              clearButtonMode="while-editing"
+              onChangeText={text => {
+                setFieldValue("contact", text);
                 enableButtons();
               }}
             />
