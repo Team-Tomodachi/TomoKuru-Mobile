@@ -13,8 +13,6 @@ const singleVenue = route.params.selectedVenue;
 const goToMaps = () => {
 openMap( { query: singleVenue.address,
            provider: "google" } )
-console.log("button has been pressed!")
-console.log(singleVenue.address)
 }
 
 
