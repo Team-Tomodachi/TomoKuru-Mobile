@@ -45,7 +45,7 @@ export default function CreateGroupScreen() {
               {
                 group_name: values.groupName,
                 group_description: values.groupDesciption,
-                group_leader: id,
+                user_id: id,
                 private: values.isPrivate,
               },
             );
