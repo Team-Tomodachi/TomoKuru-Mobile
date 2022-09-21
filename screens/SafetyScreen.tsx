@@ -1,14 +1,31 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { styles } from "../styles/styles";
-import { Button, Text, View } from "react-native";
+import { Button, Text, View, Alert } from "react-native";
 import Feather from "@expo/vector-icons/Ionicons";
 import * as SMS from 'expo-sms';
 import * as Linking from 'expo-linking';
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
 
 
 export default function SafetyScreen() {
-  let [showToast, setShowToast] = useState(false);
+  // let [showToast, setShowToast] = useState(false);
+  // const [userData, setUserData] = useState("");
 
+  const queryClient = useQueryClient();
+
+  const { email } = queryClient.getQueryData(
+    ["userInfo"],
+  );
+  console.log(email)
+
+//   useEffect(() => {
+//     axios.get(`http://tomokuru.i-re.io/api/users/${email}`).then(function (response) {
+//       setUserData(response.data);
+//     });
+//   }, []);
+
+// console.log(userData);
 
 const sendDangerSMS = async() => {
   await SMS.sendSMSAsync(
@@ -18,6 +35,15 @@ const sendDangerSMS = async() => {
   console.log("danger SMS has been sent")
 }
 
+// const sendDangerSMS = async() => {
+//   await SMS.sendSMSAsync(
+
+//   `${user.emergency_contact}`,
+//   `${user.custom_danger_message}`,
+//   )
+//   console.log("danger SMS has been sent")
+// }
+
 const sendOKSMS = async () => {
   await SMS.sendSMSAsync(
   "08039021969",
@@ -26,10 +52,23 @@ const sendOKSMS = async () => {
   console.log("IM OKAY SMS has been sent")
 }
 
+// const sendOKSMS = async () => {
+//   await SMS.sendSMSAsync(
+//   `${user.emergency_contact}`,
+//   `${user.custom_ok_message}`,
+//   )
+//   console.log("IM OKAY SMS has been sent")
+// }
+
 const callCops = () =>{
   const url="tel://08039021969"
   Linking.openURL(url);
 }
+
+// const callCops = () =>{
+//   const url="tel://110"
+//   Linking.openURL(url);
+// }
 
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
