@@ -9,63 +9,57 @@ import * as ImagePicker from "expo-image-picker";
 import { ActivityIndicator } from "react-native-paper";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { storage } from "../firebase";
-import { getStorage, getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import {
+  getStorage,
+  getDownloadURL,
+  ref,
+  uploadBytes,
+  uploadBytesResumable,
+} from "firebase/storage";
 import uuid from "react-native-uuid";
 import axios from "axios";
 import Constants from "expo-constants";
 import useUserStore from "../store/user";
+import useUser from "../hooks/useUser";
 
 export default function UserScreen({ navigation }) {
-
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState<string>("");
   const [isUploading, setUploading] = useState<boolean>(false);
-  const [imageKey, setImageKey] = useState("");
 
-  const { email } = useUserStore();
   const { signUserOut } = useAuthStore();
   const [status, requestPermission] = ImagePicker.useCameraPermissions();
 
-  async function downloadUserPFP() {
-    const pulledRef = await axios.get(
-      `${Constants?.expoConfig?.extra?.apiURL}/api/users/${email}`,
-    );
-    const fileRef = ref(getStorage(), pulledRef.data.photo_url); //user ID
-    const myImg = await getDownloadURL(fileRef);
-    setImage(myImg);
+  const { data, isPlaceholderData } = useUser();
+  if (!isPlaceholderData) {
+    const fileRef = ref(getStorage(), data.photo_url);
+    getDownloadURL(fileRef).then(res => setImage(res));
   }
 
-  useEffect(() => {
-    downloadUserPFP();
-  }, []);
+  // async function downloadUserPFP() {
+  //   const pulledRef = await axios.get(
+  //     `${Constants?.expoConfig?.extra?.apiURL}/api/users/${email}`,
+  //   );
+  //   const fileRef = ref(getStorage(), pulledRef.data.photo_url); //user ID
+  //   const myImg = await getDownloadURL(fileRef);
+  //   setImage(myImg);
+  // }
 
+  // useEffect(() => {
+  //   downloadUserPFP();
+  // }, []);
 
-  async function uploadImageAsync(uri) {
-    const blob = await new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.onload = function () {
-        resolve(xhr.response);
-      };
-      xhr.onerror = function (e) {
-        console.log(e);
-        reject(new TypeError("Network request failed"));
-      };
-      xhr.responseType = "blob";
-      xhr.open("GET", uri, true);
-      xhr.send(null);
-    });
-
-    const dbKey = `users/${uuid.v4()}-${Date.now()}`;
-    const fileRef = ref(getStorage(), dbKey); //user ID
-    await uploadBytes(fileRef, blob);
-    await axios.patch(
-      `${Constants?.expoConfig?.extra?.apiURL}/api/users/${email}`,
-      {
-        photo_url: dbKey,
-      },
-    );
-    blob.close();
-    // return await getDownloadURL(fileRef);
-  }
+  const queryClient = useQueryClient();
+  const { mutate } = useMutation(
+    (photoUrl: string) =>
+      axios.patch(
+        `${Constants?.expoConfig?.extra?.apiURL}/api/users/${data.email}`,
+        { photo_url: photoUrl },
+      ),
+    {
+      onError: error => console.log(error),
+      onSuccess: () => queryClient.invalidateQueries(["userInfo"]),
+    },
+  );
 
   const pickImage = async () => {
     if (!status?.granted) {
@@ -80,16 +74,20 @@ export default function UserScreen({ navigation }) {
       });
       if (!result.cancelled) {
         setUploading(true);
-        await uploadImageAsync(result.uri);
-        const pulledRef = await axios.get(
-          `${Constants?.expoConfig?.extra?.apiURL}/api/users/${email}`,
-        );
-        const fileRef = ref(getStorage(), pulledRef.data.photo_url);
-        const myImg = await getDownloadURL(fileRef);
-        setImage(myImg);
+        const image = await fetch(result.uri);
+        const blob: Blob = await image.blob();
+        const filePath: string = `users/${data.id}-${Date.now()}`;
+        const storageLocRef = ref(getStorage(), filePath); //user ID
+        await uploadBytesResumable(storageLocRef, blob);
+        await getDownloadURL(storageLocRef).then(res => setImage(res));
+        mutate(filePath);
+        // axios.patch(
+        //   `${Constants?.expoConfig?.extra?.apiURL}/api/users/${email}`,
+        //   { photo_url: filePath },
+        // );
         setUploading(false);
         //TODO Implement lazy loading
-        Alert.alert("Success", "Your profile picture has been updated");
+        // Alert.alert("Success", "Your profile picture has been updated");
       }
     }
   };
