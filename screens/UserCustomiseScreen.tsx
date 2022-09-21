@@ -1,5 +1,5 @@
 import { Alert, Text, View } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { styles } from "../styles/styles";
 import { TextInput, Button } from "react-native-paper";
 import { Formik } from "formik";
@@ -18,10 +18,7 @@ interface InfoToUpdate {
 export default function UserCustomiseScreen({ navigation }) {
   const [isUpdateDisabled, setUpdateDisabled] = useState<boolean>(true);
   const [isResetDisabled, setResetDisbaled] = useState<boolean>(true);
-
   const queryClient = useQueryClient();
-
-  const { data } = useUser();
 
   const { mutate } = useMutation(
     (values: InfoToUpdate) =>
@@ -59,6 +56,8 @@ export default function UserCustomiseScreen({ navigation }) {
       },
     },
   );
+
+  const { data } = useUser();
 
   const initialValues: InfoToUpdate = {
     name: data.first_name,
