@@ -13,6 +13,7 @@ import { getStorage, getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import uuid from "react-native-uuid";
 import axios from "axios";
 import Constants from "expo-constants";
+import useUserStore from "../store/user";
 
 export default function UserScreen({ navigation }) {
   const [image, setImage] = useState(null);
@@ -21,11 +22,11 @@ export default function UserScreen({ navigation }) {
 
   // //GET THIS WORKING
   // need loading indicators for images
-  const queryClient = useQueryClient();
+  const { email } = useUserStore();
 
   async function loadUp() {
     const pulledRef = await axios.get(
-      `${Constants?.expoConfig?.extra?.apiURL}/api/users/adam1@test.com`,
+      `${Constants?.expoConfig?.extra?.apiURL}/api/users/${email}`,
     ); //don't hardcode this
     // console.log("I pulled this", pulledRef.data.photo_url);
     const fileRef = ref(getStorage(), pulledRef.data.photo_url); //user ID
@@ -36,10 +37,7 @@ export default function UserScreen({ navigation }) {
   }
 
   useEffect(() => {
-    const { email, photo_url } = queryClient.getQueryData(["userInfo"]);
-    console.log(photo_url);
-    const fileRef = ref(getStorage(), photo_url);
-    getDownloadURL(fileRef).then(res => setImage(res));
+    loadUp();
   }, []);
 
   const { signUserOut } = useAuthStore();

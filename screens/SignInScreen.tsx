@@ -19,6 +19,7 @@ import axios from "axios";
 import Constants from "expo-constants";
 import { FirebaseError } from "firebase/app";
 import { useQuery } from "@tanstack/react-query";
+import useUserStore from "../store/user";
 
 export default function SignInScreen({ navigation }) {
   const [email, setEmail] = useState("");
@@ -26,6 +27,7 @@ export default function SignInScreen({ navigation }) {
   const [canFetch, setCanFetch] = useState<boolean>(false);
 
   const { signUserIn } = useAuthStore();
+  const { setUserInfo } = useUserStore();
 
   useQuery(
     ["userInfo"],
@@ -71,7 +73,8 @@ export default function SignInScreen({ navigation }) {
             onPress={async () => {
               try {
                 await signInWithEmailAndPassword(auth, email, password);
-                setCanFetch(true);
+                // setCanFetch(true);
+                setUserInfo("", "", email);
                 signUserIn();
                 navigation.popToTop();
               } catch (error) {
