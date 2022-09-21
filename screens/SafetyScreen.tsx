@@ -12,7 +12,7 @@ export default function SafetyScreen() {
 
 const sendDangerSMS = async() => {
   await SMS.sendSMSAsync(
-  "08046381881",
+  "08039021969",
   'I arrived at the venue and do not feel comfortable. Please call me ASAP!',
   )
   console.log("danger SMS has been sent")
@@ -20,14 +20,14 @@ const sendDangerSMS = async() => {
 
 const sendOKSMS = async () => {
   await SMS.sendSMSAsync(
-  "08046381881",
+  "08039021969",
   'I arrived at the venue everything is fine!',
   )
   console.log("IM OKAY SMS has been sent")
 }
 
 const callCops = () =>{
-  const url="tel://08046381881"
+  const url="tel://08039021969"
   Linking.openURL(url);
 }
 
