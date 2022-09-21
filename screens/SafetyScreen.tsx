@@ -12,20 +12,22 @@ export default function SafetyScreen() {
 
 const sendDangerSMS = async() => {
   await SMS.sendSMSAsync(
-  `${user.emergencyContact}`,
+  "08046381881",
   'I arrived at the venue and do not feel comfortable. Please call me ASAP!',
   )
+  console.log("danger SMS has been sent")
 }
 
 const sendOKSMS = async () => {
   await SMS.sendSMSAsync(
-  `${user.emergencyContact}`,
+  "08046381881",
   'I arrived at the venue everything is fine!',
   )
+  console.log("IM OKAY SMS has been sent")
 }
 
 const callCops = () =>{
-  const url="tel://08039021969"
+  const url="tel://08046381881"
   Linking.openURL(url);
 }
 
@@ -45,7 +47,7 @@ const callCops = () =>{
         <Button
           title="I'M OK"
           color="green-600"
-          onPress={() => setShowToast(true)}
+          onPress={sendOKSMS}
         />
       </View>
       <Text style={styles("text:2xl", "color:red-500", "m:5")}>EMERGENCY</Text>
@@ -62,7 +64,7 @@ const callCops = () =>{
         <Button
           title="NOTIFY CONTACT"
           color="white"
-          onPress={() => setShowToast(true)}
+          onPress={sendDangerSMS}
         />
       </View>
       <View
@@ -77,7 +79,7 @@ const callCops = () =>{
         <Button
           title="NOTIFY POLICE"
           color="white"
-          onPress={() => setShowToast(true)}
+          onPress={callCops}
         />
       </View>
     </View>
