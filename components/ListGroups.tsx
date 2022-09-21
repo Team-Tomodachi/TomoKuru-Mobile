@@ -8,7 +8,6 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { useState, useEffect } from "react";
-import { useFonts } from "expo-font";
 import axios from "axios";
 
 const { height, width } = Dimensions.get("screen");
@@ -71,7 +70,6 @@ export default function ListGroups({ navigation }) {
                     marginBottom: 20,
                   }}
                   source={require("../DummyData/DummyGroupPhotos/sunday-futsal-in-kinshicho.jpeg")}></Image>
-
                 <View
                   style={{
                     flexDirection: "column",
@@ -95,9 +93,6 @@ export default function ListGroups({ navigation }) {
                       ? "Private Group"
                       : "Public Group"}
                     , {group.members_num} Members
-                  </Text>
-                  <Text style={{ fontFamily: "OpenSans" }}>
-                    {group.members_num} Members
                   </Text>
                   <Text style={{ fontFamily: "OpenSans" }}>
                     {shortenDescription(group.group_description)}

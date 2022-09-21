@@ -13,24 +13,24 @@ export default function SingleEvent(props: any) {
 
   console.log(singleEvent)
 
-  useEffect(() => {
-    if (singleEvent.group_id) {
-      axios.get(`http://tomokuru.i-re.io/api/groups/${singleEvent.group_id}`).then(function (response) {
-      setGroupData(response.data);
-      console.log("1")
-      console.log(response.data)
-    });
-    }
-  }, []);
-  useEffect(() => {
-    if (singleEvent.venue_id) {
-      axios.get(`http://tomokuru.i-re.io/api/venues/${singleEvent.venue_id}`).then(function (response) {
-      setVenueData(response.data);
-      console.log( "2")
-      console.log(response.data)
-    });
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (singleEvent.group_id) {
+  //     axios.get(`http://tomokuru.i-re.io/api/groups/${singleEvent.group_id}`).then(function (response) {
+  //     setGroupData(response.data);
+  //     console.log("1")
+  //     console.log(response.data)
+  //   });
+  //   }
+  // }, []);
+  // useEffect(() => {
+  //   if (singleEvent.venue_id) {
+  //     axios.get(`http://tomokuru.i-re.io/api/venues/${singleEvent.venue_id}`).then(function (response) {
+  //     setVenueData(response.data);
+  //     console.log( "2")
+  //     console.log(response.data)
+  //   });
+  //   }
+  // }, []);
 
   console.log("3")
   console.log(groupData);
