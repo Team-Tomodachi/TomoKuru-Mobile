@@ -7,6 +7,7 @@ import useUserStore from "../store/user";
 import axios from "axios";
 import Constants from "expo-constants";
 import HListItem from "../components/HListItem";
+import { styles } from "../styles/styles";
 
 export default function HomeScreen({ navigation }) {
   const { isUserSignedIn, signUserOut } = useAuthStore();
@@ -25,10 +26,19 @@ export default function HomeScreen({ navigation }) {
   }, [isUserSignedIn]);
 
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+    <View style={styles("flex:1", "justify:center", "items:center", "p:1")}>
       {isUserSignedIn ? (
         <>
-          <Text>Your groups</Text>
+          <View
+            style={styles(
+              "w:full",
+              "flex:row",
+              "justify:between",
+              "items:center",
+            )}>
+            <Text style={styles("text:2xl")}>Your groups</Text>
+            <Button title="See More"></Button>
+          </View>
           <ScrollView style={{ height: 200, flexGrow: 0 }} horizontal={true}>
             <>
               {userCreatedGroups.map(group => {
@@ -45,7 +55,16 @@ export default function HomeScreen({ navigation }) {
             onPress={() => navigation.navigate("Create Group")}
             title="Create Group"
           />
-          <Text>Your events</Text>
+          <View
+            style={styles(
+              "w:full",
+              "flex:row",
+              "justify:between",
+              "items:center",
+            )}>
+            <Text style={styles("text:2xl")}>Your events</Text>
+            <Button title="See More"></Button>
+          </View>
           <ScrollView style={{ height: 200, flexGrow: 0 }} horizontal={true}>
             <>
               {userCreatedEvents.map(event => {
