@@ -6,6 +6,7 @@ import { Formik } from "formik";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import Constants from "expo-constants";
+import useUser from "../hooks/useUser";
 
 interface InfoToUpdate {
   name: string;
@@ -19,14 +20,12 @@ export default function UserCustomiseScreen({ navigation }) {
 
   const queryClient = useQueryClient();
 
-  const { first_name, city_ward, prefecture, email } = queryClient.getQueryData(
-    ["userInfo"],
-  );
+  const { data } = useUser();
 
   const { mutate } = useMutation(
     (values: InfoToUpdate) =>
       axios.patch(
-        `${Constants?.expoConfig?.extra?.apiURL}/api/users/${email}`,
+        `${Constants?.expoConfig?.extra?.apiURL}/api/users/${data.email}`,
         {
           first_name: values.name,
           city_ward: values.cityWard,
@@ -60,9 +59,9 @@ export default function UserCustomiseScreen({ navigation }) {
   );
 
   const initialValues: InfoToUpdate = {
-    name: first_name,
-    cityWard: city_ward,
-    prefecture: prefecture,
+    name: data.first_name,
+    cityWard: data.city_ward,
+    prefecture: data.prefecture,
   };
 
   const enableButtons = () => {
