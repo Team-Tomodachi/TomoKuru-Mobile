@@ -2,9 +2,32 @@ import React, { useState } from "react";
 import { styles } from "../styles/styles";
 import { Button, Text, View } from "react-native";
 import Feather from "@expo/vector-icons/Ionicons";
+import * as SMS from 'expo-sms';
+import * as Linking from 'expo-linking';
+
 
 export default function SafetyScreen() {
   let [showToast, setShowToast] = useState(false);
+
+
+const sendDangerSMS = async() => {
+  await SMS.sendSMSAsync(
+  `${user.emergencyContact}`,
+  'I arrived at the venue and do not feel comfortable. Please call me ASAP!',
+  )
+}
+
+const sendOKSMS = async () => {
+  await SMS.sendSMSAsync(
+  `${user.emergencyContact}`,
+  'I arrived at the venue everything is fine!',
+  )
+}
+
+const callCops = () =>{
+  const url="tel://08039021969"
+  Linking.openURL(url);
+}
 
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
