@@ -6,9 +6,22 @@ import useUserStore from "../store/user";
 export default function useUser() {
   const { email } = useUserStore();
 
-  return useQuery(["userInfo"], () =>
-    axios
-      .get(`${Constants?.expoConfig?.extra?.apiURL}/api/users/${email}`)
-      .then(res => res.data),
+  return useQuery(
+    ["userInfo"],
+    () =>
+      axios
+        .get(`${Constants?.expoConfig?.extra?.apiURL}/api/users/${email}`)
+        .then(res => res.data),
+    {
+      placeholderData: {
+        id: "",
+        name: "",
+        email: "",
+        city_ward: "",
+        prefecture: "",
+        contact: "",
+        photo_url: "",
+      },
+    },
   );
 }
