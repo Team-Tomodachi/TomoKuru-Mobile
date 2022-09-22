@@ -19,12 +19,17 @@ export default function ListGroups({ navigation }) {
   const [query, setQuery] = useState<string>("");
   const [tag, setTag] = useState<string>("any tags");
   const [groupData, setGroupData] = useState([]);
+  const [filteredGroup, setFilteredGroup] = useState([]);
   const [isModalVisibile, setModalVisibile] = useState<boolean>(false);
 
   useEffect(() => {
-    axios
-      .get(`${Constants?.expoConfig?.extra?.apiURL}/api/groups`)
-      .then(res => setGroupData(res.data));
+    (async () => {
+      const res = await axios.get(
+        `${Constants?.expoConfig?.extra?.apiURL}/api/groups`,
+      );
+      setGroupData(res.data);
+      setFilteredGroup(res.data);
+    })();
   }, []);
 
   const shortenDescription = (description: any) => {
@@ -41,6 +46,18 @@ export default function ListGroups({ navigation }) {
     return privacy === false ? "public" : "private";
   };
 
+  const filterGroup = (query: string) => {
+    if (query.length === 0) {
+      setFilteredGroup(groupData);
+      return;
+    }
+    const lowerQuery = query.toLocaleLowerCase();
+    const newFilter = filteredGroup?.filter(group => {
+      return group?.group_name?.toLowerCase().indexOf(`${lowerQuery}`) !== -1;
+    });
+    setFilteredGroup(newFilter);
+  };
+
   return (
     <View>
       <BottomModal
@@ -50,7 +67,10 @@ export default function ListGroups({ navigation }) {
       />
       <Searchbar
         placeholder="Search"
-        onChangeText={text => setQuery(text)}
+        onChangeText={text => {
+          setQuery(text);
+          filterGroup(text);
+        }}
         value={query}
       />
       <Chip
@@ -61,7 +81,7 @@ export default function ListGroups({ navigation }) {
         {tag}
       </Chip>
       <FlatList
-        data={groupData}
+        data={filteredGroup}
         renderItem={({ item }) => {
           return (
             <Pressable
