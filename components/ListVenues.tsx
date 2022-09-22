@@ -1,18 +1,20 @@
 import * as React from "react";
-import { 
-  Text, 
+import {
+  Text,
   View,
   ScrollView,
   Dimensions,
   Image,
-  TouchableOpacity 
+  TouchableOpacity,
 } from "react-native";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { Chip, Searchbar } from "react-native-paper";
 
 const { height, width } = Dimensions.get("screen");
 
-export default function ListVenues({ navigation }) {
+export default function ListVenues(props: any) {
+  const [query, setQuery] = React.useState<string>("");
 
   const [venueData, setVenueData] = useState([]);
 
@@ -24,27 +26,54 @@ export default function ListVenues({ navigation }) {
 
   const shortenDescription = (description: any) => {
     if (!description) {
-      return "-" 
-    } 
-    else if (description.length > 120) {
+      return "-";
+    } else if (description.length > 120) {
       return description.slice(0, 120) + "...";
-    } 
-    else{
+    } else {
       return description;
     }
   };
 
   return (
     <View>
-        <ScrollView style={{ backgroundColor: "rgba(182, 182, 182, 1)" }}>
-          {venueData.map((venue, index) => {
-            return (
-              <TouchableOpacity
-              onPress={ () => {
-                navigation.navigate({
-                  name: "Venue Details",
-                  params: { selectedVenue: venueData[index] },
-                });
+      <Searchbar
+        placeholder="Search"
+        onChangeText={text => setQuery(text)}
+        value={query}
+      />
+      <ScrollView horizontal={true}>
+        <View
+          style={styles(
+            "bg-opacity:0",
+            "flex:row",
+            "h:10",
+            "justify:evenly",
+            "p:1",
+          )}>
+          <Chip mode="outlined" icon="map-marker">
+            Location
+          </Chip>
+          <Chip mode="outlined" icon="smoking-off">
+            Smoking
+          </Chip>
+          <Chip mode="outlined" icon="table-chair">
+            Outdoor Seating
+          </Chip>
+          <Chip mode="outlined" icon="account-multiple">
+            Capacity
+          </Chip>
+        </View>
+      </ScrollView>
+      <ScrollView style={{ backgroundColor: "rgba(182, 182, 182, 1)" }}>
+        {props.venueData.map((venue, index) => {
+          return (
+            <TouchableOpacity
+              onPress={() => {
+                props.setIndexValue(index);
+                props.setSingleView(true);
+                props.setSelectedVenue(props.venueData[index]);
+                console.log("selected venue: " + props.selectedVenue);
+                console.log("index passed from OnPress: " + index);
               }}
               key={index}>
               <View
@@ -75,17 +104,28 @@ export default function ListVenues({ navigation }) {
                     flexDirection: "column",
                     width: width * 0.5,
                   }}>
-                  <Text 
-                    style={{ fontSize: 18, fontFamily: "OpenSans", fontWeight: "700"}}>
+                  <Text
+                    onPress={() => {
+                      props.setIndexValue(index);
+                      props.setSingleView(true);
+                      props.setSelectedVenue(props.venueData[index]);
+                      console.log("selected venue: " + props.selectedVenue);
+                      console.log("index passed from OnPress: " + index);
+                    }}
+                    style={{
+                      fontSize: 18,
+                      fontFamily: "OpenSans",
+                      fontWeight: "700",
+                    }}>
                     {venue.location_name}
                   </Text>
                   <Text
-                      style={{ fontFamily: "OpenSans", fontStyle: "italic", color: "#8F8F8F"}}>
-                      {venue.venue_type}
-                  </Text>
-                  <Text
-                      style={{ fontFamily: "OpenSans", fontStyle: "italic", color: "#8F8F8F"}}>
-                      {venue.prefecture} , {venue.city_ward}
+                    style={{
+                      fontFamily: "OpenSans",
+                      fontStyle: "italic",
+                      color: "#8F8F8F",
+                    }}>
+                    {venue.venue_type} {venue.prefecture} {venue.city_ward}
                   </Text>
                   <Text
                     style={{
@@ -95,10 +135,10 @@ export default function ListVenues({ navigation }) {
                   </Text>
                 </View>
               </View>
-              </TouchableOpacity>
-            );
-          })}
-        </ScrollView>
+            </TouchableOpacity>
+          );
+        })}
+      </ScrollView>
     </View>
   );
 }
