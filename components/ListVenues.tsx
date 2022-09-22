@@ -10,16 +10,20 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { Chip, Searchbar } from "react-native-paper";
 import { styles } from "../styles/styles";
+import LocationModal from "./LocationModal";
 
 const { height, width } = Dimensions.get("screen");
 
 export default function ListVenues() {
   const [query, setQuery] = useState<string>("");
+  const [location, setLocation] = useState<string>("");
   const [venueData, setVenueData] = useState([]);
+  const [isLocationModalVisibile, setLocationModalVisibile] =
+    useState<boolean>(false);
 
   useEffect(() => {
-    filterVenues(query);
-  }, [query]);
+    filterVenues(query, location);
+  }, [query, location]);
 
   const shortenDescription = (description: any) => {
     if (!description) {
@@ -31,11 +35,12 @@ export default function ListVenues() {
     }
   };
 
-  const filterVenues = (query: string) => {
+  const filterVenues = (query: string, location: string) => {
     axios
       .get("http://tomokuru.i-re.io/api/venues", {
         params: {
-          query: query.toLowerCase(),
+          query: query?.toLowerCase(),
+          location: location?.toLowerCase(),
         },
       })
       .then(response => {
@@ -62,7 +67,10 @@ export default function ListVenues() {
             "justify:evenly",
             "p:1",
           )}>
-          <Chip mode="outlined" icon="map-marker">
+          <Chip
+            mode="outlined"
+            icon="map-marker"
+            onPress={() => setLocationModalVisibile(true)}>
             Location
           </Chip>
           <Chip mode="outlined" icon="smoking-off">
@@ -129,6 +137,11 @@ export default function ListVenues() {
           );
         })}
       </ScrollView>
+      <LocationModal
+        setIsVisible={setLocationModalVisibile}
+        isVisible={isLocationModalVisibile}
+        setLocation={setLocation}
+      />
     </View>
   );
 }
