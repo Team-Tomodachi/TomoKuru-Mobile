@@ -6,7 +6,7 @@ import { StyleProvider } from "react-native-zephyr";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import ModalUser from "./screens/ModalUserStack";
 import HomeStack from "./screens/HomeStack";
-import ExploreScreen from "./screens/ExploreScreen";
+import ExploreStack from "./screens/ExploreStack";
 import SafetyScreen from "./screens/SafetyScreen";
 import Feather from "@expo/vector-icons/Ionicons";
 import { Pressable } from "react-native";
@@ -51,7 +51,7 @@ function MainTabs() {
         ),
       })}>
       <Tab.Screen name="Home" component={HomeStack} />
-      <Tab.Screen name="Explore" component={ExploreScreen} />
+      <Tab.Screen name="Explore" component={ExploreStack} />
       <Tab.Screen name="Safety" component={SafetyScreen} />
     </Tab.Navigator>
   );
