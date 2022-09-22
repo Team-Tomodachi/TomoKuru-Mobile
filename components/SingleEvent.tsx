@@ -16,8 +16,6 @@ const { height, width } = Dimensions.get("screen");
 
 export default function SingleEvent({ navigation, route }) {
   const singleEvent = route.params.selectedEvent;
-  console.log(singleEvent.group_name);
-  console.log(singleEvent.location_name);
 
   return (
     <View>
