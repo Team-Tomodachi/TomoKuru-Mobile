@@ -37,6 +37,7 @@ export default function SignInScreen({ navigation }) {
         firebase_id: uid,
         first_name: name,
         account_type: "user",
+        photo_url: "users/new-user.png",
       })
       .then(res => console.log(res.data));
   }
