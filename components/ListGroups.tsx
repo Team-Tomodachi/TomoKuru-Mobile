@@ -1,4 +1,3 @@
-import * as React from "react";
 import {
   Text,
   View,
@@ -6,12 +5,10 @@ import {
   Image,
   FlatList,
   Pressable,
-  TextInput,
 } from "react-native";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Constants from "expo-constants";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Searchbar, Chip } from "react-native-paper";
 import BottomModal from "./BottomModal";
 import { styles } from "../styles/styles";
@@ -19,22 +16,16 @@ import { styles } from "../styles/styles";
 const { height, width } = Dimensions.get("screen");
 
 export default function ListGroups({ navigation }) {
-  const [query, setQuery] = React.useState<string>("");
-  const [tag, setTag] = React.useState<string>("any tags");
-  const [groupData, setGroupData] = React.useState([]);
-  const [isModalVisibile, setModalVisibile] = React.useState<boolean>(false);
+  const [query, setQuery] = useState<string>("");
+  const [tag, setTag] = useState<string>("any tags");
+  const [groupData, setGroupData] = useState([]);
+  const [isModalVisibile, setModalVisibile] = useState<boolean>(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     axios
       .get(`${Constants?.expoConfig?.extra?.apiURL}/api/groups`)
       .then(res => setGroupData(res.data));
   }, []);
-
-  // React.useEffect(() => {
-  //   axios
-  //     .get(`${Constants?.expoConfig?.extra?.apiURL}/api/groups/${tag}/${query}`)
-  //     .then(res => setGroupData(res.data));
-  // }, [tag, query]);
 
   const shortenDescription = (description: any) => {
     if (!description) {
