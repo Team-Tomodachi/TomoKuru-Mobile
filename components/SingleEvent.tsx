@@ -8,6 +8,7 @@ import {
   Button,
   StyleSheet,
 } from "react-native";
+import EventAttendeeList from "./EventAttendeeList";
 import { useState, useEffect } from "react";
 import { useFonts } from "expo-font";
 import axios from "axios";
@@ -16,6 +17,7 @@ const { height, width } = Dimensions.get("screen");
 
 export default function SingleEvent({ navigation, route }) {
   const singleEvent = route.params.selectedEvent;
+  console.log(singleEvent);
 
   return (
     <View>
@@ -34,6 +36,7 @@ export default function SingleEvent({ navigation, route }) {
         <Text style={styles.details}> End Time: {singleEvent.end_time} </Text>
         <Text style={styles.details}> Capacity {singleEvent.capacity} </Text>
         <Text style={styles.details}> Venue: {singleEvent.location_name} </Text>
+        <EventAttendeeList/>
         <Button title="Back" onPress={() => navigation.goBack()}></Button>
       </ScrollView>
     </View>

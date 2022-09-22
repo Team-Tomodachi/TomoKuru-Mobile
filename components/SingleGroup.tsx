@@ -10,9 +10,11 @@ import {
   Alert,
   Button,
 } from "react-native";
+import { useState, useEffect } from "react";
 import { useFonts } from "expo-font";
 import axios from "axios";
 import useUserStore from "../store/user";
+import GroupMemberList from "./GroupMemberList";
 
 const { height, width } = Dimensions.get("screen");
 
@@ -20,6 +22,7 @@ export default function SingleGroup({ navigation, route }) {
   const [isMember, setIsMember] = React.useState(false);
   const singleGroup = route.params.selectedGroup;
   const { id } = useUserStore();
+  const [groupID, setGroupID] = useState(singleGroup.id)
 
   return (
     <View>
@@ -46,6 +49,7 @@ export default function SingleGroup({ navigation, route }) {
         <Text style={styles.detailsUnderlined}>
           Privacy:{singleGroup.private}{" "}
         </Text>
+        <GroupMemberList groupID={groupID}/>
 
         <TouchableOpacity
           onPress={() =>
