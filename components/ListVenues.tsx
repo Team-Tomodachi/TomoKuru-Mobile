@@ -10,6 +10,7 @@ import {
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Chip, Searchbar } from "react-native-paper";
+import { styles } from "../styles/styles";
 
 const { height, width } = Dimensions.get("screen");
 
@@ -64,7 +65,7 @@ export default function ListVenues(props: any) {
           </Chip>
         </View>
       </ScrollView>
-      <ScrollView style={{ backgroundColor: "rgba(182, 182, 182, 1)" }}>
+      {/* <ScrollView style={{ backgroundColor: "rgba(182, 182, 182, 1)" }}>
         {props.venueData.map((venue, index) => {
           return (
             <TouchableOpacity
@@ -138,7 +139,7 @@ export default function ListVenues(props: any) {
             </TouchableOpacity>
           );
         })}
-      </ScrollView>
+      </ScrollView> */}
     </View>
   );
 }
