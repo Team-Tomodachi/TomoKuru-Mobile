@@ -4,30 +4,22 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { StyleProvider } from "react-native-zephyr";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import ModalUser from "./screens/ModalUserStack";
 import HomeStack from "./screens/HomeStack";
 import ExploreScreen from "./screens/ExploreScreen";
 import SafetyScreen from "./screens/SafetyScreen";
 import Feather from "@expo/vector-icons/Ionicons";
-import SignIn from "./screens/SignIn";
-import SignUp from "./screens/SignUp";
+import { Pressable } from "react-native";
+import { styles } from "./styles/styles";
 
 const queryClient = new QueryClient();
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
-function ModalUser() {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen name="Sign In" component={SignIn} />
-      <Stack.Screen name="Sign Up" component={SignUp} />
-    </Stack.Navigator>
-  );
-}
-
 function MainTabs() {
   return (
     <Tab.Navigator
-      screenOptions={({ route }) => ({
+      screenOptions={({ navigation, route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
 
@@ -46,6 +38,17 @@ function MainTabs() {
         },
         tabBarActiveTintColor: "tomato",
         tabBarInactiveTintColor: "gray",
+        headerLeft: () => (
+          <Pressable
+            onPress={() => navigation.navigate("Modal User")}
+            style={styles(
+              "h:10",
+              "w:10",
+              "bg:green-800",
+              "rounded:full",
+              "ml:2",
+            )}></Pressable>
+        ),
       })}>
       <Tab.Screen name="Home" component={HomeStack} />
       <Tab.Screen name="Explore" component={ExploreScreen} />

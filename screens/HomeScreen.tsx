@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Button, Image, ScrollView, Text, View } from "react-native";
+import { Button, ScrollView, Text, View } from "react-native";
 import useAuthStore from "../store/auth";
-import { signOut } from "firebase/auth";
-import { auth } from "../firebase";
 import useUserStore from "../store/user";
 import axios from "axios";
 import Constants from "expo-constants";
@@ -10,7 +8,7 @@ import HListItem from "../components/HListItem";
 import { styles } from "../styles/styles";
 
 export default function HomeScreen({ navigation }) {
-  const { isUserSignedIn, signUserOut } = useAuthStore();
+  const { isUserSignedIn } = useAuthStore();
   const [userCreatedGroups, setUserCreatedGroups] = useState([]);
   const [userCreatedEvents, setUserCreatedEvents] = useState([]);
 
@@ -28,7 +26,7 @@ export default function HomeScreen({ navigation }) {
   return (
     <View style={styles("flex:1", "justify:center", "items:center", "p:1")}>
       {isUserSignedIn ? (
-        <>
+        <View>
           <View
             style={styles(
               "w:full",
@@ -75,21 +73,10 @@ export default function HomeScreen({ navigation }) {
             </>
           </ScrollView>
           <Button
-            onPress={() => navigation.navigate("Create Event")}
+            onPress={() => navigation.navigate("Create Event Stack")}
             title="Create Event"
           />
-          <Button
-            title="Sign Out"
-            onPress={async () => {
-              try {
-                await signOut(auth);
-                signUserOut();
-              } catch (error) {
-                console.log(error);
-              }
-            }}
-          />
-        </>
+        </View>
       ) : (
         <Button
           onPress={() => navigation.navigate("Modal User")}
