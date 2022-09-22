@@ -76,21 +76,21 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 30,
-    fontFamily: "OpenSans",
+    // fontFamily: "OpenSans",
     textDecorationLine: "underline",
   },
   details: {
     fontSize: 20,
-    fontFamily: "OpenSans",
+    // fontFamily: "OpenSans",
   },
   detailsUnderlined: {
     fontSize: 20,
-    fontFamily: "OpenSans",
+    // fontFamily: "OpenSans",
     textDecorationLine: "underline",
   },
   detailsItalicized: {
     fontSize: 20,
-    fontFamily: "OpenSans",
+    // fontFamily: "OpenSans",
     fontStyle: "italic",
   },
   image: {

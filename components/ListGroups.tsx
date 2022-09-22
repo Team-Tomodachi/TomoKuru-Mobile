@@ -111,14 +111,12 @@ export default function ListGroups({ navigation }) {
                   <Text
                     style={{
                       fontSize: 18,
-                      fontFamily: "OpenSans",
                       fontWeight: "700",
                     }}>
                     {item.group_name}
                   </Text>
                   <Text
                     style={{
-                      fontFamily: "OpenSans",
                       fontStyle: "italic",
                       color: "#8F8F8F",
                     }}>
@@ -127,9 +125,7 @@ export default function ListGroups({ navigation }) {
                       : "Public Group"}
                     , {item.members_num} Members
                   </Text>
-                  <Text style={{ fontFamily: "OpenSans" }}>
-                    {shortenDescription(item.group_description)}
-                  </Text>
+                  <Text>{shortenDescription(item.group_description)}</Text>
                 </View>
               </View>
             </Pressable>
