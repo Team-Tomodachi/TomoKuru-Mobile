@@ -13,7 +13,6 @@ import axios from "axios";
 const { height, width } = Dimensions.get("screen");
 
 export default function ListEvents({ navigation }) {
-
   const [eventData, setEventData] = useState([]);
 
   useEffect(() => {
@@ -76,22 +75,18 @@ export default function ListEvents({ navigation }) {
                   <Text
                     style={{
                       fontSize: 18,
-                      fontFamily: "OpenSans",
                       fontWeight: "700",
                     }}>
                     {event.name}
                   </Text>
                   <Text
                     style={{
-                      fontFamily: "OpenSans",
                       fontStyle: "italic",
                       color: "#8F8F8F",
                     }}>
                     {event.date}
                   </Text>
-                  <Text style={{ fontFamily: "OpenSans" }}>
-                    {shortenDescription(event.description)}
-                  </Text>
+                  <Text>{shortenDescription(event.description)}</Text>
                 </View>
               </View>
             </TouchableOpacity>

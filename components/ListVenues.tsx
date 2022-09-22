@@ -1,52 +1,93 @@
-import * as React from "react";
-import { 
-  Text, 
+import {
+  Text,
   View,
   ScrollView,
   Dimensions,
   Image,
-  TouchableOpacity 
+  TouchableOpacity,
 } from "react-native";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { Chip, Searchbar } from "react-native-paper";
+import { styles } from "../styles/styles";
+import LocationModal from "./LocationModal";
 
 const { height, width } = Dimensions.get("screen");
 
-export default function ListVenues({ navigation }) {
-
+export default function ListVenues() {
+  const [query, setQuery] = useState<string>("");
+  const [location, setLocation] = useState<string>("");
   const [venueData, setVenueData] = useState([]);
+  const [isLocationModalVisibile, setLocationModalVisibile] =
+    useState<boolean>(false);
 
   useEffect(() => {
-    axios.get("http://tomokuru.i-re.io/api/venues").then(function (response) {
-      setVenueData(response.data);
-    });
-  }, []);
+    filterVenues(query, location);
+  }, [query, location]);
 
   const shortenDescription = (description: any) => {
     if (!description) {
-      return "-" 
-    } 
-    else if (description.length > 120) {
+      return "-";
+    } else if (description.length > 120) {
       return description.slice(0, 120) + "...";
-    } 
-    else{
+    } else {
       return description;
     }
   };
 
+  const filterVenues = (query: string, location: string) => {
+    axios
+      .get("http://tomokuru.i-re.io/api/venues", {
+        params: {
+          query: query?.toLowerCase(),
+          location: location?.toLowerCase(),
+        },
+      })
+      .then(response => {
+        setVenueData(response.data);
+      });
+  };
+
   return (
     <View>
-        <ScrollView style={{ backgroundColor: "rgba(182, 182, 182, 1)" }}>
-          {venueData.map((venue, index) => {
-            return (
-              <TouchableOpacity
-              onPress={ () => {
-                navigation.navigate({
-                  name: "Venue Details",
-                  params: { selectedVenue: venueData[index] },
-                });
-              }}
-              key={index}>
+      <Searchbar
+        placeholder="Search"
+        onChangeText={text => {
+          setQuery(text);
+          filterVenues(text);
+        }}
+        value={query}
+      />
+      <ScrollView horizontal={true}>
+        <View
+          style={styles(
+            "bg-opacity:0",
+            "flex:row",
+            "h:10",
+            "justify:evenly",
+            "p:1",
+          )}>
+          <Chip
+            mode="outlined"
+            icon="map-marker"
+            onPress={() => setLocationModalVisibile(true)}>
+            Location
+          </Chip>
+          <Chip mode="outlined" icon="smoking-off">
+            Smoking
+          </Chip>
+          <Chip mode="outlined" icon="table-chair">
+            Outdoor Seating
+          </Chip>
+          <Chip mode="outlined" icon="account-multiple">
+            Capacity
+          </Chip>
+        </View>
+      </ScrollView>
+      <ScrollView style={{ backgroundColor: "rgba(182, 182, 182, 1)" }}>
+        {venueData.map((venue, index) => {
+          return (
+            <TouchableOpacity key={index}>
               <View
                 style={{
                   flexDirection: "row",
@@ -75,30 +116,32 @@ export default function ListVenues({ navigation }) {
                     flexDirection: "column",
                     width: width * 0.5,
                   }}>
-                  <Text 
-                    style={{ fontSize: 18, fontFamily: "OpenSans", fontWeight: "700"}}>
+                  <Text
+                    style={{
+                      fontSize: 18,
+                      fontWeight: "700",
+                    }}>
                     {venue.location_name}
                   </Text>
                   <Text
-                      style={{ fontFamily: "OpenSans", fontStyle: "italic", color: "#8F8F8F"}}>
-                      {venue.venue_type}
-                  </Text>
-                  <Text
-                      style={{ fontFamily: "OpenSans", fontStyle: "italic", color: "#8F8F8F"}}>
-                      {venue.prefecture} , {venue.city_ward}
-                  </Text>
-                  <Text
                     style={{
-                      fontFamily: "OpenSans",
+                      fontStyle: "italic",
+                      color: "#8F8F8F",
                     }}>
-                    {shortenDescription(venue.description)}
+                    {venue.venue_type} {venue.prefecture} {venue.city_ward}
                   </Text>
+                  <Text>{shortenDescription(venue.description)}</Text>
                 </View>
               </View>
-              </TouchableOpacity>
-            );
-          })}
-        </ScrollView>
+            </TouchableOpacity>
+          );
+        })}
+      </ScrollView>
+      <LocationModal
+        setIsVisible={setLocationModalVisibile}
+        isVisible={isLocationModalVisibile}
+        setLocation={setLocation}
+      />
     </View>
   );
 }
