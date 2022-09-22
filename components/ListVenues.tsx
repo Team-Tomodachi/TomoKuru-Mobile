@@ -1,4 +1,3 @@
-import * as React from "react";
 import {
   Text,
   View,
@@ -14,16 +13,13 @@ import { styles } from "../styles/styles";
 
 const { height, width } = Dimensions.get("screen");
 
-export default function ListVenues(props: any) {
-  const [query, setQuery] = React.useState<string>("");
-
+export default function ListVenues() {
+  const [query, setQuery] = useState<string>("");
   const [venueData, setVenueData] = useState([]);
 
   useEffect(() => {
-    axios.get("http://tomokuru.i-re.io/api/venues").then(function (response) {
-      setVenueData(response.data);
-    });
-  }, []);
+    filterVenues(query);
+  }, [query]);
 
   const shortenDescription = (description: any) => {
     if (!description) {
@@ -35,11 +31,26 @@ export default function ListVenues(props: any) {
     }
   };
 
+  const filterVenues = (query: string) => {
+    axios
+      .get("http://tomokuru.i-re.io/api/venues", {
+        params: {
+          query: query.toLowerCase(),
+        },
+      })
+      .then(response => {
+        setVenueData(response.data);
+      });
+  };
+
   return (
     <View>
       <Searchbar
         placeholder="Search"
-        onChangeText={text => setQuery(text)}
+        onChangeText={text => {
+          setQuery(text);
+          filterVenues(text);
+        }}
         value={query}
       />
       <ScrollView horizontal={true}>
@@ -65,18 +76,10 @@ export default function ListVenues(props: any) {
           </Chip>
         </View>
       </ScrollView>
-      {/* <ScrollView style={{ backgroundColor: "rgba(182, 182, 182, 1)" }}>
-        {props.venueData.map((venue, index) => {
+      <ScrollView style={{ backgroundColor: "rgba(182, 182, 182, 1)" }}>
+        {venueData.map((venue, index) => {
           return (
-            <TouchableOpacity
-              onPress={() => {
-                props.setIndexValue(index);
-                props.setSingleView(true);
-                props.setSelectedVenue(props.venueData[index]);
-                console.log("selected venue: " + props.selectedVenue);
-                console.log("index passed from OnPress: " + index);
-              }}
-              key={index}>
+            <TouchableOpacity key={index}>
               <View
                 style={{
                   flexDirection: "row",
@@ -106,40 +109,26 @@ export default function ListVenues(props: any) {
                     width: width * 0.5,
                   }}>
                   <Text
-                    onPress={() => {
-                      props.setIndexValue(index);
-                      props.setSingleView(true);
-                      props.setSelectedVenue(props.venueData[index]);
-                      console.log("selected venue: " + props.selectedVenue);
-                      console.log("index passed from OnPress: " + index);
-                    }}
                     style={{
                       fontSize: 18,
-                      fontFamily: "OpenSans",
                       fontWeight: "700",
                     }}>
                     {venue.location_name}
                   </Text>
                   <Text
                     style={{
-                      fontFamily: "OpenSans",
                       fontStyle: "italic",
                       color: "#8F8F8F",
                     }}>
                     {venue.venue_type} {venue.prefecture} {venue.city_ward}
                   </Text>
-                  <Text
-                    style={{
-                      fontFamily: "OpenSans",
-                    }}>
-                    {shortenDescription(venue.description)}
-                  </Text>
+                  <Text>{shortenDescription(venue.description)}</Text>
                 </View>
               </View>
             </TouchableOpacity>
           );
         })}
-      </ScrollView> */}
+      </ScrollView>
     </View>
   );
 }
