@@ -5,7 +5,9 @@ import { useFonts } from "expo-font";
 import axios from "axios";
 import SingleEvent from "../components/SingleEvent";
 import ListEvents from "../components/ListEvents";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
+const Stack = createNativeStackNavigator();
 
 export default function ListItems() {
   const [EventData, setEventData] = useState([]);
@@ -27,22 +29,28 @@ export default function ListItems() {
   }
 
   return (
-        <View>
-          {singleView === true ? (
-                <SingleEvent 
-                    IndexValue={IndexValue}
-                    selectedEvent={selectedEvent}
-                    setSingleView={setSingleView}
-                /> 
-            ) : (
-                <ListEvents 
-                    EventData={EventData}
-                    setIndexValue={setIndexValue}
-                    setSingleView={setSingleView}
-                    setSelectedEvent={setSelectedEvent}
-                    selectedEvent={selectedEvent}
-                />
-            )}
-        </View>
+    <Stack.Navigator>
+      <Stack.Screen name="Event List" component={ListEvents} options={{ headerShown: false }}/>
+      <Stack.Screen name="Event Details" component={SingleEvent} />
+    </Stack.Navigator>
+
+
+        // <View>
+        //   {singleView === true ? (
+        //         <SingleEvent 
+        //             IndexValue={IndexValue}
+        //             selectedEvent={selectedEvent}
+        //             setSingleView={setSingleView}
+        //         /> 
+        //     ) : (
+        //         <ListEvents 
+        //             EventData={EventData}
+        //             setIndexValue={setIndexValue}
+        //             setSingleView={setSingleView}
+        //             setSelectedEvent={setSelectedEvent}
+        //             selectedEvent={selectedEvent}
+        //         />
+        //     )}
+        // </View>
         )
 }

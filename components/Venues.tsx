@@ -5,7 +5,9 @@ import { useFonts } from "expo-font";
 import axios from "axios";
 import SingleVenue from "../components/SingleVenue";
 import ListVenues from "../components/ListVenues";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
+const Stack = createNativeStackNavigator();
 
 export default function ListItems() {
   const [venueData, setVenueData] = useState([]);
@@ -27,22 +29,26 @@ export default function ListItems() {
   }
 
   return (
-        <View>
-          {singleView === true ? (
-                <SingleVenue 
-                    IndexValue={IndexValue}
-                    selectedVenue={selectedVenue}
-                    setSingleView={setSingleView}
-                /> 
-            ) : (
-                <ListVenues 
-                    venueData={venueData}
-                    setIndexValue={setIndexValue}
-                    setSingleView={setSingleView}
-                    setSelectedVenue={setSelectedVenue}
-                    selectedVenue={selectedVenue}
-                />
-            )}
-        </View>
+    <Stack.Navigator>
+      <Stack.Screen name="Venue List" component={ListVenues} options={{ headerShown: false }}/>
+      <Stack.Screen name="Venue Details" component={SingleVenue} />
+    </Stack.Navigator>
+        // <View>
+        //   {singleView === true ? (
+        //         <SingleVenue 
+        //             IndexValue={IndexValue}
+        //             selectedVenue={selectedVenue}
+        //             setSingleView={setSingleView}
+        //         /> 
+        //     ) : (
+        //         <ListVenues 
+        //             venueData={venueData}
+        //             setIndexValue={setIndexValue}
+        //             setSingleView={setSingleView}
+        //             setSelectedVenue={setSelectedVenue}
+        //             selectedVenue={selectedVenue}
+        //         />
+        //     )}
+        // </View>
         )
 }

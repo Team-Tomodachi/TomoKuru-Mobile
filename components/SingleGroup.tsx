@@ -8,6 +8,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   Alert,
+  Button,
 } from "react-native";
 import { useFonts } from "expo-font";
 import axios from "axios";
@@ -15,13 +16,7 @@ import useUserStore from "../store/user";
 
 const { height, width } = Dimensions.get("screen");
 
-export default function SingleGroup({ route }) {
-  // const [loaded] = useFonts({
-  //   OpenSans: require("../assets/fonts/OpenSans-Medium.ttf"),
-  // });
-  // if (!loaded) {
-  //   return null;
-  // }
+export default function SingleGroup({ navigation, route }) {
   const [isMember, setIsMember] = React.useState(false);
   const singleGroup = route.params.selectedGroup;
   const { id } = useUserStore();
@@ -61,6 +56,7 @@ export default function SingleGroup({ route }) {
           style={styles.button}>
           <Text style={styles.details}> Join This Group</Text>
         </TouchableOpacity>
+        <Button title="Back" onPress={() => navigation.goBack()}></Button>
 
         {/* <TouchableOpacity
             onPress={ () => props.setSingleView(false)}
@@ -110,5 +106,5 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     marginRight: 50,
     marginBottom: 20,
-  }
+  },
 });

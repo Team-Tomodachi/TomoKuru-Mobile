@@ -8,13 +8,20 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { useState, useEffect } from "react";
-import { useFonts } from "expo-font";
-import SingleEvent from "../components/SingleEvent";
 import axios from "axios";
 
 const { height, width } = Dimensions.get("screen");
 
-export default function ListEvents(props: any) {
+export default function ListEvents({ navigation }) {
+
+  const [eventData, setEventData] = useState([]);
+
+  useEffect(() => {
+    axios.get("http://tomokuru.i-re.io/api/events").then(function (response) {
+      setEventData(response.data);
+    });
+  }, []);
+
   const shortenDescription = (description: any) => {
     if (!description) {
       return "description is empty";
@@ -25,23 +32,17 @@ export default function ListEvents(props: any) {
     }
   };
 
-  const [loaded] = useFonts({
-    OpenSans: require("../assets/fonts/OpenSans-Medium.ttf"),
-  });
-  if (!loaded) {
-    return null;
-  }
-
   return (
     <View>
       <ScrollView style={{ backgroundColor: "rgba(182, 182, 182, 1)" }}>
-        {props.EventData.map((event, index) => {
+        {eventData.map((event, index) => {
           return (
             <TouchableOpacity
               onPress={() => {
-                props.setIndexValue(index);
-                props.setSingleView(true);
-                props.setSelectedEvent(props.EventData[index]);
+                navigation.navigate({
+                  name: "Event Details",
+                  params: { selectedEvent: eventData[index] },
+                });
               }}
               key={index}>
               <View
@@ -52,7 +53,6 @@ export default function ListEvents(props: any) {
                   margin: 10,
                   marginLeft: 15,
                   marginRight: 15,
-                  // padding: 10,
                   paddingTop: 10,
                   paddingBottom: 10,
                   backgroundColor: "white",
@@ -71,15 +71,9 @@ export default function ListEvents(props: any) {
                 <View
                   style={{
                     flexDirection: "column",
-                    // height: height * 0.1,
                     width: width * 0.5,
                   }}>
                   <Text
-                    onPress={() => {
-                      props.setIndexValue(index);
-                      props.setSingleView(true);
-                      props.setSelectedEvent(props.EventData[index]);
-                    }}
                     style={{
                       fontSize: 18,
                       fontFamily: "OpenSans",
