@@ -71,16 +71,15 @@ export default function SignInScreen({ navigation }) {
             secureTextEntry={true}></TextInput>
           <Pressable
             onPress={async () => {
-              console.log("button pressed")
               try {
                 await signInWithEmailAndPassword(auth, email, password);
-                // setCanFetch(true);
+                setCanFetch(true);
                 setUserInfo("", "", email);
                 signUserIn();
                 navigation.popToTop();
               } catch (error) {
                 if (error instanceof FirebaseError) {
-                  console.log("There was an error", error)
+                  console.log("There was an error", error);
                   Alert.alert("Error", authError[error.code]);
                 }
               }
