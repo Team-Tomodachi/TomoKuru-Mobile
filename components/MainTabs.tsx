@@ -10,26 +10,23 @@ import { ref, getDownloadURL, getStorage } from "firebase/storage"
 import useUser from "../hooks/useUser";
 import { Image, TouchableOpacity } from "react-native";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import useAuthStore from "../store/auth";
+
 
 export default function MainTabs() {
-    const queryClient = useQueryClient();
+    const { isUserSignedIn } = useAuthStore();
+    const { data, isPlaceholderData } = useUser();
 
     const Tab = createBottomTabNavigator();
     const [profileImage, setProfileImage] = useState<string>("");
 
-    const { data, isPlaceholderData } = useUser();
-    console.log("MAIN TABS DATA.PHOTO_URL", data.photo_url, "DATA OBJECT", data);
-    if (data.photo_url) {
-        // console.log("CHECKER", data);
-        //TODO: get data.photo_url working so we can properly load user PFP
-        // console.log("CHOCKER", data.photo_url);
+    if (isUserSignedIn) {
         const fileRef = ref(getStorage(), data.photo_url);
         getDownloadURL(fileRef).then(res => setProfileImage(res));
     } else {
         const fileRef = ref(getStorage(), "users/new-user.png");
         getDownloadURL(fileRef).then(res => setProfileImage(res));
     }
-
 
     return (
         <Tab.Navigator
