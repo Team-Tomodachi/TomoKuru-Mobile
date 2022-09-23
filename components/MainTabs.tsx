@@ -18,12 +18,18 @@ export default function MainTabs() {
     const [profileImage, setProfileImage] = useState<string>("");
 
     const { data, isPlaceholderData } = useUser();
-    if (!isPlaceholderData) {
+    console.log("MAIN TABS DATA.PHOTO_URL", data.photo_url, "DATA OBJECT", data);
+    if (data.photo_url) {
         // console.log("CHECKER", data);
         //TODO: get data.photo_url working so we can properly load user PFP
+        // console.log("CHOCKER", data.photo_url);
+        const fileRef = ref(getStorage(), data.photo_url);
+        getDownloadURL(fileRef).then(res => setProfileImage(res));
+    } else {
         const fileRef = ref(getStorage(), "users/new-user.png");
         getDownloadURL(fileRef).then(res => setProfileImage(res));
     }
+
 
     return (
         <Tab.Navigator
