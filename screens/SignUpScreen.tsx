@@ -18,6 +18,7 @@ import { auth } from "../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import authError from "../utils/authError";
 import { FirebaseError } from "firebase/app";
+import useUserStore from "../store/user";
 
 export default function SignInScreen({ navigation }) {
   const [email, setEmail] = useState("");
@@ -26,6 +27,7 @@ export default function SignInScreen({ navigation }) {
   const [username, setUsername] = useState("");
 
   const { signUserIn } = useAuthStore();
+  const { setUserInfo } = useUserStore();
 
   //Handler
 
@@ -104,6 +106,7 @@ export default function SignInScreen({ navigation }) {
                   password,
                 );
                 addUserToDB(email, userCredentials?.user?.uid, username);
+                setUserInfo("", "", email);
                 signUserIn();
               } catch (error) {
                 if (error instanceof FirebaseError) {
