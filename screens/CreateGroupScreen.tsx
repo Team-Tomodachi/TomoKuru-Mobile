@@ -16,6 +16,7 @@ import { styles } from "../styles/styles";
 import Constants from "expo-constants";
 import Axios from "axios";
 import useUserStore from "../store/user";
+import useUser from "../hooks/useUser";
 
 interface Group {
   groupName: string;
@@ -30,7 +31,8 @@ export default function CreateGroupScreen() {
     isPrivate: false,
   };
 
-  const { id } = useUserStore();
+  const { data } = useUser();
+  const { id } = data;
 
   return (
     <KeyboardAvoidingView

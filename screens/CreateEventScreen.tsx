@@ -18,6 +18,7 @@ import Constants from "expo-constants";
 import axios from "axios";
 import useUserStore from "../store/user";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import useUser from "../hooks/useUser";
 
 interface Event {
   eventName: string;
@@ -69,7 +70,8 @@ export default function CreateEventScreen({ navigation, route }) {
     }
   }, [route.params?.venueId]);
 
-  const { id } = useUserStore();
+  const { data } = useUser();
+  const { id } = data;
 
   return (
     <KeyboardAvoidingView
