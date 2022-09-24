@@ -133,12 +133,12 @@ export default function CreateGroupScreen() {
                 style={styles("bg:green-600", "my:2")}
                 onPress={pickImage}
                 disabled={isUploading}
-                title="Select a Group Photo"
+                title="Select Group Photo"
               >
                 {isUploading ? (
                   <ActivityIndicator animating={true} color="white" />
                 ) : (
-                  "update profile picture"
+                  "select photo"
                 )}
               </Button>
 
