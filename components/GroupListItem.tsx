@@ -21,21 +21,19 @@ const isPrivate = (privacy: boolean) => {
 };
 
 export default function GroupListItem({ singleGroup }) {
+  const navigation = useNavigation();
   const [image, setImage] = useState('');
 
-  // useEffect(() => {
-  //   if (!singleGroup.photo_url) {
-  //     setImage(
-  //       'https://www.slntechnologies.com/wp-content/uploads/2017/08/ef3-placeholder-image.jpg',
-  //     );
-  //   } else {
-  //     const fileRef = ref(getStorage(), singleGroup.photo_url);
-  //     getDownloadURL(fileRef).then((res) => {
-  //       setImage(res);
-  //     });
-  //   }
-  // });
-  const navigation = useNavigation();
+  useEffect(() => {
+    if (singleGroup.photo_url) {
+      const fileRef = ref(getStorage(), singleGroup.photo_url);
+      getDownloadURL(fileRef)
+        .then((res) => {
+          setImage(res);
+        })
+        .catch((error) => console.log(error));
+    }
+  });
 
   return (
     <TouchableOpacity
@@ -58,7 +56,7 @@ export default function GroupListItem({ singleGroup }) {
           backgroundColor: 'white',
         }}
       >
-        {/* <Image
+        <Image
           style={{
             height: height * 0.1,
             width: width * 0.2,
@@ -67,11 +65,14 @@ export default function GroupListItem({ singleGroup }) {
             marginRight: 50,
             marginBottom: 20,
           }}
-          source={{
-            uri: image,
-          }}
-        /> */}
-
+          source={
+            image.length === 0
+              ? require('../assets/place-holder.jpg')
+              : {
+                  uri: image,
+                }
+          }
+        />
         <View
           style={{
             flexDirection: 'column',
