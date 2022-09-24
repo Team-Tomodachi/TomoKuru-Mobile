@@ -14,18 +14,19 @@ export default function HomeScreen({ navigation }) {
   const [userCreatedEvents, setUserCreatedEvents] = useState([]);
 
   const { data } = useUser();
+  const { id } = data;
+  if (id) {
+    axios
+      .get(`${Constants?.expoConfig?.extra?.apiURL}/api/groups/${id}`)
+      .then(res => setUserCreatedGroups(res.data));
+  }
 
-  useEffect(() => {
-    const { id } = data;
-    if (id) {
-      axios
-        .get(`${Constants?.expoConfig?.extra?.apiURL}/api/groups/${id}`)
-        .then(res => setUserCreatedGroups(res.data));
-      axios
-        .get(`${Constants?.expoConfig?.extra?.apiURL}/api/events/user/${id}`)
-        .then(res => setUserCreatedEvents(res.data));
-    }
-  }, [isUserSignedIn]);
+  // useEffect(() => {
+  //     axios
+  //       .get(`${Constants?.expoConfig?.extra?.apiURL}/api/events/user/${id}`)
+  //       .then(res => setUserCreatedEvents(res.data));
+  //   }
+  // }, [isUserSignedIn]);
 
   return (
     <View
