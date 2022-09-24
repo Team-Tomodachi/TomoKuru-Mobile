@@ -7,11 +7,9 @@ import {
   Image,
   StyleSheet,
   TouchableOpacity,
-  Alert,
   Button,
 } from "react-native";
-import { useState, useEffect } from "react";
-import { useFonts } from "expo-font";
+import { useState } from "react";
 import axios from "axios";
 import useUserStore from "../store/user";
 import GroupMemberList from "./GroupMemberList";
@@ -22,7 +20,7 @@ export default function SingleGroup({ navigation, route }) {
   const [isMember, setIsMember] = React.useState(false);
   const singleGroup = route.params.selectedGroup;
   const { id } = useUserStore();
-  const [groupID, setGroupID] = useState(singleGroup.id)
+  const [groupID, setGroupID] = useState(singleGroup.id);
 
   return (
     <View>
@@ -49,8 +47,7 @@ export default function SingleGroup({ navigation, route }) {
         <Text style={styles.detailsUnderlined}>
           Privacy:{singleGroup.private}{" "}
         </Text>
-        <GroupMemberList groupID={groupID}/>
-
+        <GroupMemberList groupID={groupID} />
         <TouchableOpacity
           onPress={() =>
             axios.post(
@@ -58,15 +55,9 @@ export default function SingleGroup({ navigation, route }) {
             )
           }
           style={styles.button}>
-          <Text style={styles.details}> Join This Group</Text>
+          <Text style={styles.details}>Join This Group</Text>
         </TouchableOpacity>
         <Button title="Back" onPress={() => navigation.goBack()}></Button>
-
-        {/* <TouchableOpacity
-            onPress={ () => props.setSingleView(false)}
-            style={styles.button}>
-            <Text style={styles.details}>Go Back</Text>
-          </TouchableOpacity> */}
       </ScrollView>
     </View>
   );
