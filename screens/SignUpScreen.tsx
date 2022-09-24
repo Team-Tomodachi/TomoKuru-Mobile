@@ -8,23 +8,23 @@ import {
   TouchableWithoutFeedback,
   Platform,
   Alert,
-} from "react-native";
-import React, { useState } from "react";
-import { styles } from "../styles/styles";
-import useAuthStore from "../store/auth";
-import Constants from "expo-constants";
-import axios from "axios";
-import { auth } from "../firebase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import authError from "../utils/authError";
-import { FirebaseError } from "firebase/app";
-import useUserStore from "../store/user";
+} from 'react-native';
+import React, { useState } from 'react';
+import { styles } from '../styles/styles';
+import useAuthStore from '../store/auth';
+import Constants from 'expo-constants';
+import axios from 'axios';
+import { auth } from '../firebase';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import authError from '../utils/authError';
+import { FirebaseError } from 'firebase/app';
+import useUserStore from '../store/user';
 
 export default function SignInScreen({ navigation }) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [username, setUsername] = useState('');
 
   const { signUserIn } = useAuthStore();
   const { setUserInfo } = useUserStore();
@@ -37,93 +37,85 @@ export default function SignInScreen({ navigation }) {
         email: email,
         firebase_id: uid,
         first_name: name,
-        account_type: "user",
-        photo_url: "users/new-user.png",
+        account_type: 'user',
+        photo_url: 'users/new-user.png',
       })
-      .then(res => console.log(res.data));
+      .then((res) => console.log(res.data));
   }
 
   return (
     <KeyboardAvoidingView
-      style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-      behavior={Platform.OS === "ios" ? "padding" : "height"}>
+      style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View
-          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-          <Text style={styles("w:56", "text-align:justify")}>Email</Text>
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <Text style={styles('w:56', 'text-align:justify')}>Email</Text>
           <TextInput
-            style={styles("border:1", "p:1", "w:56", "m:5")}
+            style={styles('border:1', 'p:1', 'w:56', 'm:5')}
             placeholder="Email"
             clearButtonMode="while-editing"
             keyboardType="email-address"
             returnKeyType="done"
-            onChangeText={text => {
+            onChangeText={(text) => {
               setEmail(text);
             }}
-            autoCapitalize="none"></TextInput>
-          <Text style={styles("w:56", "text-align:justify")}>Name</Text>
+            autoCapitalize="none"
+          ></TextInput>
+          <Text style={styles('w:56', 'text-align:justify')}>Name</Text>
           <TextInput
-            style={styles("border:1", "p:1", "w:56", "m:5")}
+            style={styles('border:1', 'p:1', 'w:56', 'm:5')}
             placeholder="Name"
             clearButtonMode="while-editing"
             keyboardType="default"
             returnKeyType="done"
-            onChangeText={text => {
+            onChangeText={(text) => {
               setUsername(text);
             }}
-            autoCapitalize="none"></TextInput>
-          <Text style={styles("w:56", "text-align:justify")}>Password</Text>
+            autoCapitalize="none"
+          ></TextInput>
+          <Text style={styles('w:56', 'text-align:justify')}>Password</Text>
           <TextInput
-            style={styles("border:1", "p:1", "w:56", "m:5")}
+            style={styles('border:1', 'p:1', 'w:56', 'm:5')}
             placeholder="Password"
             clearButtonMode="while-editing"
             returnKeyType="done"
-            onChangeText={text => {
+            onChangeText={(text) => {
               setPassword(text);
             }}
-            autoCapitalize={"none"}
-            secureTextEntry={true}></TextInput>
-          <Text style={styles("w:56", "text-align:justify")}>
-            Confirm password
-          </Text>
+            autoCapitalize={'none'}
+            secureTextEntry={true}
+          ></TextInput>
+          <Text style={styles('w:56', 'text-align:justify')}>Confirm password</Text>
           <TextInput
-            style={styles("border:1", "p:1", "w:56", "m:5")}
+            style={styles('border:1', 'p:1', 'w:56', 'm:5')}
             placeholder="Password"
             clearButtonMode="while-editing"
             returnKeyType="done"
-            onChangeText={text => {
+            onChangeText={(text) => {
               setConfirmPassword(text);
             }}
-            autoCapitalize={"none"}
-            secureTextEntry={true}></TextInput>
+            autoCapitalize={'none'}
+            secureTextEntry={true}
+          ></TextInput>
           <Pressable
             onPress={async () => {
               try {
-                const userCredentials = await createUserWithEmailAndPassword(
-                  auth,
-                  email,
-                  password,
-                );
+                const userCredentials = await createUserWithEmailAndPassword(auth, email, password);
                 addUserToDB(email, userCredentials?.user?.uid, username);
-                setUserInfo("", "", email);
+                setUserInfo('', '', email);
                 signUserIn();
               } catch (error) {
                 if (error instanceof FirebaseError) {
-                  Alert.alert("Error", authError[error.code]);
+                  Alert.alert('Error', authError[error.code]);
                 } else {
                   console.log(error);
                 }
               }
             }}
-            style={styles(
-              "bg:green-600",
-              "rounded:lg",
-              "p:2",
-              "flex:row",
-              "justify:evenly",
-              "m:2",
-            )}>
-            <Text style={{ color: "white" }}>Sign Up</Text>
+            style={styles('bg:green-600', 'rounded:lg', 'p:2', 'flex:row', 'justify:evenly', 'm:2')}
+          >
+            <Text style={{ color: 'white' }}>Sign Up</Text>
           </Pressable>
         </View>
       </TouchableWithoutFeedback>

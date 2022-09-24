@@ -1,10 +1,10 @@
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import SignInScreen from "./SignInScreen";
-import SignUpScreen from "./SignUpScreen";
-import UserCustomiseScreen from "./UserCustomiseScreen";
-import UserScreen from "./UserScreen";
-import useAuthStore from "../store/auth";
-import { Button } from "react-native";
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import SignInScreen from './SignInScreen';
+import SignUpScreen from './SignUpScreen';
+import UserCustomiseScreen from './UserCustomiseScreen';
+import UserScreen from './UserScreen';
+import useAuthStore from '../store/auth';
+import { Button } from 'react-native';
 
 const Stack = createNativeStackNavigator();
 
@@ -19,9 +19,7 @@ export default function ModalUser() {
             name="User"
             component={UserScreen}
             options={({ navigation }) => ({
-              headerLeft: () => (
-                <Button title="Close" onPress={() => navigation.popToTop()} />
-              ),
+              headerLeft: () => <Button title="Close" onPress={() => navigation.popToTop()} />,
             })}
           />
           <Stack.Screen name="Edit Details" component={UserCustomiseScreen} />
@@ -32,9 +30,7 @@ export default function ModalUser() {
             name="Sign In"
             component={SignInScreen}
             options={({ navigation }) => ({
-              headerLeft: () => (
-                <Button title="Close" onPress={() => navigation.popToTop()} />
-              ),
+              headerLeft: () => <Button title="Close" onPress={() => navigation.popToTop()} />,
             })}
           />
           <Stack.Screen name="Sign Up" component={SignUpScreen} />

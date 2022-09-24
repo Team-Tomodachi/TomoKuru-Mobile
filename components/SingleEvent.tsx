@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from 'react';
 import {
   Text,
   View,
@@ -9,35 +9,35 @@ import {
   StyleSheet,
   TouchableOpacity,
   Alert,
-} from "react-native";
-import { useState, useEffect } from "react";
-import { useFonts } from "expo-font";
-import axios from "axios";
-import useUserStore from "../store/user";
+} from 'react-native';
+import { useState, useEffect } from 'react';
+import { useFonts } from 'expo-font';
+import axios from 'axios';
+import useUserStore from '../store/user';
 import {
   getStorage,
   getDownloadURL,
   ref,
   uploadBytes,
   uploadBytesResumable,
-} from "firebase/storage";
-import EventAttendeeList from "./EventAttendeeList";
+} from 'firebase/storage';
+import EventAttendeeList from './EventAttendeeList';
 
-const { height, width } = Dimensions.get("screen");
+const { height, width } = Dimensions.get('screen');
 
 export default function SingleEvent({ navigation, route }) {
   const singleEvent = route.params.selectedEvent;
   const { id } = useUserStore();
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState('');
 
   useEffect(() => {
     if (!singleEvent.photo_url) {
       setImage(
-        "https://www.slntechnologies.com/wp-content/uploads/2017/08/ef3-placeholder-image.jpg",
+        'https://www.slntechnologies.com/wp-content/uploads/2017/08/ef3-placeholder-image.jpg',
       );
     } else {
       const fileRef = ref(getStorage(), singleEvent.photo_url);
-      getDownloadURL(fileRef).then(res => {
+      getDownloadURL(fileRef).then((res) => {
         setImage(res);
       });
     }
@@ -51,10 +51,7 @@ export default function SingleEvent({ navigation, route }) {
         <Text style={styles.details}> Group: {singleEvent.group_name} </Text>
         <Text style={styles.details}> {singleEvent.description} </Text>
         <Text style={styles.details}> Date: {singleEvent.date} </Text>
-        <Text style={styles.details}>
-          {" "}
-          Start Time: {singleEvent.start_time}{" "}
-        </Text>
+        <Text style={styles.details}> Start Time: {singleEvent.start_time} </Text>
         <Text style={styles.details}> End Time: {singleEvent.end_time} </Text>
         <Text style={styles.details}> Capacity {singleEvent.capacity} </Text>
         <Text style={styles.details}> Venue: {singleEvent.location_name} </Text>
@@ -68,24 +65,24 @@ export default function SingleEvent({ navigation, route }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: 'center',
     paddingHorizontal: 10,
   },
   button: {
     height: height * 0.1,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "pink",
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'pink',
     padding: 10,
   },
   countContainer: {
-    alignItems: "center",
+    alignItems: 'center',
     padding: 10,
   },
   title: {
     fontSize: 30,
     // fontFamily: "OpenSans",
-    textDecorationLine: "underline",
+    textDecorationLine: 'underline',
   },
   details: {
     fontSize: 20,
@@ -94,7 +91,7 @@ const styles = StyleSheet.create({
   detailsUnderlined: {
     fontSize: 20,
     // fontFamily: "OpenSans",
-    textDecorationLine: "underline",
+    textDecorationLine: 'underline',
   },
   image: {
     height: height * 0.3,

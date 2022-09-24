@@ -1,8 +1,8 @@
-import React from "react";
-import ExploreVenues from "./ExploreVenues";
-import ExploreGroups from "./ExploreGroups";
-import ExploreEvents from "./ExploreEvents";
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import React from 'react';
+import ExploreVenues from './ExploreVenues';
+import ExploreGroups from './ExploreGroups';
+import ExploreEvents from './ExploreEvents';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
 const Tab = createMaterialTopTabNavigator();
 

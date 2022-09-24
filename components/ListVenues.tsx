@@ -6,21 +6,20 @@ import {
   Image,
   TouchableOpacity,
   KeyboardAvoidingView,
-} from "react-native";
-import { useState, useEffect } from "react";
-import axios from "axios";
-import VenueListItem from "./VenueListItem";
-import { Chip, Searchbar } from "react-native-paper";
-import { styles } from "../styles/styles";
+} from 'react-native';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import VenueListItem from './VenueListItem';
+import { Chip, Searchbar } from 'react-native-paper';
+import { styles } from '../styles/styles';
 
-const { height, width } = Dimensions.get("screen");
+const { height, width } = Dimensions.get('screen');
 
 export default function ListVenues({ navigation }) {
-  const [query, setQuery] = useState<string>("");
-  const [location, setLocation] = useState<string>("");
+  const [query, setQuery] = useState<string>('');
+  const [location, setLocation] = useState<string>('');
   const [venueData, setVenueData] = useState([]);
-  const [isLocationModalVisibile, setLocationModalVisibile] =
-    useState<boolean>(false);
+  const [isLocationModalVisibile, setLocationModalVisibile] = useState<boolean>(false);
 
   useEffect(() => {
     filterVenues(query, location);
@@ -28,9 +27,9 @@ export default function ListVenues({ navigation }) {
 
   const shortenDescription = (description: any) => {
     if (!description) {
-      return "-";
+      return '-';
     } else if (description.length > 120) {
-      return description.slice(0, 120) + "...";
+      return description.slice(0, 120) + '...';
     } else {
       return description;
     }
@@ -38,13 +37,13 @@ export default function ListVenues({ navigation }) {
 
   const filterVenues = (query: string, location: string) => {
     axios
-      .get("http://tomokuru.i-re.io/api/venues", {
+      .get('http://tomokuru.i-re.io/api/venues', {
         params: {
           query: query?.toLowerCase(),
           location: location?.toLowerCase(),
         },
       })
-      .then(response => {
+      .then((response) => {
         setVenueData(response.data);
       });
   };
@@ -54,7 +53,7 @@ export default function ListVenues({ navigation }) {
       <KeyboardAvoidingView>
         <Searchbar
           placeholder="Search"
-          onChangeText={text => {
+          onChangeText={(text) => {
             setQuery(text);
           }}
           value={query}
@@ -62,28 +61,20 @@ export default function ListVenues({ navigation }) {
         {isLocationModalVisibile ? (
           <Searchbar
             placeholder="Location"
-            onChangeText={text => {
+            onChangeText={(text) => {
               setLocation(text);
             }}
             value={location}
           />
         ) : null}
         <ScrollView horizontal={true}>
-          <View
-            style={styles(
-              "bg-opacity:0",
-              "flex:row",
-              "h:10",
-              "justify:evenly",
-              "p:1",
-            )}>
+          <View style={styles('bg-opacity:0', 'flex:row', 'h:10', 'justify:evenly', 'p:1')}>
             <Chip
               mode="outlined"
               icon="map-marker"
-              onPress={() =>
-                setLocationModalVisibile(!isLocationModalVisibile)
-              }>
-              {location.length === 0 ? "Location" : location}
+              onPress={() => setLocationModalVisibile(!isLocationModalVisibile)}
+            >
+              {location.length === 0 ? 'Location' : location}
             </Chip>
             <Chip mode="outlined" icon="smoking-off">
               Smoking
@@ -96,7 +87,7 @@ export default function ListVenues({ navigation }) {
             </Chip>
           </View>
         </ScrollView>
-        <ScrollView style={{ backgroundColor: "rgba(182, 182, 182, 1)" }}>
+        <ScrollView style={{ backgroundColor: 'rgba(182, 182, 182, 1)' }}>
           {venueData.map((venue, index) => {
             return <VenueListItem singleVenue={venue} key={index} />;
           })}

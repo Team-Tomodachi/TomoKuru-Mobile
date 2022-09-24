@@ -1,9 +1,9 @@
-import * as React from "react";
-import { Text, Dimensions, StyleSheet } from "react-native";
-import { useState, useEffect } from "react";
-import axios from "axios";
+import * as React from 'react';
+import { Text, Dimensions, StyleSheet } from 'react-native';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
-const { height, width } = Dimensions.get("screen");
+const { height, width } = Dimensions.get('screen');
 
 export default function EventAttendeeList() {
   const [attendeeList, setAttendeeList] = useState([]);
@@ -17,7 +17,7 @@ export default function EventAttendeeList() {
   }, []);
 
   const getAttendeeList = () => {
-    let memberList = "";
+    let memberList = '';
     for (const member of attendeeList) {
       memberList += `${member.first_name}, `;
     }
@@ -26,7 +26,7 @@ export default function EventAttendeeList() {
 
   return (
     <Text style={styles.details}>
-      Users Attending: {getAttendeeList()} ({attendeeList.length} users){" "}
+      Users Attending: {getAttendeeList()} ({attendeeList.length} users){' '}
     </Text>
   );
 }
@@ -34,24 +34,24 @@ export default function EventAttendeeList() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: 'center',
     paddingHorizontal: 10,
   },
   button: {
     height: height * 0.1,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "pink",
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'pink',
     padding: 10,
   },
   countContainer: {
-    alignItems: "center",
+    alignItems: 'center',
     padding: 10,
   },
   title: {
     fontSize: 30,
     // fontFamily: "OpenSans",
-    textDecorationLine: "underline",
+    textDecorationLine: 'underline',
   },
   details: {
     fontSize: 20,
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
   detailsUnderlined: {
     fontSize: 20,
     // fontFamily: "OpenSans",
-    textDecorationLine: "underline",
+    textDecorationLine: 'underline',
   },
   image: {
     height: height * 0.3,

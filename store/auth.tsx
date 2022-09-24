@@ -1,4 +1,4 @@
-import create from "zustand";
+import create from 'zustand';
 
 interface AuthState {
   isUserSignedIn: boolean;
@@ -6,7 +6,7 @@ interface AuthState {
   signUserOut: () => void;
 }
 
-const useAuthStore = create<AuthState>()(set => ({
+const useAuthStore = create<AuthState>()((set) => ({
   isUserSignedIn: false,
   signUserIn: () => set(() => ({ isUserSignedIn: true })),
   signUserOut: () => set(() => ({ isUserSignedIn: false })),

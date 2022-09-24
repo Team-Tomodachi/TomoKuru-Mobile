@@ -1,4 +1,4 @@
-import create from "zustand";
+import create from 'zustand';
 
 interface UserInfo {
   name: string;
@@ -8,11 +8,11 @@ interface UserInfo {
   setUserInfo: (name: string, id: string, email: string) => void;
 }
 
-const useUserStore = create<UserInfo>()(set => ({
-  name: "",
-  id: "",
-  email: "",
-  interests: [""],
+const useUserStore = create<UserInfo>()((set) => ({
+  name: '',
+  id: '',
+  email: '',
+  interests: [''],
   setUserInfo: (name, id, email) =>
     set(() => ({
       name: name,

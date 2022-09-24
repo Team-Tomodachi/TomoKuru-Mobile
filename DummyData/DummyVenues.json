@@ -1,56 +1,62 @@
 [
-    {"venueName": "Hubs Shibuya", 
-    "venueType": "pub", 
-    "venueAddress": "ICHIGO FIESTA SHIBUYA B1F,3-10,UDAGAWA-CHO,SHIBUYA-KU,Tokyo,150-0042", 
+  {
+    "venueName": "Hubs Shibuya",
+    "venueType": "pub",
+    "venueAddress": "ICHIGO FIESTA SHIBUYA B1F,3-10,UDAGAWA-CHO,SHIBUYA-KU,Tokyo,150-0042",
     "venueContact": "03-3462-5881",
-    "venueLocation": "Shibuya", 
-    "venueDescription": "British-style Sports Bar popular with local and expats alike.", 
-    "venueCapacity": 105,
-    "venuePhoto": "require('../DummyData/DummyVenuePhotos/hubs-shibuya.jpeg')"    
-}, 
-{"venueName": "TY Harbor", 
-    "venueType": "Brew Pub", 
-    "venueAddress": "2-1-3 Higashi-Shinagawa, Shinagawa-ku, Tokyo 140-0002", 
-    "venueContact": "03-5479-4555",
-    "venueLocation": "Shinagawa",  
-    "venueDescription": "Canal-side brew pub with large seating capacity. Can host private parties.", 
-    "venueCapacity": 200,
-    "venuePhoto": "require('../DummyData/DummyVenuePhotos/ty-harbor.jpeg')"     
-}, 
-{"venueName": "Øl Tokyo", 
-    "venueType": "bar", 
-    "venueAddress": "37-10 Udagawacho, Shibuya, Tokyo", 
-    "venueContact": "03 5738 7186", 
     "venueLocation": "Shibuya",
-    "venueDescription": "Norweigan style bar with over 20 microbrews on tap.", 
-    "venueCapacity": 58, 
-    "venuePhoto": "require('../DummyData/DummyVenuePhotos/ol-tokyo.jpeg')"    
-}, 
-{"venueName": "Quays Pacific Grill", 
-    "venueType": "restaurant", 
-    "venueAddress": "Yokohama Hammer Head 1F-2F, 2-14-1 Shinko, Naka, Yokohama", 
+    "venueDescription": "British-style Sports Bar popular with local and expats alike.",
+    "venueCapacity": 105,
+    "venuePhoto": "require('../DummyData/DummyVenuePhotos/hubs-shibuya.jpeg')"
+  },
+  {
+    "venueName": "TY Harbor",
+    "venueType": "Brew Pub",
+    "venueAddress": "2-1-3 Higashi-Shinagawa, Shinagawa-ku, Tokyo 140-0002",
+    "venueContact": "03-5479-4555",
+    "venueLocation": "Shinagawa",
+    "venueDescription": "Canal-side brew pub with large seating capacity. Can host private parties.",
+    "venueCapacity": 200,
+    "venuePhoto": "require('../DummyData/DummyVenuePhotos/ty-harbor.jpeg')"
+  },
+  {
+    "venueName": "Øl Tokyo",
+    "venueType": "bar",
+    "venueAddress": "37-10 Udagawacho, Shibuya, Tokyo",
+    "venueContact": "03 5738 7186",
+    "venueLocation": "Shibuya",
+    "venueDescription": "Norweigan style bar with over 20 microbrews on tap.",
+    "venueCapacity": 58,
+    "venuePhoto": "require('../DummyData/DummyVenuePhotos/ol-tokyo.jpeg')"
+  },
+  {
+    "venueName": "Quays Pacific Grill",
+    "venueType": "restaurant",
+    "venueAddress": "Yokohama Hammer Head 1F-2F, 2-14-1 Shinko, Naka, Yokohama",
     "venueContact": "045-900-0310",
-    "venueLocation": "Yokohama",  
-    "venueDescription": "This scenic restaurant at Yokohama Hammerhead occupies a prime spot along the waterfront, complete with a spacious terrace that boasts a spectacular view of the city.", 
+    "venueLocation": "Yokohama",
+    "venueDescription": "This scenic restaurant at Yokohama Hammerhead occupies a prime spot along the waterfront, complete with a spacious terrace that boasts a spectacular view of the city.",
     "venueCapacity": 197,
-    "venuePhoto": "require('../DummyData/DummyVenuePhotos/quays-pacific-grill.jpeg')"    
-}, 
-{"venueName": "Rio Brewing & Co Bistro and Garden", 
-    "venueType": "Bistro", 
-    "venueAddress": "Tokyo Midtown Plaza 1F, 9-7-2 Akasaka, Minato, Tokyo", 
+    "venuePhoto": "require('../DummyData/DummyVenuePhotos/quays-pacific-grill.jpeg')"
+  },
+  {
+    "venueName": "Rio Brewing & Co Bistro and Garden",
+    "venueType": "Bistro",
+    "venueAddress": "Tokyo Midtown Plaza 1F, 9-7-2 Akasaka, Minato, Tokyo",
     "venueContact": "03-3403-0808",
-    "venueLocation": "Roppongi",  
-    "venueDescription": "This bistro in Roppongis Tokyo Midtown is perfect for relaxing outdoors, especially if youre with a group. ", 
+    "venueLocation": "Roppongi",
+    "venueDescription": "This bistro in Roppongis Tokyo Midtown is perfect for relaxing outdoors, especially if youre with a group. ",
     "venueCapacity": 192,
-    "venuePhoto": "require('../DummyData/DummyVenuePhotos/rio-brewing-co-bistro-and-garden.jpeg')"    
-}, 
-{"venueName": "Cé La Vi", 
-    "venueType": "cafe-bar", 
-    "venueAddress": "Shibuya Fukuras, Tokyu Plaza Shibuya, 17-18F 1-2-3 Shibuya, Dogenzaka, Shibuya, Tokyo", 
-    "venueContact": "0800-111-3065", 
-    "venueLocation": "Shibuya", 
-    "venueDescription": "This multi-hyphenate venue covers two floors on the rooftop of Shibuya Fukuras, featuring a restaurant, rooftop bar and club.", 
+    "venuePhoto": "require('../DummyData/DummyVenuePhotos/rio-brewing-co-bistro-and-garden.jpeg')"
+  },
+  {
+    "venueName": "Cé La Vi",
+    "venueType": "cafe-bar",
+    "venueAddress": "Shibuya Fukuras, Tokyu Plaza Shibuya, 17-18F 1-2-3 Shibuya, Dogenzaka, Shibuya, Tokyo",
+    "venueContact": "0800-111-3065",
+    "venueLocation": "Shibuya",
+    "venueDescription": "This multi-hyphenate venue covers two floors on the rooftop of Shibuya Fukuras, featuring a restaurant, rooftop bar and club.",
     "venueCapacity": 156,
-    "venuePhoto": "require('../DummyData/DummyVenuePhotos/ce-la-vi.jpeg')"   
-}
+    "venuePhoto": "require('../DummyData/DummyVenuePhotos/ce-la-vi.jpeg')"
+  }
 ]

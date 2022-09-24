@@ -1,31 +1,24 @@
-import {
-  Text,
-  View,
-  Dimensions,
-  Image,
-  FlatList,
-  Pressable,
-} from "react-native";
+import { Text, View, Dimensions, Image, FlatList, Pressable } from 'react-native';
 import {
   getStorage,
   getDownloadURL,
   ref,
   uploadBytes,
   uploadBytesResumable,
-} from "firebase/storage";
-import { styles } from "../styles/styles";
-import { useState, useEffect } from "react";
-import axios from "axios";
-import Constants from "expo-constants";
-import { Searchbar, Chip } from "react-native-paper";
-import BottomModal from "./BottomModal";
-import GroupListItem from "./GroupListItem";
+} from 'firebase/storage';
+import { styles } from '../styles/styles';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import Constants from 'expo-constants';
+import { Searchbar, Chip } from 'react-native-paper';
+import BottomModal from './BottomModal';
+import GroupListItem from './GroupListItem';
 
-const { height, width } = Dimensions.get("screen");
+const { height, width } = Dimensions.get('screen');
 
 export default function ListGroups({ navigation }) {
-  const [query, setQuery] = useState<string>("");
-  const [tag, setTag] = useState<string>("");
+  const [query, setQuery] = useState<string>('');
+  const [tag, setTag] = useState<string>('');
   const [groupData, setGroupData] = useState([]);
   const [isModalVisibile, setModalVisibile] = useState<boolean>(false);
 
@@ -34,7 +27,7 @@ export default function ListGroups({ navigation }) {
   }, [query, tag]);
 
   const isPrivate = (privacy: boolean) => {
-    return privacy === false ? "public" : "private";
+    return privacy === false ? 'public' : 'private';
   };
 
   const filterGroup = (query: string, tag: string) => {
@@ -45,38 +38,35 @@ export default function ListGroups({ navigation }) {
           tag: tag,
         },
       })
-      .then(response => {
+      .then((response) => {
         setGroupData(response.data);
       });
   };
 
   return (
     <View>
-      <BottomModal
-        isVisible={isModalVisibile}
-        setIsVisible={setModalVisibile}
-        setTag={setTag}
-      />
+      <BottomModal isVisible={isModalVisibile} setIsVisible={setModalVisibile} setTag={setTag} />
       <Searchbar
         placeholder="Search"
-        onChangeText={text => {
+        onChangeText={(text) => {
           setQuery(text);
         }}
         value={query}
       />
       <Chip
         mode="outlined"
-        style={styles("w:28")}
+        style={styles('w:28')}
         icon="tag"
-        onPress={() => setModalVisibile(true)}>
-        {tag.length === 0 ? "any tags" : tag}
+        onPress={() => setModalVisibile(true)}
+      >
+        {tag.length === 0 ? 'any tags' : tag}
       </Chip>
       <FlatList
         data={groupData}
         renderItem={({ item }) => {
           return <GroupListItem singleGroup={item} />;
         }}
-        keyExtractor={item => item.id}
+        keyExtractor={(item) => item.id}
       />
     </View>
   );

@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from 'react';
 import {
   Text,
   View,
@@ -8,38 +8,38 @@ import {
   Button,
   StyleSheet,
   TouchableOpacity,
-} from "react-native";
-import { useState, useEffect } from "react";
-import openMap, { createOpenLink } from "react-native-open-maps";
+} from 'react-native';
+import { useState, useEffect } from 'react';
+import openMap, { createOpenLink } from 'react-native-open-maps';
 import {
   getStorage,
   getDownloadURL,
   ref,
   uploadBytes,
   uploadBytesResumable,
-} from "firebase/storage";
+} from 'firebase/storage';
 
-const { height, width } = Dimensions.get("screen");
+const { height, width } = Dimensions.get('screen');
 
 export default function SingleVenue({ navigation, route }) {
   const singleVenue = route.params.selectedVenue;
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState('');
 
   useEffect(() => {
     if (!singleVenue.photo_url) {
       setImage(
-        "https://www.slntechnologies.com/wp-content/uploads/2017/08/ef3-placeholder-image.jpg",
+        'https://www.slntechnologies.com/wp-content/uploads/2017/08/ef3-placeholder-image.jpg',
       );
     } else {
       const fileRef = ref(getStorage(), singleVenue.photo_url);
-      getDownloadURL(fileRef).then(res => {
+      getDownloadURL(fileRef).then((res) => {
         setImage(res);
       });
     }
   });
 
   const goToMaps = () => {
-    openMap({ query: singleVenue.address, provider: "google" });
+    openMap({ query: singleVenue.address, provider: 'google' });
   };
 
   return (
@@ -47,16 +47,18 @@ export default function SingleVenue({ navigation, route }) {
       <ScrollView>
         <View
           style={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "center",
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
             marginLeft: 25,
-          }}>
+          }}
+        >
           <Image
             style={styles.image}
             source={{
               uri: image,
-            }}></Image>
+            }}
+          ></Image>
         </View>
         <Text style={styles.title}>{singleVenue.location_name} </Text>
         <Text style={styles.detailsItalicized}>{singleVenue.venue_type} </Text>
@@ -84,24 +86,24 @@ export default function SingleVenue({ navigation, route }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: 'center',
     paddingHorizontal: 10,
   },
   button: {
     height: height * 0.1,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "pink",
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'pink',
     padding: 10,
   },
   countContainer: {
-    alignItems: "center",
+    alignItems: 'center',
     padding: 10,
   },
   title: {
     fontSize: 30,
     // fontFamily: "OpenSans",
-    textDecorationLine: "underline",
+    textDecorationLine: 'underline',
   },
   details: {
     fontSize: 20,
@@ -110,12 +112,12 @@ const styles = StyleSheet.create({
   detailsUnderlined: {
     fontSize: 20,
     // fontFamily: "OpenSans",
-    textDecorationLine: "underline",
+    textDecorationLine: 'underline',
   },
   detailsItalicized: {
     fontSize: 20,
     // fontFamily: "OpenSans",
-    fontStyle: "italic",
+    fontStyle: 'italic',
   },
   image: {
     height: height * 0.3,

@@ -1,8 +1,8 @@
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import CreateEventScreen from "./CreateEventScreen";
-import VenueSelectScreen from "./VenueSelectScreen";
-import { Button } from "react-native";
-import GroupSelectScreen from "./GroupSelectScreen";
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import CreateEventScreen from './CreateEventScreen';
+import VenueSelectScreen from './VenueSelectScreen';
+import { Button } from 'react-native';
+import GroupSelectScreen from './GroupSelectScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -13,9 +13,7 @@ export default function CreateEventStack() {
         name="Create Event"
         component={CreateEventScreen}
         options={({ navigation }) => ({
-          headerLeft: () => (
-            <Button title="Close" onPress={() => navigation.popToTop()} />
-          ),
+          headerLeft: () => <Button title="Close" onPress={() => navigation.popToTop()} />,
         })}
       />
       <Stack.Screen name="Select Venue" component={VenueSelectScreen} />

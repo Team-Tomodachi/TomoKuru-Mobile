@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 import {
   Button,
   TextInput,
@@ -11,24 +11,19 @@ import {
   TouchableWithoutFeedback,
   Platform,
   Pressable,
-} from "react-native";
-import { Formik } from "formik";
-import { styles } from "../styles/styles";
-import Constants from "expo-constants";
-import axios from "axios";
-import useUserStore from "../store/user";
-import DateTimePickerModal from "react-native-modal-datetime-picker";
-import useUser from "../hooks/useUser";
-import {
-  getStorage,
-  getDownloadURL,
-  ref,
-  uploadBytesResumable,
-} from "firebase/storage";
-import * as ImagePicker from "expo-image-picker";
-import uuid from "react-native-uuid";
-import { ActivityIndicator } from "react-native-paper";
-import { Button as PaperButton } from "react-native-paper";
+} from 'react-native';
+import { Formik } from 'formik';
+import { styles } from '../styles/styles';
+import Constants from 'expo-constants';
+import axios from 'axios';
+import useUserStore from '../store/user';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import useUser from '../hooks/useUser';
+import { getStorage, getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
+import * as ImagePicker from 'expo-image-picker';
+import uuid from 'react-native-uuid';
+import { ActivityIndicator } from 'react-native-paper';
+import { Button as PaperButton } from 'react-native-paper';
 
 interface Event {
   eventName: string;
@@ -44,12 +39,12 @@ interface Event {
 //TODO: is the endpoint for photo_url here?
 
 export default function CreateEventScreen({ navigation, route }) {
-  const [venueId, setVenueId] = useState("");
-  const [groupId, setGroupId] = useState("");
+  const [venueId, setVenueId] = useState('');
+  const [groupId, setGroupId] = useState('');
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
 
-  const [imageRef, setImageRef] = useState<string>("placeholder.gif");
+  const [imageRef, setImageRef] = useState<string>('placeholder.gif');
   const [status, requestPermission] = ImagePicker.useCameraPermissions();
   const [isUploading, setUploading] = useState<boolean>(false);
 
@@ -95,13 +90,13 @@ export default function CreateEventScreen({ navigation, route }) {
   };
 
   const initialValues: Event = {
-    eventName: "",
-    eventDescription: "",
+    eventName: '',
+    eventDescription: '',
     eventDate: new Date(),
     eventTime: new Date(),
-    venueId: "",
-    photoURL: "events/placeholder.gif",
-    groupId: "",
+    venueId: '',
+    photoURL: 'events/placeholder.gif',
+    groupId: '',
   };
 
   useEffect(() => {
@@ -121,65 +116,53 @@ export default function CreateEventScreen({ navigation, route }) {
 
   return (
     <KeyboardAvoidingView
-      style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-      behavior={Platform.OS === "ios" ? "padding" : "height"}>
+      style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <Formik
           initialValues={initialValues}
           onSubmit={async (values: Event) => {
-            await axios.post(
-              `${Constants?.expoConfig?.extra?.apiURL}/api/events`,
-              {
-                user_id: id,
-                name: values.eventName,
-                description: values.eventDescription,
-                date: values.eventDate,
-                start_time: values.eventTime,
-                venue_id: venueId,
-                photo_url: imageRef,
-                group_id: groupId,
-              },
-            );
-            Alert.alert(
-              "Event created",
-              "You have successfully created an event",
-            );
-          }}>
-          {({
-            handleChange,
-            handleBlur,
-            handleSubmit,
-            values,
-            setFieldValue,
-          }) => (
+            await axios.post(`${Constants?.expoConfig?.extra?.apiURL}/api/events`, {
+              user_id: id,
+              name: values.eventName,
+              description: values.eventDescription,
+              date: values.eventDate,
+              start_time: values.eventTime,
+              venue_id: venueId,
+              photo_url: imageRef,
+              group_id: groupId,
+            });
+            Alert.alert('Event created', 'You have successfully created an event');
+          }}
+        >
+          {({ handleChange, handleBlur, handleSubmit, values, setFieldValue }) => (
             <View>
               <Text>Event Name</Text>
               <TextInput
-                style={styles("border:1", "p:1", "w:56", "m:5")}
-                onChangeText={handleChange("eventName")}
-                onBlur={handleBlur("eventName")}
+                style={styles('border:1', 'p:1', 'w:56', 'm:5')}
+                onChangeText={handleChange('eventName')}
+                onBlur={handleBlur('eventName')}
                 value={values.eventName}
                 placeholder={values.eventName}
               />
               <Text>Event Description</Text>
-              <View style={styles("border:1", "p:1", "w:56", "m:5", "h:20")}>
+              <View style={styles('border:1', 'p:1', 'w:56', 'm:5', 'h:20')}>
                 <TextInput
-                  onChangeText={handleChange("eventDescription")}
-                  onBlur={handleBlur("eventDescription")}
+                  onChangeText={handleChange('eventDescription')}
+                  onBlur={handleBlur('eventDescription')}
                   multiline={true}
                   value={values.eventDescription}
-                  placeholder={values.eventDescription}></TextInput>
+                  placeholder={values.eventDescription}
+                ></TextInput>
               </View>
               <Text>Event Date</Text>
-              <Button
-                title={values.eventDate.toLocaleDateString()}
-                onPress={showDatePicker}
-              />
+              <Button title={values.eventDate.toLocaleDateString()} onPress={showDatePicker} />
               <DateTimePickerModal
                 isVisible={isDatePickerVisible}
                 mode="date"
-                onConfirm={date => {
-                  setFieldValue("eventDate", date);
+                onConfirm={(date) => {
+                  setFieldValue('eventDate', date);
                   hideDatePicker();
                 }}
                 onCancel={hideDatePicker}
@@ -187,42 +170,43 @@ export default function CreateEventScreen({ navigation, route }) {
               <Text>Event Time</Text>
               <Button
                 title={values.eventTime.toLocaleTimeString([], {
-                  hour: "2-digit",
-                  minute: "2-digit",
+                  hour: '2-digit',
+                  minute: '2-digit',
                 })}
                 onPress={showTimePicker}
               />
               <DateTimePickerModal
                 isVisible={isTimePickerVisible}
                 mode="time"
-                onConfirm={time => {
-                  setFieldValue("eventTime", time);
+                onConfirm={(time) => {
+                  setFieldValue('eventTime', time);
                   hideTimePicker();
                 }}
                 onCancel={hideTimePicker}
               />
               <Text>Group</Text>
-              <Pressable onPress={() => navigation.push("Select Group")}>
-                <Text style={styles("text:2xl")}>
-                  {route?.params?.groupName || "Select a group"}
+              <Pressable onPress={() => navigation.push('Select Group')}>
+                <Text style={styles('text:2xl')}>
+                  {route?.params?.groupName || 'Select a group'}
                 </Text>
               </Pressable>
               <Text>Event Venue</Text>
-              <Pressable onPress={() => navigation.push("Select Venue")}>
-                <Text style={styles("text:2xl")}>
-                  {route?.params?.venueName || "Select a venue"}
+              <Pressable onPress={() => navigation.push('Select Venue')}>
+                <Text style={styles('text:2xl')}>
+                  {route?.params?.venueName || 'Select a venue'}
                 </Text>
               </Pressable>
               <Text>Event Photo</Text>
               <PaperButton
                 icon="camera"
-                style={styles("bg:green-600", "my:2")}
+                style={styles('bg:green-600', 'my:2')}
                 onPress={pickImage}
-                disabled={isUploading}>
+                disabled={isUploading}
+              >
                 {isUploading ? (
                   <ActivityIndicator animating={true} color="white" />
                 ) : (
-                  "select photo"
+                  'select photo'
                 )}
               </PaperButton>
               <Button onPress={handleSubmit} title="Submit" />

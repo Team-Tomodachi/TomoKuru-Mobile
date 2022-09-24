@@ -1,12 +1,12 @@
-import { Alert, Text, View } from "react-native";
-import React, { useEffect, useState } from "react";
-import { styles } from "../styles/styles";
-import { TextInput, Button } from "react-native-paper";
-import { Formik } from "formik";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
-import Constants from "expo-constants";
-import useUser from "../hooks/useUser";
+import { Alert, Text, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { styles } from '../styles/styles';
+import { TextInput, Button } from 'react-native-paper';
+import { Formik } from 'formik';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import axios from 'axios';
+import Constants from 'expo-constants';
+import useUser from '../hooks/useUser';
 
 interface InfoToUpdate {
   name: string;
@@ -22,21 +22,18 @@ export default function UserCustomiseScreen({ navigation }) {
 
   const { mutate } = useMutation(
     (values: InfoToUpdate) =>
-      axios.patch(
-        `${Constants?.expoConfig?.extra?.apiURL}/api/users/${data.email}`,
-        {
-          first_name: values.name,
-          city_ward: values.cityWard,
-          prefecture: values.prefecture,
-          contact: values.contact,
-        },
-      ),
+      axios.patch(`${Constants?.expoConfig?.extra?.apiURL}/api/users/${data.email}`, {
+        first_name: values.name,
+        city_ward: values.cityWard,
+        prefecture: values.prefecture,
+        contact: values.contact,
+      }),
     {
       onMutate: async (values: InfoToUpdate) => {
-        await queryClient.cancelQueries(["userInfo"]);
-        const previousUserInfo = queryClient.getQueryData(["userInfo"]);
+        await queryClient.cancelQueries(['userInfo']);
+        const previousUserInfo = queryClient.getQueryData(['userInfo']);
         if (previousUserInfo) {
-          queryClient.setQueryData(["userInfo"], {
+          queryClient.setQueryData(['userInfo'], {
             ...previousUserInfo,
             first_name: values.name,
             city_ward: values.cityWard,
@@ -48,11 +45,11 @@ export default function UserCustomiseScreen({ navigation }) {
       onError: (err, variables, context) => {
         console.log(err);
         if (context?.previousUserInfo) {
-          queryClient.setQueryData(["userInfo"], context.previousUserInfo);
+          queryClient.setQueryData(['userInfo'], context.previousUserInfo);
         }
       },
       onSettled: () => {
-        queryClient.invalidateQueries(["userInfo"]);
+        queryClient.invalidateQueries(['userInfo']);
       },
     },
   );
@@ -77,14 +74,15 @@ export default function UserCustomiseScreen({ navigation }) {
   };
 
   return (
-    <View style={styles("flex:1", "flex:col", "justify:center")}>
+    <View style={styles('flex:1', 'flex:col', 'justify:center')}>
       <Formik
         initialValues={initialValues}
-        onSubmit={values => {
+        onSubmit={(values) => {
           mutate(values);
           navigation.goBack();
-          Alert.alert("Succes", "Your info has been updated");
-        }}>
+          Alert.alert('Succes', 'Your info has been updated');
+        }}
+      >
         {({ setFieldValue, handleSubmit, resetForm, values }) => (
           <>
             <TextInput
@@ -92,8 +90,8 @@ export default function UserCustomiseScreen({ navigation }) {
               value={values.name}
               placeholder={values.name}
               clearButtonMode="while-editing"
-              onChangeText={text => {
-                setFieldValue("name", text);
+              onChangeText={(text) => {
+                setFieldValue('name', text);
                 enableButtons();
               }}
             />
@@ -102,8 +100,8 @@ export default function UserCustomiseScreen({ navigation }) {
               value={values.cityWard}
               placeholder={values.cityWard}
               clearButtonMode="while-editing"
-              onChangeText={text => {
-                setFieldValue("cityWard", text);
+              onChangeText={(text) => {
+                setFieldValue('cityWard', text);
                 enableButtons();
               }}
             />
@@ -112,8 +110,8 @@ export default function UserCustomiseScreen({ navigation }) {
               value={values.prefecture}
               placeholder={values.prefecture}
               clearButtonMode="while-editing"
-              onChangeText={text => {
-                setFieldValue("prefecture", text);
+              onChangeText={(text) => {
+                setFieldValue('prefecture', text);
                 enableButtons();
               }}
             />
@@ -122,26 +120,27 @@ export default function UserCustomiseScreen({ navigation }) {
               value={values.contact}
               placeholder={values.contact}
               clearButtonMode="while-editing"
-              onChangeText={text => {
-                setFieldValue("contact", text);
+              onChangeText={(text) => {
+                setFieldValue('contact', text);
                 enableButtons();
               }}
             />
-            <View style={styles("flex:col", "items:center", "my:5")}>
+            <View style={styles('flex:col', 'items:center', 'my:5')}>
               <Button
                 disabled={isUpdateDisabled}
                 onPress={handleSubmit}
                 style={styles(
-                  "bg:green-500",
-                  "rounded:lg",
-                  "h:10",
-                  "justify:center",
-                  "items:center",
-                  "w:72",
-                )}>
+                  'bg:green-500',
+                  'rounded:lg',
+                  'h:10',
+                  'justify:center',
+                  'items:center',
+                  'w:72',
+                )}
+              >
                 Update
               </Button>
-              <Text style={styles("my:3", "text:2xl")}>or</Text>
+              <Text style={styles('my:3', 'text:2xl')}>or</Text>
               <Button
                 disabled={isResetDisabled}
                 onPress={() => {
@@ -149,13 +148,14 @@ export default function UserCustomiseScreen({ navigation }) {
                   disableButtons();
                 }}
                 style={styles(
-                  "bg:red-500",
-                  "rounded:lg",
-                  "h:10",
-                  "justify:center",
-                  "items:center",
-                  "w:72",
-                )}>
+                  'bg:red-500',
+                  'rounded:lg',
+                  'h:10',
+                  'justify:center',
+                  'items:center',
+                  'w:72',
+                )}
+              >
                 Reset
               </Button>
             </View>

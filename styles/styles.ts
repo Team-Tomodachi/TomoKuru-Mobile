@@ -1,10 +1,10 @@
-import { createStyleBuilder, extractTwColor } from "react-native-zephyr";
+import { createStyleBuilder, extractTwColor } from 'react-native-zephyr';
 
 export const { styles } = createStyleBuilder({
-    extendTheme: {
-        colors: {
-          ...extractTwColor({ twColor: "orange", name: "orange" }),
-          ...extractTwColor({ twColor: "yellow", name: "yellow" }),
-      },
-}})
-
+  extendTheme: {
+    colors: {
+      ...extractTwColor({ twColor: 'orange', name: 'orange' }),
+      ...extractTwColor({ twColor: 'yellow', name: 'yellow' }),
+    },
+  },
+});

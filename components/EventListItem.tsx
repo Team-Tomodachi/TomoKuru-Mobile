@@ -1,31 +1,24 @@
-import * as React from "react";
-import {
-  Text,
-  View,
-  ScrollView,
-  Dimensions,
-  Image,
-  TouchableOpacity,
-} from "react-native";
+import * as React from 'react';
+import { Text, View, ScrollView, Dimensions, Image, TouchableOpacity } from 'react-native';
 import {
   getStorage,
   getDownloadURL,
   ref,
   uploadBytes,
   uploadBytesResumable,
-} from "firebase/storage";
-import { styles } from "../styles/styles";
-import { useState, useEffect } from "react";
-import axios from "axios";
-import { useNavigation } from "@react-navigation/native";
+} from 'firebase/storage';
+import { styles } from '../styles/styles';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useNavigation } from '@react-navigation/native';
 
-const { height, width } = Dimensions.get("screen");
+const { height, width } = Dimensions.get('screen');
 
 const shortenDescription = (description: any) => {
   if (!description) {
-    return "description is empty";
+    return 'description is empty';
   } else if (description.length > 120) {
-    return description.slice(0, 120) + "...";
+    return description.slice(0, 120) + '...';
   } else {
     return description;
   }
@@ -33,15 +26,15 @@ const shortenDescription = (description: any) => {
 
 // let image = "";
 export default function ListEventItems({ singleEvent }) {
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState('');
   useEffect(() => {
     if (!singleEvent.photo_url) {
       setImage(
-        "https://www.slntechnologies.com/wp-content/uploads/2017/08/ef3-placeholder-image.jpg",
+        'https://www.slntechnologies.com/wp-content/uploads/2017/08/ef3-placeholder-image.jpg',
       );
     } else {
       const fileRef = ref(getStorage(), singleEvent.photo_url);
-      getDownloadURL(fileRef).then(res => {
+      getDownloadURL(fileRef).then((res) => {
         setImage(res);
       });
     }
@@ -51,13 +44,14 @@ export default function ListEventItems({ singleEvent }) {
   return (
     <TouchableOpacity
       onPress={() => {
-        navigation.navigate("Event Details", {
+        navigation.navigate('Event Details', {
           selectedEvent: singleEvent,
         });
-      }}>
+      }}
+    >
       <View
         style={{
-          flexDirection: "row",
+          flexDirection: 'row',
           borderWidth: 0,
           borderRadius: 5,
           margin: 10,
@@ -65,8 +59,9 @@ export default function ListEventItems({ singleEvent }) {
           marginRight: 15,
           paddingTop: 10,
           paddingBottom: 10,
-          backgroundColor: "white",
-        }}>
+          backgroundColor: 'white',
+        }}
+      >
         {/* <Image
           style={{
             height: height * 0.1,
@@ -83,23 +78,26 @@ export default function ListEventItems({ singleEvent }) {
 
         <View
           style={{
-            flexDirection: "column",
+            flexDirection: 'column',
             width: width * 0.5,
-          }}>
+          }}
+        >
           <Text
             style={{
               fontSize: 18,
               // fontFamily: "OpenSans",
-              fontWeight: "700",
-            }}>
+              fontWeight: '700',
+            }}
+          >
             {singleEvent.name}
           </Text>
           <Text
             style={{
               // fontFamily: "OpenSans",
-              fontStyle: "italic",
-              color: "#8F8F8F",
-            }}>
+              fontStyle: 'italic',
+              color: '#8F8F8F',
+            }}
+          >
             Date: {singleEvent.date}
           </Text>
           <Text>{shortenDescription(singleEvent.description)}</Text>

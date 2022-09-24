@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   Button,
   TextInput,
@@ -10,22 +10,17 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
   Platform,
-} from "react-native";
-import { Formik } from "formik";
-import { styles } from "../styles/styles";
-import Constants from "expo-constants";
-import Axios from "axios";
-import useUserStore from "../store/user";
-import useUser from "../hooks/useUser";
-import { ActivityIndicator } from "react-native-paper";
-import {
-  getStorage,
-  getDownloadURL,
-  ref,
-  uploadBytesResumable,
-} from "firebase/storage";
-import * as ImagePicker from "expo-image-picker";
-import uuid from "react-native-uuid";
+} from 'react-native';
+import { Formik } from 'formik';
+import { styles } from '../styles/styles';
+import Constants from 'expo-constants';
+import Axios from 'axios';
+import useUserStore from '../store/user';
+import useUser from '../hooks/useUser';
+import { ActivityIndicator } from 'react-native-paper';
+import { getStorage, getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
+import * as ImagePicker from 'expo-image-picker';
+import uuid from 'react-native-uuid';
 // import { Button } from "react-native-paper";
 
 interface Group {
@@ -37,16 +32,16 @@ interface Group {
 
 export default function CreateGroupScreen() {
   const initialValues: Group = {
-    groupName: "",
-    groupDesciption: "",
+    groupName: '',
+    groupDesciption: '',
     isPrivate: false,
-    photoURL: "placeholder.gif",
+    photoURL: 'placeholder.gif',
   };
 
   const { data } = useUser();
   const { id } = data;
 
-  const [imageRef, setImageRef] = useState<string>("placeholder.gif");
+  const [imageRef, setImageRef] = useState<string>('placeholder.gif');
   const [status, requestPermission] = ImagePicker.useCameraPermissions();
   const [isUploading, setUploading] = useState<boolean>(false);
 
@@ -77,67 +72,59 @@ export default function CreateGroupScreen() {
 
   return (
     <KeyboardAvoidingView
-      style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-      behavior={Platform.OS === "ios" ? "padding" : "height"}>
+      style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <Formik
           initialValues={initialValues}
           onSubmit={async (values: Group) => {
-            await Axios.post(
-              `${Constants?.expoConfig?.extra?.apiURL}/api/groups`,
-              {
-                group_name: values.groupName,
-                group_description: values.groupDesciption,
-                user_id: id,
-                private: values.isPrivate,
-                photo_url: imageRef,
-              },
-            ).catch(function (error) {
-              console.log("Axios Post Error!", error);
+            await Axios.post(`${Constants?.expoConfig?.extra?.apiURL}/api/groups`, {
+              group_name: values.groupName,
+              group_description: values.groupDesciption,
+              user_id: id,
+              private: values.isPrivate,
+              photo_url: imageRef,
+            }).catch(function (error) {
+              console.log('Axios Post Error!', error);
               return Promise.reject(error);
             });
-            Alert.alert(
-              "Group created",
-              "You have successfully created a group",
-            );
-          }}>
-          {({
-            handleChange,
-            handleBlur,
-            handleSubmit,
-            setFieldValue,
-            values,
-          }) => (
+            Alert.alert('Group created', 'You have successfully created a group');
+          }}
+        >
+          {({ handleChange, handleBlur, handleSubmit, setFieldValue, values }) => (
             <View>
               <Text>Group Name</Text>
               <TextInput
-                style={styles("border:1", "p:1", "w:56", "m:5")}
-                onChangeText={handleChange("groupName")}
-                onBlur={handleBlur("groupName")}
+                style={styles('border:1', 'p:1', 'w:56', 'm:5')}
+                onChangeText={handleChange('groupName')}
+                onBlur={handleBlur('groupName')}
                 value={values.groupName}
                 placeholder={values.groupName}
               />
               <Text>Group Description</Text>
-              <View style={styles("border:1", "p:1", "w:56", "m:5", "h:20")}>
+              <View style={styles('border:1', 'p:1', 'w:56', 'm:5', 'h:20')}>
                 <TextInput
-                  onChangeText={handleChange("groupDesciption")}
-                  onBlur={handleBlur("groupDesciption")}
+                  onChangeText={handleChange('groupDesciption')}
+                  onBlur={handleBlur('groupDesciption')}
                   multiline={true}
                   value={values.groupDesciption}
-                  placeholder={values.groupDesciption}></TextInput>
+                  placeholder={values.groupDesciption}
+                ></TextInput>
               </View>
               <Text>Group Photo</Text>
 
               <Button
                 icon="camera"
-                style={styles("bg:green-600", "my:2")}
+                style={styles('bg:green-600', 'my:2')}
                 onPress={pickImage}
                 disabled={isUploading}
-                title="Select Group Photo">
+                title="Select Group Photo"
+              >
                 {isUploading ? (
                   <ActivityIndicator animating={true} color="white" />
                 ) : (
-                  "select photo"
+                  'select photo'
                 )}
               </Button>
 
