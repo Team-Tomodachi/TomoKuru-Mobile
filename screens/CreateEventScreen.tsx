@@ -86,7 +86,6 @@ export default function CreateEventScreen({ navigation, route }) {
         const blob: Blob = await image.blob();
         const filePath: string = `events/${uuid.v4()}-${Date.now()}`;
         setImageRef(filePath);
-        console.log("set image ref", imageRef);
         const storageLocRef = ref(getStorage(), filePath);
         await uploadBytesResumable(storageLocRef, blob);
         setUploading(false);
@@ -145,7 +144,6 @@ export default function CreateEventScreen({ navigation, route }) {
               "Event created",
               "You have successfully created an event",
             );
-            console.log("ID:", id, values, venueId, "imageRef:", imageRef);
           }}>
           {({
             handleChange,

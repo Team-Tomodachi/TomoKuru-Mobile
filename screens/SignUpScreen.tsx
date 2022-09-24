@@ -32,7 +32,6 @@ export default function SignInScreen({ navigation }) {
   //Handler
 
   async function addUserToDB(email: string, uid: string, name: string) {
-    console.log(email, uid, name);
     await axios
       .post(`${Constants?.expoConfig?.extra?.apiURL}/api/users`, {
         email: email,
@@ -112,7 +111,7 @@ export default function SignInScreen({ navigation }) {
                 if (error instanceof FirebaseError) {
                   Alert.alert("Error", authError[error.code]);
                 } else {
-                  console.log(error)
+                  console.log(error);
                 }
               }
             }}

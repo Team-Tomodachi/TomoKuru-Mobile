@@ -13,7 +13,6 @@ export default function GroupMemberList(props: any) {
       .get(`http://tomokuru.i-re.io/api/groups/members/${props.groupID}`)
       .then(function (response) {
         setGroupMemberData(response.data);
-        console.log(groupMemberData);
       });
   }, []);
 

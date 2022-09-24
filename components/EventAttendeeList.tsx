@@ -13,7 +13,6 @@ export default function EventAttendeeList() {
       .get(`http://tomokuru.i-re.io/api/events/attendees/${props.groupID}`)
       .then(function (response) {
         setAttendeeList(response.data);
-        console.log(response.data);
       });
   }, []);
 

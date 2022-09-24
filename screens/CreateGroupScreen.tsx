@@ -40,7 +40,7 @@ export default function CreateGroupScreen() {
     groupName: "",
     groupDesciption: "",
     isPrivate: false,
-    photoURL: "placeholder.gif"
+    photoURL: "placeholder.gif",
   };
 
   const { data } = useUser();
@@ -49,8 +49,6 @@ export default function CreateGroupScreen() {
   const [imageRef, setImageRef] = useState<string>("placeholder.gif");
   const [status, requestPermission] = ImagePicker.useCameraPermissions();
   const [isUploading, setUploading] = useState<boolean>(false);
-
-
 
   const pickImage = async () => {
     if (!status?.granted) {
@@ -68,7 +66,7 @@ export default function CreateGroupScreen() {
         const image = await fetch(result.uri);
         const blob: Blob = await image.blob();
         const filePath: string = `groups/${uuid.v4()}-${Date.now()}`;
-        setImageRef(filePath)
+        setImageRef(filePath);
         const storageLocRef = ref(getStorage(), filePath);
         await uploadBytesResumable(storageLocRef, blob);
         setUploading(false);
@@ -85,7 +83,6 @@ export default function CreateGroupScreen() {
         <Formik
           initialValues={initialValues}
           onSubmit={async (values: Group) => {
-            console.log("posting...", values, "~ID~", id, `THIS IS THE ID ${id} here`, typeof id);
             await Axios.post(
               `${Constants?.expoConfig?.extra?.apiURL}/api/groups`,
               {
@@ -95,12 +92,10 @@ export default function CreateGroupScreen() {
                 private: values.isPrivate,
                 photo_url: imageRef,
               },
-            ).catch(
-              function (error) {
-                console.log('Axios Post Error!', error)
-                return Promise.reject(error)
-              }
-            );
+            ).catch(function (error) {
+              console.log("Axios Post Error!", error);
+              return Promise.reject(error);
+            });
             Alert.alert(
               "Group created",
               "You have successfully created a group",
@@ -134,13 +129,11 @@ export default function CreateGroupScreen() {
               <Text>Group Photo</Text>
 
               <Button
-
                 icon="camera"
                 style={styles("bg:green-600", "my:2")}
                 onPress={pickImage}
                 disabled={isUploading}
-                title="Select Group Photo"
-              >
+                title="Select Group Photo">
                 {isUploading ? (
                   <ActivityIndicator animating={true} color="white" />
                 ) : (
