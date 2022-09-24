@@ -10,35 +10,38 @@ import {
   Alert,
 } from 'react-native';
 import React, { useState } from 'react';
-import { styles } from '../styles/styles';
-import useAuthStore from '../store/auth';
-import { auth } from '../firebase';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import authError from '../utils/authError';
-import axios from 'axios';
+import { styles } from '../../styles/styles';
+import useAuthStore from '../../store/auth';
 import Constants from 'expo-constants';
+import axios from 'axios';
+import { auth } from '../../firebase';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import authError from '../../utils/authError';
 import { FirebaseError } from 'firebase/app';
-import { useQuery } from '@tanstack/react-query';
-import useUserStore from '../store/user';
+import useUserStore from '../../store/user';
 
 export default function SignInScreen({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [canFetch, setCanFetch] = useState<boolean>(false);
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [username, setUsername] = useState('');
 
   const { signUserIn } = useAuthStore();
   const { setUserInfo } = useUserStore();
 
-  useQuery(
-    ['userInfo'],
-    () =>
-      axios
-        .get(`${Constants?.expoConfig?.extra?.apiURL}/api/users/${email}`)
-        .then((res) => res.data),
-    {
-      enabled: canFetch,
-    },
-  );
+  //Handler
+
+  async function addUserToDB(email: string, uid: string, name: string) {
+    await axios
+      .post(`${Constants?.expoConfig?.extra?.apiURL}/api/users`, {
+        email: email,
+        firebase_id: uid,
+        first_name: name,
+        account_type: 'user',
+        photo_url: 'users/new-user.png',
+      })
+      .then((res) => console.log(res.data));
+  }
 
   return (
     <KeyboardAvoidingView
@@ -59,6 +62,18 @@ export default function SignInScreen({ navigation }) {
             }}
             autoCapitalize="none"
           ></TextInput>
+          <Text style={styles('w:56', 'text-align:justify')}>Name</Text>
+          <TextInput
+            style={styles('border:1', 'p:1', 'w:56', 'm:5')}
+            placeholder="Name"
+            clearButtonMode="while-editing"
+            keyboardType="default"
+            returnKeyType="done"
+            onChangeText={(text) => {
+              setUsername(text);
+            }}
+            autoCapitalize="none"
+          ></TextInput>
           <Text style={styles('w:56', 'text-align:justify')}>Password</Text>
           <TextInput
             style={styles('border:1', 'p:1', 'w:56', 'm:5')}
@@ -71,38 +86,36 @@ export default function SignInScreen({ navigation }) {
             autoCapitalize={'none'}
             secureTextEntry={true}
           ></TextInput>
+          <Text style={styles('w:56', 'text-align:justify')}>Confirm password</Text>
+          <TextInput
+            style={styles('border:1', 'p:1', 'w:56', 'm:5')}
+            placeholder="Password"
+            clearButtonMode="while-editing"
+            returnKeyType="done"
+            onChangeText={(text) => {
+              setConfirmPassword(text);
+            }}
+            autoCapitalize={'none'}
+            secureTextEntry={true}
+          ></TextInput>
           <Pressable
             onPress={async () => {
               try {
-                await signInWithEmailAndPassword(auth, email, password);
-                setCanFetch(true);
+                const userCredentials = await createUserWithEmailAndPassword(auth, email, password);
+                addUserToDB(email, userCredentials?.user?.uid, username);
                 setUserInfo('', '', email);
                 signUserIn();
-                navigation.popToTop();
               } catch (error) {
                 if (error instanceof FirebaseError) {
-                  console.log('There was an error', error);
                   Alert.alert('Error', authError[error.code]);
+                } else {
+                  console.log(error);
                 }
               }
             }}
             style={styles('bg:green-600', 'rounded:lg', 'p:2', 'flex:row', 'justify:evenly', 'm:2')}
           >
-            <Text style={{ color: 'white' }}>Sign In</Text>
-          </Pressable>
-          <Text>or</Text>
-          <Pressable
-            onPress={() => navigation.navigate('Modal User', { screen: 'Sign Up' })}
-            style={styles(
-              'bg:orange-400',
-              'rounded:lg',
-              'p:2',
-              'flex:row',
-              'justify:evenly',
-              'm:2',
-            )}
-          >
-            <Text>Sign Up</Text>
+            <Text style={{ color: 'white' }}>Sign Up</Text>
           </Pressable>
         </View>
       </TouchableWithoutFeedback>

@@ -1,5 +1,5 @@
-import SingleGroup from '../components/SingleGroup';
-import ListGroups from '../components/ListGroups';
+import SingleGroup from '../../components/SingleGroup';
+import ListGroups from '../../components/ListGroups';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 const Stack = createNativeStackNavigator();

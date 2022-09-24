@@ -1,7 +1,7 @@
 import { Text, FlatList, Pressable } from 'react-native';
 import React from 'react';
-import { styles } from '../styles/styles';
-import useUserCreatedGroup from '../hooks/useUserGroup';
+import { styles } from '../../../styles/styles';
+import useUserCreatedGroup from '../../../hooks/useUserGroup';
 
 export default function GroupSelectScreen({ navigation }) {
   const { data } = useUserCreatedGroup();

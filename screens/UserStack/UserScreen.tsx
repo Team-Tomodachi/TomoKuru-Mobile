@@ -1,14 +1,14 @@
 import { Alert, Image, Pressable, View } from 'react-native';
 import React, { useState, useEffect } from 'react';
-import { styles } from '../styles/styles';
+import { styles } from '../../styles/styles';
 import { Button } from 'react-native-paper';
-import useAuthStore from '../store/auth';
+import useAuthStore from '../../store/auth';
 import { signOut } from 'firebase/auth';
-import { auth } from '../firebase';
+import { auth } from '../../firebase';
 import * as ImagePicker from 'expo-image-picker';
 import { ActivityIndicator } from 'react-native-paper';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { storage } from '../firebase';
+import { storage } from '../../firebase';
 import {
   getStorage,
   getDownloadURL,
@@ -19,8 +19,8 @@ import {
 import uuid from 'react-native-uuid';
 import axios from 'axios';
 import Constants from 'expo-constants';
-import useUserStore from '../store/user';
-import useUser from '../hooks/useUser';
+import useUserStore from '../../store/user';
+import useUser from '../../hooks/useUser';
 
 export default function UserScreen({ navigation }) {
   const [image, setImage] = useState<string>('');

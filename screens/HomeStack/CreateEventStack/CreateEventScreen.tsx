@@ -13,12 +13,11 @@ import {
   Pressable,
 } from 'react-native';
 import { Formik } from 'formik';
-import { styles } from '../styles/styles';
+import { styles } from '../../../styles/styles';
 import Constants from 'expo-constants';
 import axios from 'axios';
-import useUserStore from '../store/user';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
-import useUser from '../hooks/useUser';
+import useUser from '../../../hooks/useUser';
 import { getStorage, getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import * as ImagePicker from 'expo-image-picker';
 import uuid from 'react-native-uuid';

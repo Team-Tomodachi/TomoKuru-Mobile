@@ -12,11 +12,11 @@ import {
   Platform,
 } from 'react-native';
 import { Formik } from 'formik';
-import { styles } from '../styles/styles';
+import { styles } from '../../styles/styles';
 import Constants from 'expo-constants';
 import Axios from 'axios';
-import useUserStore from '../store/user';
-import useUser from '../hooks/useUser';
+import useUserStore from '../../store/user';
+import useUser from '../../hooks/useUser';
 import { ActivityIndicator } from 'react-native-paper';
 import { getStorage, getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import * as ImagePicker from 'expo-image-picker';

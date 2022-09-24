@@ -1,5 +1,5 @@
-import SingleVenue from '../components/SingleVenue';
-import ListVenues from '../components/ListVenues';
+import SingleVenue from '../../components/SingleVenue';
+import ListVenues from '../../components/ListVenues';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 const Stack = createNativeStackNavigator();

@@ -1,12 +1,12 @@
 import { Alert, Text, View } from 'react-native';
 import React, { useEffect, useState } from 'react';
-import { styles } from '../styles/styles';
+import { styles } from '../../styles/styles';
 import { TextInput, Button } from 'react-native-paper';
 import { Formik } from 'formik';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import Constants from 'expo-constants';
-import useUser from '../hooks/useUser';
+import useUser from '../../hooks/useUser';
 
 interface InfoToUpdate {
   name: string;

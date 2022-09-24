@@ -1,7 +1,7 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from './HomeScreen';
 import CreateGroupScreen from './CreateGroupScreen';
-import CreateEventStack from './CreatEvenStack';
+import CreateEventStack from './CreateEventStack/CreatEvenStack';
 import { Button } from 'react-native';
 
 const Stack = createNativeStackNavigator();

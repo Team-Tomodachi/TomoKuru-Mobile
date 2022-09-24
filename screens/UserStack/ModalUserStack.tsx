@@ -3,7 +3,7 @@ import SignInScreen from './SignInScreen';
 import SignUpScreen from './SignUpScreen';
 import UserCustomiseScreen from './UserCustomiseScreen';
 import UserScreen from './UserScreen';
-import useAuthStore from '../store/auth';
+import useAuthStore from '../../store/auth';
 import { Button } from 'react-native';
 
 const Stack = createNativeStackNavigator();

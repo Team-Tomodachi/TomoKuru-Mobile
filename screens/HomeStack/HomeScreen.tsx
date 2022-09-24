@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Button, ScrollView, Text, View } from 'react-native';
-import useAuthStore from '../store/auth';
-import useUserStore from '../store/user';
+import useAuthStore from '../../store/auth';
+import useUserStore from '../../store/user';
 import axios from 'axios';
 import Constants from 'expo-constants';
-import HListItem from '../components/HListItem';
-import HorizontalList from '../components/HorizontalList';
-import { styles } from '../styles/styles';
-import useUser from '../hooks/useUser';
+import HListItem from '../../components/HListItem';
+import HorizontalList from '../../components/HorizontalList';
+import { styles } from '../../styles/styles';
+import useUser from '../../hooks/useUser';
 
 export default function HomeScreen({ navigation }) {
   const { isUserSignedIn } = useAuthStore();

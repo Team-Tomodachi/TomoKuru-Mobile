@@ -1,6 +1,6 @@
 import Feather from '@expo/vector-icons/Ionicons';
-import HomeStack from './HomeStack';
-import ExploreStack from './ExploreStack';
+import HomeStack from './HomeStack/HomeStack';
+import ExploreStack from './ExploreStack/ExploreStack';
 import SafetyScreen from './SafetyScreen';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { TouchableOpacity } from 'react-native';

@@ -1,5 +1,5 @@
-import SingleEvent from '../components/SingleEvent';
-import ListEvents from '../components/ListEvents';
+import SingleEvent from '../../components/SingleEvent';
+import ListEvents from '../../components/ListEvents';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 const Stack = createNativeStackNavigator();

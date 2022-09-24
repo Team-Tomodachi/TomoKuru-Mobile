@@ -3,7 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StyleProvider } from 'react-native-zephyr';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import ModalUser from './screens/ModalUserStack';
+import ModalUser from './screens/UserStack/ModalUserStack';
 import MainTabsStack from './screens/MainTabsStack';
 
 const queryClient = new QueryClient();
