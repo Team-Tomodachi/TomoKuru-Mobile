@@ -11,7 +11,7 @@ import ModalUser from "./screens/ModalUserStack";
 // import Feather from "@expo/vector-icons/Ionicons";
 // import { Pressable } from "react-native";
 // import { styles } from "./styles/styles";
-import MainTabs from "./components/MainTabs";
+import MainTabs from "./screens/MainTabs";
 
 const queryClient = new QueryClient();
 // const Tab = createBottomTabNavigator();
