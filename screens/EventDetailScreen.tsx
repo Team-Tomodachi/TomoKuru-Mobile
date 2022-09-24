@@ -1,51 +1,41 @@
 import * as React from 'react';
-import {
-  Text,
-  View,
-  ScrollView,
-  Dimensions,
-  Image,
-  Button,
-  StyleSheet,
-  TouchableOpacity,
-  Alert,
-} from 'react-native';
+import { Text, View, ScrollView, Dimensions, Button, StyleSheet, Image } from 'react-native';
 import { useState, useEffect } from 'react';
-import axios from 'axios';
-import useUserStore from '../store/user';
-import {
-  getStorage,
-  getDownloadURL,
-  ref,
-  uploadBytes,
-  uploadBytesResumable,
-} from 'firebase/storage';
+import { getStorage, getDownloadURL, ref } from 'firebase/storage';
 import EventAttendeeList from '../components/EventAttendeeList';
+import useUser from '../hooks/useUser';
 
 const { height, width } = Dimensions.get('screen');
 
 export default function EventDetailScreen({ navigation, route }) {
   const singleEvent = route.params.selectedEvent;
-  const { id } = useUserStore();
+
   const [image, setImage] = useState('');
 
-  // useEffect(() => {
-  //   if (!singleEvent.photo_url) {
-  //     setImage(
-  //       'https://www.slntechnologies.com/wp-content/uploads/2017/08/ef3-placeholder-image.jpg',
-  //     );
-  //   } else {
-  //     const fileRef = ref(getStorage(), singleEvent.photo_url);
-  //     getDownloadURL(fileRef).then((res) => {
-  //       setImage(res);
-  //     });
-  //   }
-  // });
+  useEffect(() => {
+    if (singleEvent.photo_url) {
+      const fileRef = ref(getStorage(), singleEvent.photo_url);
+      getDownloadURL(fileRef)
+        .then((res) => {
+          setImage(res);
+        })
+        .catch((error) => console.log(error));
+    }
+  }, []);
 
   return (
     <View>
       <ScrollView>
-        {/* <Image style={styles.image} source={{ uri: image }} /> */}
+        <Image
+          style={styles.image}
+          source={
+            image.length === 0
+              ? require('../assets/place-holder.jpg')
+              : {
+                  uri: image,
+                }
+          }
+        />
         <Text style={styles.title}> {singleEvent.name} </Text>
         <Text style={styles.details}> Group: {singleEvent.group_name} </Text>
         <Text style={styles.details}> {singleEvent.description} </Text>
