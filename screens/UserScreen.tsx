@@ -33,10 +33,10 @@ export default function UserScreen({ navigation }) {
   const { data, isPlaceholderData } = useUser();
 
   if (data) {
-    try {
-      const fileRef = ref(getStorage(), data.photo_url || "users/user-png");
-      getDownloadURL(fileRef).then(res => setImage(res));
-    } catch (error) {}
+    const fileRef = ref(getStorage(), data.photo_url || "users/user-png");
+    getDownloadURL(fileRef)
+      .then(res => setImage(res))
+      .catch(error => {});
   }
 
   // async function downloadUserPFP() {
