@@ -1,15 +1,7 @@
 import * as React from 'react';
-import { Text, View, ScrollView, Dimensions, Image, TouchableOpacity } from 'react-native';
-import {
-  getStorage,
-  getDownloadURL,
-  ref,
-  uploadBytes,
-  uploadBytesResumable,
-} from 'firebase/storage';
-import { styles } from '../styles/styles';
+import { Text, View, Dimensions, Image, TouchableOpacity } from 'react-native';
+import { getStorage, getDownloadURL, ref } from 'firebase/storage';
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
 
 const { height, width } = Dimensions.get('screen');
@@ -25,21 +17,19 @@ const shortenDescription = (description: any) => {
 };
 
 export default function ListVenueItems({ singleVenue }) {
+  const navigation = useNavigation();
   const [image, setImage] = useState('');
 
-  // useEffect(() => {
-  //   if (!singleVenue.photo_url) {
-  //     setImage(
-  //       'https://www.slntechnologies.com/wp-content/uploads/2017/08/ef3-placeholder-image.jpg',
-  //     );
-  //   } else {
-  //     const fileRef = ref(getStorage(), singleVenue.photo_url);
-  //     getDownloadURL(fileRef).then((res) => {
-  //       setImage(res);
-  //     });
-  //   }
-  // });
-  const navigation = useNavigation();
+  useEffect(() => {
+    if (singleVenue.photo_url) {
+      const fileRef = ref(getStorage(), singleVenue.photo_url);
+      getDownloadURL(fileRef)
+        .then((res) => {
+          setImage(res);
+        })
+        .catch((error) => console.log(error));
+    }
+  }, []);
 
   return (
     <TouchableOpacity
@@ -62,7 +52,7 @@ export default function ListVenueItems({ singleVenue }) {
           backgroundColor: 'white',
         }}
       >
-        {/* <Image
+        <Image
           style={{
             height: height * 0.1,
             width: width * 0.2,
@@ -71,10 +61,14 @@ export default function ListVenueItems({ singleVenue }) {
             marginRight: 50,
             marginBottom: 20,
           }}
-          source={{
-            uri: image,
-          }}
-        /> */}
+          source={
+            image.length === 0
+              ? require('../assets/place-holder.jpg')
+              : {
+                  uri: image,
+                }
+          }
+        />
 
         <View
           style={{
