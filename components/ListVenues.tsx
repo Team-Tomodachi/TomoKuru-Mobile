@@ -5,12 +5,12 @@ import {
   Dimensions,
   Image,
   TouchableOpacity,
+  KeyboardAvoidingView,
 } from "react-native";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Chip, Searchbar } from "react-native-paper";
 import { styles } from "../styles/styles";
-import LocationModal from "./LocationModal";
 
 const { height, width } = Dimensions.get("screen");
 
@@ -49,99 +49,106 @@ export default function ListVenues() {
   };
 
   return (
-    <View>
-      <Searchbar
-        placeholder="Search"
-        onChangeText={text => {
-          setQuery(text);
-          filterVenues(text);
-        }}
-        value={query}
-      />
-      <ScrollView horizontal={true}>
-        <View
-          style={styles(
-            "bg-opacity:0",
-            "flex:row",
-            "h:10",
-            "justify:evenly",
-            "p:1",
-          )}>
-          <Chip
-            mode="outlined"
-            icon="map-marker"
-            onPress={() => setLocationModalVisibile(true)}>
-            Location
-          </Chip>
-          <Chip mode="outlined" icon="smoking-off">
-            Smoking
-          </Chip>
-          <Chip mode="outlined" icon="table-chair">
-            Outdoor Seating
-          </Chip>
-          <Chip mode="outlined" icon="account-multiple">
-            Capacity
-          </Chip>
-        </View>
-      </ScrollView>
-      <ScrollView style={{ backgroundColor: "rgba(182, 182, 182, 1)" }}>
-        {venueData.map((venue, index) => {
-          return (
-            <TouchableOpacity key={index}>
-              <View
-                style={{
-                  flexDirection: "row",
-                  borderWidth: 0,
-                  borderRadius: 5,
-                  margin: 10,
-                  marginLeft: 15,
-                  marginRight: 15,
-                  paddingTop: 10,
-                  paddingBottom: 10,
-                  backgroundColor: "white",
-                }}
-                key={index}>
-                <Image
-                  style={{
-                    height: height * 0.1,
-                    width: width * 0.2,
-                    marginTop: 20,
-                    marginLeft: 20,
-                    marginRight: 50,
-                    marginBottom: 20,
-                  }}
-                  source={require("../DummyData/DummyVenuePhotos/ce-la-vi.jpeg")}></Image>
+    <ScrollView>
+      <KeyboardAvoidingView>
+        <Searchbar
+          placeholder="Search"
+          onChangeText={text => {
+            setQuery(text);
+          }}
+          value={query}
+        />
+        {isLocationModalVisibile ? (
+          <Searchbar
+            placeholder="Location"
+            onChangeText={text => {
+              setLocation(text);
+            }}
+            value={location}
+          />
+        ) : null}
+        <ScrollView horizontal={true}>
+          <View
+            style={styles(
+              "bg-opacity:0",
+              "flex:row",
+              "h:10",
+              "justify:evenly",
+              "p:1",
+            )}>
+            <Chip
+              mode="outlined"
+              icon="map-marker"
+              onPress={() =>
+                setLocationModalVisibile(!isLocationModalVisibile)
+              }>
+              {location.length === 0 ? "Location" : location}
+            </Chip>
+            <Chip mode="outlined" icon="smoking-off">
+              Smoking
+            </Chip>
+            <Chip mode="outlined" icon="table-chair">
+              Outdoor Seating
+            </Chip>
+            <Chip mode="outlined" icon="account-multiple">
+              Capacity
+            </Chip>
+          </View>
+        </ScrollView>
+        <ScrollView style={{ backgroundColor: "rgba(182, 182, 182, 1)" }}>
+          {venueData.map((venue, index) => {
+            return (
+              <TouchableOpacity key={index}>
                 <View
                   style={{
-                    flexDirection: "column",
-                    width: width * 0.5,
-                  }}>
-                  <Text
+                    flexDirection: "row",
+                    borderWidth: 0,
+                    borderRadius: 5,
+                    margin: 10,
+                    marginLeft: 15,
+                    marginRight: 15,
+                    paddingTop: 10,
+                    paddingBottom: 10,
+                    backgroundColor: "white",
+                  }}
+                  key={index}>
+                  <Image
                     style={{
-                      fontSize: 18,
-                      fontWeight: "700",
-                    }}>
-                    {venue.location_name}
-                  </Text>
-                  <Text
+                      height: height * 0.1,
+                      width: width * 0.2,
+                      marginTop: 20,
+                      marginLeft: 20,
+                      marginRight: 50,
+                      marginBottom: 20,
+                    }}
+                    source={require("../DummyData/DummyVenuePhotos/ce-la-vi.jpeg")}></Image>
+                  <View
                     style={{
-                      fontStyle: "italic",
-                      color: "#8F8F8F",
+                      flexDirection: "column",
+                      width: width * 0.5,
                     }}>
-                    {venue.venue_type} {venue.prefecture} {venue.city_ward}
-                  </Text>
-                  <Text>{shortenDescription(venue.description)}</Text>
+                    <Text
+                      style={{
+                        fontSize: 18,
+                        fontWeight: "700",
+                      }}>
+                      {venue.location_name}
+                    </Text>
+                    <Text
+                      style={{
+                        fontStyle: "italic",
+                        color: "#8F8F8F",
+                      }}>
+                      {venue.venue_type} {venue.prefecture} {venue.city_ward}
+                    </Text>
+                    <Text>{shortenDescription(venue.description)}</Text>
+                  </View>
                 </View>
-              </View>
-            </TouchableOpacity>
-          );
-        })}
-      </ScrollView>
-      <LocationModal
-        setIsVisible={setLocationModalVisibile}
-        isVisible={isLocationModalVisibile}
-        setLocation={setLocation}
-      />
-    </View>
+              </TouchableOpacity>
+            );
+          })}
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </ScrollView>
   );
 }

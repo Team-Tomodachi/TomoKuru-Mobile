@@ -111,6 +111,8 @@ export default function SignInScreen({ navigation }) {
               } catch (error) {
                 if (error instanceof FirebaseError) {
                   Alert.alert("Error", authError[error.code]);
+                } else {
+                  console.log(error)
                 }
               }
             }}

@@ -60,7 +60,7 @@ const BottomModal = (props: Props) => {
           <Pressable
             style={[styled.button, styled.buttonClose]}
             onPress={() => {
-              setTag("any tags");
+              setTag("");
               setIsVisible(!isVisible);
             }}>
             <Text

@@ -85,6 +85,7 @@ export default function CreateGroupScreen() {
         <Formik
           initialValues={initialValues}
           onSubmit={async (values: Group) => {
+            console.log("posting...", values, "~ID~", id, `THIS IS THE ID ${id} here`, typeof id);
             await Axios.post(
               `${Constants?.expoConfig?.extra?.apiURL}/api/groups`,
               {
@@ -94,6 +95,11 @@ export default function CreateGroupScreen() {
                 private: values.isPrivate,
                 photo_url: imageRef,
               },
+            ).catch(
+              function (error) {
+                console.log('Axios Post Error!', error)
+                return Promise.reject(error)
+              }
             );
             Alert.alert(
               "Group created",

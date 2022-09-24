@@ -17,20 +17,13 @@ const { height, width } = Dimensions.get("screen");
 
 export default function ListGroups({ navigation }) {
   const [query, setQuery] = useState<string>("");
-  const [tag, setTag] = useState<string>("any tags");
+  const [tag, setTag] = useState<string>("");
   const [groupData, setGroupData] = useState([]);
-  const [filteredGroup, setFilteredGroup] = useState([]);
   const [isModalVisibile, setModalVisibile] = useState<boolean>(false);
 
   useEffect(() => {
-    (async () => {
-      const res = await axios.get(
-        `${Constants?.expoConfig?.extra?.apiURL}/api/groups`,
-      );
-      setGroupData(res.data);
-      setFilteredGroup(res.data);
-    })();
-  }, []);
+    filterGroup(query, tag);
+  }, [query, tag]);
 
   const shortenDescription = (description: any) => {
     if (!description) {
@@ -46,16 +39,17 @@ export default function ListGroups({ navigation }) {
     return privacy === false ? "public" : "private";
   };
 
-  const filterGroup = (query: string) => {
-    if (query.length === 0) {
-      setFilteredGroup(groupData);
-      return;
-    }
-    const lowerQuery = query.toLocaleLowerCase();
-    const newFilter = filteredGroup?.filter(group => {
-      return group?.group_name?.toLowerCase().indexOf(`${lowerQuery}`) !== -1;
-    });
-    setFilteredGroup(newFilter);
+  const filterGroup = (query: string, tag: string) => {
+    axios
+      .get(`${Constants?.expoConfig?.extra?.apiURL}/api/groups`, {
+        params: {
+          query: query?.toLocaleLowerCase(),
+          tag: tag,
+        },
+      })
+      .then(response => {
+        setGroupData(response.data);
+      });
   };
 
   return (
@@ -69,7 +63,6 @@ export default function ListGroups({ navigation }) {
         placeholder="Search"
         onChangeText={text => {
           setQuery(text);
-          filterGroup(text);
         }}
         value={query}
       />
@@ -78,10 +71,10 @@ export default function ListGroups({ navigation }) {
         style={styles("w:28")}
         icon="tag"
         onPress={() => setModalVisibile(true)}>
-        {tag}
+        {tag.length === 0 ? "any tags" : tag}
       </Chip>
       <FlatList
-        data={filteredGroup}
+        data={groupData}
         renderItem={({ item }) => {
           return (
             <Pressable
