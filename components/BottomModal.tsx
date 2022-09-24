@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Alert, Modal, StyleSheet, Text, Pressable, View, Dimensions } from 'react-native';
+import { Modal, StyleSheet, Text, Pressable, View, Dimensions } from 'react-native';
 import { styles } from '../styles/styles';
 import Constants from 'expo-constants';
 import { Chip } from 'react-native-paper';

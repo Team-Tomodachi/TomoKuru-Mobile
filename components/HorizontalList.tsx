@@ -1,4 +1,4 @@
-import { View, Text, ScrollView } from 'react-native';
+import { ScrollView } from 'react-native';
 import React, { useState } from 'react';
 import HListItem from './HListItem';
 import useUser from '../hooks/useUser';

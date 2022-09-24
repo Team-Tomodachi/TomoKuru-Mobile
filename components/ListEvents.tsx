@@ -1,10 +1,8 @@
 import * as React from 'react';
-import { Text, View, ScrollView, Dimensions, Image, TouchableOpacity } from 'react-native';
+import { View, ScrollView } from 'react-native';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import EventListItem from './EventListItem';
-
-const { height, width } = Dimensions.get('screen');
 
 export default function ListEvents({ navigation }) {
   const [eventData, setEventData] = useState([]);

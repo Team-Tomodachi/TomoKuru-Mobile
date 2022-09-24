@@ -1,11 +1,4 @@
-import { Text, View, Dimensions, Image, FlatList, Pressable } from 'react-native';
-import {
-  getStorage,
-  getDownloadURL,
-  ref,
-  uploadBytes,
-  uploadBytesResumable,
-} from 'firebase/storage';
+import { View, Dimensions, FlatList } from 'react-native';
 import { styles } from '../styles/styles';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -13,8 +6,6 @@ import Constants from 'expo-constants';
 import { Searchbar, Chip } from 'react-native-paper';
 import BottomModal from './BottomModal';
 import GroupListItem from './GroupListItem';
-
-const { height, width } = Dimensions.get('screen');
 
 export default function ListGroups({ navigation }) {
   const [query, setQuery] = useState<string>('');

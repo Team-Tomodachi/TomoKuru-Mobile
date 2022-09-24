@@ -1,19 +1,9 @@
-import {
-  Text,
-  View,
-  ScrollView,
-  Dimensions,
-  Image,
-  TouchableOpacity,
-  KeyboardAvoidingView,
-} from 'react-native';
+import { View, ScrollView, Dimensions, KeyboardAvoidingView } from 'react-native';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import VenueListItem from './VenueListItem';
 import { Chip, Searchbar } from 'react-native-paper';
 import { styles } from '../styles/styles';
-
-const { height, width } = Dimensions.get('screen');
 
 export default function ListVenues({ navigation }) {
   const [query, setQuery] = useState<string>('');
@@ -24,16 +14,6 @@ export default function ListVenues({ navigation }) {
   useEffect(() => {
     filterVenues(query, location);
   }, [query, location]);
-
-  const shortenDescription = (description: any) => {
-    if (!description) {
-      return '-';
-    } else if (description.length > 120) {
-      return description.slice(0, 120) + '...';
-    } else {
-      return description;
-    }
-  };
 
   const filterVenues = (query: string, location: string) => {
     axios

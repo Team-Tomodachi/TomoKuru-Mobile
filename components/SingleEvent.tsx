@@ -11,7 +11,6 @@ import {
   Alert,
 } from 'react-native';
 import { useState, useEffect } from 'react';
-import { useFonts } from 'expo-font';
 import axios from 'axios';
 import useUserStore from '../store/user';
 import {
