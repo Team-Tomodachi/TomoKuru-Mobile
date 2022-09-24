@@ -29,10 +29,14 @@ export default function UserScreen({ navigation }) {
   const { signUserOut } = useAuthStore();
   const [status, requestPermission] = ImagePicker.useCameraPermissions();
 
+  const queryClient = useQueryClient();
   const { data, isPlaceholderData } = useUser();
-  if (!isPlaceholderData) {
-    const fileRef = ref(getStorage(), data.photo_url);
-    getDownloadURL(fileRef).then(res => setImage(res));
+
+  if (data) {
+    const fileRef = ref(getStorage(), data.photo_url || "users/user-png");
+    getDownloadURL(fileRef)
+      .then(res => setImage(res))
+      .catch(error => {});
   }
 
   // async function downloadUserPFP() {
@@ -47,8 +51,6 @@ export default function UserScreen({ navigation }) {
   // useEffect(() => {
   //   downloadUserPFP();
   // }, []);
-
-  const queryClient = useQueryClient();
   const { mutate } = useMutation(
     (photoUrl: string) =>
       axios.patch(
@@ -134,7 +136,9 @@ export default function UserScreen({ navigation }) {
         onPress={async () => {
           try {
             await signOut(auth);
+            setImage("");
             signUserOut();
+            queryClient.clear();
           } catch (error) {
             console.log(error);
           }

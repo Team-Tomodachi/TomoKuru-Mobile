@@ -8,7 +8,7 @@ import {
   Button,
   StyleSheet,
   TouchableOpacity,
-  Alert
+  Alert,
 } from "react-native";
 import { useState, useEffect } from "react";
 import { useFonts } from "expo-font";
@@ -21,6 +21,7 @@ import {
   uploadBytes,
   uploadBytesResumable,
 } from "firebase/storage";
+import EventAttendeeList from "./EventAttendeeList";
 
 const { height, width } = Dimensions.get("screen");
 
@@ -28,27 +29,25 @@ export default function SingleEvent({ navigation, route }) {
   const singleEvent = route.params.selectedEvent;
   console.log(singleEvent);
   const { id } = useUserStore();
-  const [image, setImage] = useState("")
+  const [image, setImage] = useState("");
 
   useEffect(() => {
-    if (!singleEvent.photo_url){
-      setImage("https://www.slntechnologies.com/wp-content/uploads/2017/08/ef3-placeholder-image.jpg")
+    if (!singleEvent.photo_url) {
+      setImage(
+        "https://www.slntechnologies.com/wp-content/uploads/2017/08/ef3-placeholder-image.jpg",
+      );
+    } else {
+      const fileRef = ref(getStorage(), singleEvent.photo_url);
+      getDownloadURL(fileRef).then(res => {
+        setImage(res);
+      });
     }
-    else{
-    const fileRef = ref(getStorage(), singleEvent.photo_url );
-    getDownloadURL(fileRef).then(res => { 
-      setImage(res);
-    })
-    }
-  }
-)
+  });
 
   return (
     <View>
       <ScrollView>
-        <Image
-          style={styles.image}
-          source={{ uri: image }} />
+        <Image style={styles.image} source={{ uri: image }} />
         <Text style={styles.title}> {singleEvent.name} </Text>
         <Text style={styles.details}> Group: {singleEvent.group_name} </Text>
         <Text style={styles.details}> {singleEvent.description} </Text>
@@ -60,22 +59,7 @@ export default function SingleEvent({ navigation, route }) {
         <Text style={styles.details}> End Time: {singleEvent.end_time} </Text>
         <Text style={styles.details}> Capacity {singleEvent.capacity} </Text>
         <Text style={styles.details}> Venue: {singleEvent.location_name} </Text>
-        <TouchableOpacity
-          onPress={() =>
-            {if (!{id}){
-              Alert.alert("Please Login to Join Groups!")
-              }
-            else {
-            axios.post(
-              `http://tomokuru.i-re.io/api/events/attendees/${singleEvent.id}/${id}`,
-            )
-            Alert.alert(`You have signed-up for ${singleEvent.name}!`)
-              }
-          }
-        }
-          style={styles.button}>
-          <Text style={styles.details}> Join This Event</Text>
-        </TouchableOpacity>
+        <EventAttendeeList />
         <Button title="Back" onPress={() => navigation.goBack()}></Button>
       </ScrollView>
     </View>
@@ -101,16 +85,16 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 30,
-    fontFamily: "OpenSans",
+    // fontFamily: "OpenSans",
     textDecorationLine: "underline",
   },
   details: {
     fontSize: 20,
-    fontFamily: "OpenSans",
+    // fontFamily: "OpenSans",
   },
   detailsUnderlined: {
     fontSize: 20,
-    fontFamily: "OpenSans",
+    // fontFamily: "OpenSans",
     textDecorationLine: "underline",
   },
   image: {

@@ -9,12 +9,11 @@ import {
 } from "react-native";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import EventListItem from "./EventListItem"
+import EventListItem from "./EventListItem";
 
 const { height, width } = Dimensions.get("screen");
 
 export default function ListEvents({ navigation }) {
-
   const [eventData, setEventData] = useState([]);
 
   useEffect(() => {
@@ -27,12 +26,8 @@ export default function ListEvents({ navigation }) {
     <View>
       <ScrollView style={{ backgroundColor: "rgba(182, 182, 182, 1)" }}>
         {eventData.map((event, index) => {
-          return (
-            <EventListItem singleEvent={event} key={index} /> 
-                )
-              }
-            )
-          }
+          return <EventListItem singleEvent={event} key={index} />;
+        })}
       </ScrollView>
     </View>
   );

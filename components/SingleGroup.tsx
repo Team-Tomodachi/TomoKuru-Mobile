@@ -7,8 +7,8 @@ import {
   Image,
   StyleSheet,
   TouchableOpacity,
-  Alert,
   Button,
+  Alert,
 } from "react-native";
 import { useState, useEffect } from "react";
 import { useFonts } from "expo-font";
@@ -21,28 +21,30 @@ import {
   uploadBytes,
   uploadBytesResumable,
 } from "firebase/storage";
+import GroupMemberList from "./GroupMemberList";
 
 const { height, width } = Dimensions.get("screen");
 
 export default function SingleGroup({ navigation, route }) {
   const singleGroup = route.params.selectedGroup;
-  const { id } = useUserStore();
-  const [image, setImage] = useState("")
+  const { data } = useUserStore();
+  const [image, setImage] = useState("");
 
   console.log(singleGroup);
 
   useEffect(() => {
-    if (!singleGroup.photo_url){
-      setImage("https://www.slntechnologies.com/wp-content/uploads/2017/08/ef3-placeholder-image.jpg")
+    if (!singleGroup.photo_url) {
+      setImage(
+        "https://www.slntechnologies.com/wp-content/uploads/2017/08/ef3-placeholder-image.jpg",
+      );
+    } else {
+      const fileRef = ref(getStorage(), singleGroup.photo_url);
+      getDownloadURL(fileRef).then(res => {
+        setImage(res);
+      });
     }
-    else{
-    const fileRef = ref(getStorage(), singleGroup.photo_url );
-    getDownloadURL(fileRef).then(res => { 
-      setImage(res);
-    })
-    }
-  }
-)
+  });
+  const [groupID, setGroupID] = useState(singleGroup.id);
 
   return (
     <View>
@@ -61,7 +63,8 @@ export default function SingleGroup({ navigation, route }) {
             style={styles.image}
             source={{
               uri: image,
-            }}/>
+            }}
+          />
         </View>
         <Text style={styles.title}>{singleGroup.group_name} </Text>
         <Text style={styles.details}>{singleGroup.group_description} </Text>
@@ -71,30 +74,22 @@ export default function SingleGroup({ navigation, route }) {
         <Text style={styles.detailsUnderlined}>
           Privacy:{singleGroup.private}{" "}
         </Text>
-
+        <GroupMemberList groupID={groupID} />
         <TouchableOpacity
-          onPress={() =>
-            {if (!{id}){
-              Alert.alert("Please Login to Join Groups!")
+          onPress={() => {
+            if (!data?.id) {
+              Alert.alert("Please Login to Join Groups!");
+            } else {
+              axios.post(
+                `http://tomokuru.i-re.io/api/groups/${singleGroup.id}/${data.id}!`,
+              );
+              Alert.alert(`You have joined ${singleGroup.group_name}`);
             }
-            else {
-            axios.post(
-              `http://tomokuru.i-re.io/api/groups/${singleGroup.id}/${id}!`,
-            )
-            Alert.alert(`You have joined ${singleGroup.group_name}`)
-          }
-          }
-        }
+          }}
           style={styles.button}>
-          <Text style={styles.details}> Join This Group</Text>
+          <Text style={styles.details}>Join This Group</Text>
         </TouchableOpacity>
         <Button title="Back" onPress={() => navigation.goBack()}></Button>
-
-        {/* <TouchableOpacity
-            onPress={ () => props.setSingleView(false)}
-            style={styles.button}>
-            <Text style={styles.details}>Go Back</Text>
-          </TouchableOpacity> */}
       </ScrollView>
     </View>
   );
@@ -119,16 +114,16 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 30,
-    fontFamily: "OpenSans",
+    // fontFamily: "OpenSans",
     textDecorationLine: "underline",
   },
   details: {
     fontSize: 20,
-    fontFamily: "OpenSans",
+    // fontFamily: "OpenSans",
   },
   detailsUnderlined: {
     fontSize: 20,
-    fontFamily: "OpenSans",
+    // fontFamily: "OpenSans",
     textDecorationLine: "underline",
   },
   image: {

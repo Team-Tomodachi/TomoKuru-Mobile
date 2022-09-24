@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Button,
   TextInput,
@@ -16,11 +16,23 @@ import { styles } from "../styles/styles";
 import Constants from "expo-constants";
 import Axios from "axios";
 import useUserStore from "../store/user";
+import useUser from "../hooks/useUser";
+import { ActivityIndicator } from "react-native-paper";
+import {
+  getStorage,
+  getDownloadURL,
+  ref,
+  uploadBytesResumable,
+} from "firebase/storage";
+import * as ImagePicker from "expo-image-picker";
+import uuid from "react-native-uuid";
+// import { Button } from "react-native-paper";
 
 interface Group {
   groupName: string;
   groupDesciption: string;
   isPrivate: boolean;
+  photoURL: string;
 }
 
 export default function CreateGroupScreen() {
@@ -28,9 +40,40 @@ export default function CreateGroupScreen() {
     groupName: "",
     groupDesciption: "",
     isPrivate: false,
+    photoURL: "placeholder.gif",
   };
 
-  const { id } = useUserStore();
+  const { data } = useUser();
+  const { id } = data;
+
+  const [imageRef, setImageRef] = useState<string>("placeholder.gif");
+  const [status, requestPermission] = ImagePicker.useCameraPermissions();
+  const [isUploading, setUploading] = useState<boolean>(false);
+
+  const pickImage = async () => {
+    if (!status?.granted) {
+      requestPermission();
+    }
+    if (status?.granted) {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: false,
+        aspect: [4, 3],
+        quality: 1,
+      });
+      if (!result.cancelled) {
+        setUploading(true);
+        const image = await fetch(result.uri);
+        const blob: Blob = await image.blob();
+        const filePath: string = `groups/${uuid.v4()}-${Date.now()}`;
+        setImageRef(filePath);
+        const storageLocRef = ref(getStorage(), filePath);
+        await uploadBytesResumable(storageLocRef, blob);
+        setUploading(false);
+        //TODO Implement lazy loading
+      }
+    }
+  };
 
   return (
     <KeyboardAvoidingView
@@ -47,8 +90,12 @@ export default function CreateGroupScreen() {
                 group_description: values.groupDesciption,
                 user_id: id,
                 private: values.isPrivate,
+                photo_url: imageRef,
               },
-            );
+            ).catch(function (error) {
+              console.log("Axios Post Error!", error);
+              return Promise.reject(error);
+            });
             Alert.alert(
               "Group created",
               "You have successfully created a group",
@@ -79,8 +126,25 @@ export default function CreateGroupScreen() {
                   value={values.groupDesciption}
                   placeholder={values.groupDesciption}></TextInput>
               </View>
-              <Text>Group Privacy</Text>
-              <View
+              <Text>Group Photo</Text>
+
+              <Button
+                icon="camera"
+                style={styles("bg:green-600", "my:2")}
+                onPress={pickImage}
+                disabled={isUploading}
+                title="Select Group Photo">
+                {isUploading ? (
+                  <ActivityIndicator animating={true} color="white" />
+                ) : (
+                  "select photo"
+                )}
+              </Button>
+
+              {/* <View style={styles("border:1", "p:1", "w:56", "m:5", "h:20")}> */}
+
+              {/*<Text>Group Privacy</Text>
+               <View
                 style={styles(
                   "flex:row",
                   "items:center",
@@ -93,7 +157,7 @@ export default function CreateGroupScreen() {
                   value={values.isPrivate}
                   onValueChange={value => setFieldValue("isPrivate", value)}
                 />
-              </View>
+              </View> */}
               <Button onPress={handleSubmit} title="Submit" />
             </View>
           )}

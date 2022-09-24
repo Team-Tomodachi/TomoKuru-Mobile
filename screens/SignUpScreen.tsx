@@ -18,6 +18,7 @@ import { auth } from "../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import authError from "../utils/authError";
 import { FirebaseError } from "firebase/app";
+import useUserStore from "../store/user";
 
 export default function SignInScreen({ navigation }) {
   const [email, setEmail] = useState("");
@@ -26,17 +27,18 @@ export default function SignInScreen({ navigation }) {
   const [username, setUsername] = useState("");
 
   const { signUserIn } = useAuthStore();
+  const { setUserInfo } = useUserStore();
 
   //Handler
 
   async function addUserToDB(email: string, uid: string, name: string) {
-    console.log(email, uid, name);
     await axios
       .post(`${Constants?.expoConfig?.extra?.apiURL}/api/users`, {
         email: email,
         firebase_id: uid,
         first_name: name,
         account_type: "user",
+        photo_url: "users/new-user.png",
       })
       .then(res => console.log(res.data));
   }
@@ -103,10 +105,13 @@ export default function SignInScreen({ navigation }) {
                   password,
                 );
                 addUserToDB(email, userCredentials?.user?.uid, username);
+                setUserInfo("", "", email);
                 signUserIn();
               } catch (error) {
                 if (error instanceof FirebaseError) {
                   Alert.alert("Error", authError[error.code]);
+                } else {
+                  console.log(error);
                 }
               }
             }}

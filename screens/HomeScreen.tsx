@@ -5,23 +5,21 @@ import useUserStore from "../store/user";
 import axios from "axios";
 import Constants from "expo-constants";
 import HListItem from "../components/HListItem";
+import HorizontalList from "../components/HorizontalList";
 import { styles } from "../styles/styles";
+import useUser from "../hooks/useUser";
 
 export default function HomeScreen({ navigation }) {
   const { isUserSignedIn } = useAuthStore();
   const [userCreatedGroups, setUserCreatedGroups] = useState([]);
-  const [userCreatedEvents, setUserCreatedEvents] = useState([]);
 
-  const { id } = useUserStore();
-
-  // useEffect(() => {
-  //   axios
-  //     .get(`${Constants?.expoConfig?.extra?.apiURL}/api/groups/${id}`)
-  //     .then(res => setUserCreatedGroups(res.data));
-  //   axios
-  //     .get(`${Constants?.expoConfig?.extra?.apiURL}/api/events/user/${id}`)
-  //     .then(res => setUserCreatedEvents(res.data));
-  // }, [isUserSignedIn]);
+  const { data } = useUser();
+  const { id } = data;
+  if (id) {
+    axios
+      .get(`${Constants?.expoConfig?.extra?.apiURL}/api/groups/${id}`)
+      .then(res => setUserCreatedGroups(res.data));
+  }
 
   return (
     <View
@@ -38,18 +36,19 @@ export default function HomeScreen({ navigation }) {
             <Text style={styles("text:2xl")}>Your groups</Text>
             <Button title="See More"></Button>
           </View>
-          {/* <ScrollView style={{ height: 200, flexGrow: 0 }} horizontal={true}>
+          <ScrollView style={{ height: 200, flexGrow: 0 }} horizontal={true}>
             <>
-              {userCreatedGroups.map(group => {
+              {userCreatedGroups?.map((group, index) => {
                 return (
                   <HListItem
+                    key={index}
                     imageUrl={group.photo_url}
                     name={group.group_name}
                   />
                 );
               })}
             </>
-          </ScrollView> */}
+          </ScrollView>
           <Button
             onPress={() => navigation.navigate("Create Group")}
             title="Create Group"
@@ -58,15 +57,7 @@ export default function HomeScreen({ navigation }) {
             <Text style={styles("text:2xl")}>Your events</Text>
             <Button title="See More"></Button>
           </View>
-          {/* <ScrollView style={{ height: 200, flexGrow: 0 }} horizontal={true}>
-            <>
-              {userCreatedEvents.map(event => {
-                return (
-                  <HListItem imageUrl={event.photo_url} name={event.name} />
-                );
-              })}
-            </>
-          </ScrollView> */}
+          <HorizontalList />
           <Button
             onPress={() => navigation.navigate("Create Event Stack")}
             title="Create Event"

@@ -18,6 +18,17 @@ import Constants from "expo-constants";
 import axios from "axios";
 import useUserStore from "../store/user";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import useUser from "../hooks/useUser";
+import {
+  getStorage,
+  getDownloadURL,
+  ref,
+  uploadBytesResumable,
+} from "firebase/storage";
+import * as ImagePicker from "expo-image-picker";
+import uuid from "react-native-uuid";
+import { ActivityIndicator } from "react-native-paper";
+import { Button as PaperButton } from "react-native-paper";
 
 interface Event {
   eventName: string;
@@ -25,13 +36,22 @@ interface Event {
   eventDate: Date;
   eventTime: Date;
   venueId: string;
+  photoURL: string;
+  groupId: string;
 }
+//TODO: react-native-paper button?
+//TODO: this doesn't push to db and my image ref isn't getting passed in??
+//TODO: is the endpoint for photo_url here?
 
 export default function CreateEventScreen({ navigation, route }) {
   const [venueId, setVenueId] = useState("");
-  const [venueName, setVenueName] = useState("No venue");
+  const [groupId, setGroupId] = useState("");
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
+
+  const [imageRef, setImageRef] = useState<string>("placeholder.gif");
+  const [status, requestPermission] = ImagePicker.useCameraPermissions();
+  const [isUploading, setUploading] = useState<boolean>(false);
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -49,19 +69,40 @@ export default function CreateEventScreen({ navigation, route }) {
     setTimePickerVisibility(false);
   };
 
+  const pickImage = async () => {
+    if (!status?.granted) {
+      requestPermission();
+    }
+    if (status?.granted) {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: false,
+        aspect: [4, 3],
+        quality: 1,
+      });
+      if (!result.cancelled) {
+        setUploading(true);
+        const image = await fetch(result.uri);
+        const blob: Blob = await image.blob();
+        const filePath: string = `events/${uuid.v4()}-${Date.now()}`;
+        setImageRef(filePath);
+        const storageLocRef = ref(getStorage(), filePath);
+        await uploadBytesResumable(storageLocRef, blob);
+        setUploading(false);
+        //TODO Implement lazy loading
+      }
+    }
+  };
+
   const initialValues: Event = {
     eventName: "",
     eventDescription: "",
     eventDate: new Date(),
     eventTime: new Date(),
     venueId: "",
+    photoURL: "events/placeholder.gif",
+    groupId: "",
   };
-
-  useEffect(() => {
-    if (route.params?.venueName) {
-      setVenueName(route.params?.venueName);
-    }
-  }, [route.params?.venueName]);
 
   useEffect(() => {
     if (route.params?.venueId) {
@@ -69,7 +110,14 @@ export default function CreateEventScreen({ navigation, route }) {
     }
   }, [route.params?.venueId]);
 
-  const { id } = useUserStore();
+  useEffect(() => {
+    if (route.params?.groupId) {
+      setGroupId(route.params?.groupId);
+    }
+  }, [route.params?.groupId]);
+
+  const { data } = useUser();
+  const { id } = data;
 
   return (
     <KeyboardAvoidingView
@@ -86,8 +134,10 @@ export default function CreateEventScreen({ navigation, route }) {
                 name: values.eventName,
                 description: values.eventDescription,
                 date: values.eventDate,
-                time: values.eventTime,
+                start_time: values.eventTime,
                 venue_id: venueId,
+                photo_url: imageRef,
+                group_id: groupId,
               },
             );
             Alert.alert(
@@ -151,10 +201,30 @@ export default function CreateEventScreen({ navigation, route }) {
                 }}
                 onCancel={hideTimePicker}
               />
+              <Text>Group</Text>
+              <Pressable onPress={() => navigation.push("Select Group")}>
+                <Text style={styles("text:2xl")}>
+                  {route?.params?.groupName || "Select a group"}
+                </Text>
+              </Pressable>
               <Text>Event Venue</Text>
               <Pressable onPress={() => navigation.push("Select Venue")}>
-                <Text style={styles("text:2xl")}>{venueName}</Text>
+                <Text style={styles("text:2xl")}>
+                  {route?.params?.venueName || "Select a venue"}
+                </Text>
               </Pressable>
+              <Text>Event Photo</Text>
+              <PaperButton
+                icon="camera"
+                style={styles("bg:green-600", "my:2")}
+                onPress={pickImage}
+                disabled={isUploading}>
+                {isUploading ? (
+                  <ActivityIndicator animating={true} color="white" />
+                ) : (
+                  "select photo"
+                )}
+              </PaperButton>
               <Button onPress={handleSubmit} title="Submit" />
             </View>
           )}
