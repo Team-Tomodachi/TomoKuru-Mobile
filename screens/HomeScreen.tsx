@@ -14,9 +14,9 @@ export default function HomeScreen({ navigation }) {
   const [userCreatedEvents, setUserCreatedEvents] = useState([]);
 
   const { data } = useUser();
-  const { id } = data;
 
   useEffect(() => {
+    const { id } = data;
     axios
       .get(`${Constants?.expoConfig?.extra?.apiURL}/api/groups/${id}`)
       .then(res => setUserCreatedGroups(res.data));
