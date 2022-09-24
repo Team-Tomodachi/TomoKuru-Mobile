@@ -137,8 +137,8 @@ export default function UserScreen({ navigation }) {
           try {
             await signOut(auth);
             setImage("");
-            queryClient.clear();
             signUserOut();
+            queryClient.clear();
           } catch (error) {
             console.log(error);
           }
