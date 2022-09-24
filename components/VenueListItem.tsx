@@ -1,10 +1,11 @@
 import * as React from 'react';
 import { Text, View, Dimensions, Image, TouchableOpacity } from 'react-native';
-import { getStorage, getDownloadURL, ref } from 'firebase/storage';
 import { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
+import firebaseUtils from '../utils/firebaseUtils';
 
 const { height, width } = Dimensions.get('screen');
+const { getImgUrl } = firebaseUtils;
 
 const shortenDescription = (description: any) => {
   if (!description) {
@@ -21,14 +22,12 @@ export default function ListVenueItems({ singleVenue }) {
   const [image, setImage] = useState('');
 
   useEffect(() => {
-    if (singleVenue.photo_url) {
-      const fileRef = ref(getStorage(), singleVenue.photo_url);
-      getDownloadURL(fileRef)
-        .then((res) => {
-          setImage(res);
-        })
-        .catch((error) => console.log(error));
-    }
+    (async () => {
+      if (singleVenue.photo_url) {
+        const imgUrl = await getImgUrl(singleVenue.photo_url);
+        if (imgUrl) setImage(imgUrl);
+      }
+    })();
   }, []);
 
   return (

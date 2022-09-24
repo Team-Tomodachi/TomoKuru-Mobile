@@ -12,11 +12,12 @@ import {
 } from 'react-native';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { getStorage, getDownloadURL, ref } from 'firebase/storage';
 import GroupMemberList from '../components/GroupMemberList';
 import useUser from '../hooks/useUser';
+import firebaseUtils from '../utils/firebaseUtils';
 
 const { height, width } = Dimensions.get('screen');
+const { getImgUrl } = firebaseUtils;
 
 export default function GroupDetailScreen({ navigation, route }) {
   const singleGroup = route.params.selectedGroup;
@@ -24,12 +25,12 @@ export default function GroupDetailScreen({ navigation, route }) {
   const [image, setImage] = useState('');
 
   useEffect(() => {
-    if (singleGroup.photo_url) {
-      const fileRef = ref(getStorage(), singleGroup.photo_url);
-      getDownloadURL(fileRef).then((res) => {
-        setImage(res);
-      });
-    }
+    (async () => {
+      if (singleGroup.photo_url) {
+        const imgUrl = await getImgUrl(singleGroup.photo_url);
+        if (imgUrl) setImage(imgUrl);
+      }
+    })();
   }, []);
 
   return (

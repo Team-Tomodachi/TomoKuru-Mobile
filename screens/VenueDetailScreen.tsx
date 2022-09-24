@@ -11,23 +11,22 @@ import {
 } from 'react-native';
 import { useState, useEffect } from 'react';
 import openMap from 'react-native-open-maps';
-import { getStorage, getDownloadURL, ref } from 'firebase/storage';
+import firebaseUtils from '../utils/firebaseUtils';
 
 const { height, width } = Dimensions.get('screen');
+const { getImgUrl } = firebaseUtils;
 
 export default function VenueDetailScreen({ navigation, route }) {
   const singleVenue = route.params.selectedVenue;
   const [image, setImage] = useState('');
 
   useEffect(() => {
-    if (singleVenue.photo_url) {
-      const fileRef = ref(getStorage(), singleVenue.photo_url);
-      getDownloadURL(fileRef)
-        .then((res) => {
-          setImage(res);
-        })
-        .catch((error) => console.log(error));
-    }
+    (async () => {
+      if (singleVenue.photo_url) {
+        const imgUrl = await getImgUrl(singleVenue.photo_url);
+        if (imgUrl) setImage(imgUrl);
+      }
+    })();
   }, []);
 
   const goToMaps = () => {

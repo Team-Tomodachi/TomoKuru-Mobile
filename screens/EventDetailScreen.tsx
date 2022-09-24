@@ -1,11 +1,12 @@
 import * as React from 'react';
 import { Text, View, ScrollView, Dimensions, Button, StyleSheet, Image } from 'react-native';
 import { useState, useEffect } from 'react';
-import { getStorage, getDownloadURL, ref } from 'firebase/storage';
 import EventAttendeeList from '../components/EventAttendeeList';
 import useUser from '../hooks/useUser';
+import firebaseUtils from '../utils/firebaseUtils';
 
 const { height, width } = Dimensions.get('screen');
+const { getImgUrl } = firebaseUtils;
 
 export default function EventDetailScreen({ navigation, route }) {
   const singleEvent = route.params.selectedEvent;
@@ -13,14 +14,12 @@ export default function EventDetailScreen({ navigation, route }) {
   const [image, setImage] = useState('');
 
   useEffect(() => {
-    if (singleEvent.photo_url) {
-      const fileRef = ref(getStorage(), singleEvent.photo_url);
-      getDownloadURL(fileRef)
-        .then((res) => {
-          setImage(res);
-        })
-        .catch((error) => console.log(error));
-    }
+    (async () => {
+      if (singleEvent.photo_url) {
+        const imgUrl = await getImgUrl(singleEvent.photo_url);
+        if (imgUrl) setImage(imgUrl);
+      }
+    })();
   }, []);
 
   return (

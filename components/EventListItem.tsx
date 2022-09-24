@@ -1,10 +1,11 @@
 import * as React from 'react';
 import { Text, View, Dimensions, Image, TouchableOpacity } from 'react-native';
-import { getStorage, getDownloadURL, ref } from 'firebase/storage';
 import { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
+import firebaseUtils from '../utils/firebaseUtils';
 
 const { height, width } = Dimensions.get('screen');
+const { getImgUrl } = firebaseUtils;
 
 const shortenDescription = (description: any) => {
   if (!description) {
@@ -19,15 +20,14 @@ const shortenDescription = (description: any) => {
 export default function ListEventItems({ singleEvent }) {
   const navigation = useNavigation();
   const [image, setImage] = useState('');
+
   useEffect(() => {
-    if (singleEvent.photo_url) {
-      const fileRef = ref(getStorage(), singleEvent.photo_url);
-      getDownloadURL(fileRef)
-        .then((res) => {
-          setImage(res);
-        })
-        .catch((error) => console.log(error));
-    }
+    (async () => {
+      if (singleEvent.photo_url) {
+        const imgUrl = await getImgUrl(singleEvent.photo_url);
+        if (imgUrl) setImage(imgUrl);
+      }
+    })();
   }, []);
 
   return (
