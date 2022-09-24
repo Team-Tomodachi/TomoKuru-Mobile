@@ -5,6 +5,9 @@ import { StyleProvider } from 'react-native-zephyr';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import ModalUser from './screens/UserStack/ModalUserStack';
 import MainTabsStack from './screens/MainTabsStack';
+import EventDetailScreen from './screens/EventDetailScreen';
+import GroupDetailScreen from './screens/GroupDetailScreen';
+import VenueDetailScreen from './screens/VenueDetailScreen';
 
 const queryClient = new QueryClient();
 const Stack = createNativeStackNavigator();
@@ -25,6 +28,11 @@ export default function App() {
               component={ModalUser}
               options={{ headerShown: false, presentation: 'modal' }}
             />
+            <Stack.Group>
+              <Stack.Screen name="Group Details" component={GroupDetailScreen} />
+              <Stack.Screen name="Event Details" component={EventDetailScreen} />
+              <Stack.Screen name="Venue Details" component={VenueDetailScreen} />
+            </Stack.Group>
           </Stack.Navigator>
         </NavigationContainer>
       </StyleProvider>

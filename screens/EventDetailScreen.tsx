@@ -20,11 +20,11 @@ import {
   uploadBytes,
   uploadBytesResumable,
 } from 'firebase/storage';
-import EventAttendeeList from './EventAttendeeList';
+import EventAttendeeList from '../components/EventAttendeeList';
 
 const { height, width } = Dimensions.get('screen');
 
-export default function SingleEvent({ navigation, route }) {
+export default function EventDetailScreen({ navigation, route }) {
   const singleEvent = route.params.selectedEvent;
   const { id } = useUserStore();
   const [image, setImage] = useState('');

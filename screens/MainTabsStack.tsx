@@ -1,6 +1,6 @@
 import Feather from '@expo/vector-icons/Ionicons';
 import HomeStack from './HomeStack/HomeStack';
-import ExploreStack from './ExploreStack/ExploreStack';
+import ExploreScreen from './ExploreScreen';
 import SafetyScreen from './SafetyScreen';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { TouchableOpacity } from 'react-native';
@@ -44,7 +44,7 @@ export default function MainTabsStack() {
       })}
     >
       <Tab.Screen name="Home" component={HomeStack} />
-      <Tab.Screen name="Explore" component={ExploreStack} />
+      <Tab.Screen name="Explore" component={ExploreScreen} />
       <Tab.Screen name="Safety" component={SafetyScreen} />
     </Tab.Navigator>
   );

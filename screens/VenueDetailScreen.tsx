@@ -5,14 +5,12 @@ import {
   ScrollView,
   Dimensions,
   Image,
+  Button,
   StyleSheet,
   TouchableOpacity,
-  Button,
-  Alert,
 } from 'react-native';
 import { useState, useEffect } from 'react';
-import { useFonts } from 'expo-font';
-import axios from 'axios';
+import openMap, { createOpenLink } from 'react-native-open-maps';
 import {
   getStorage,
   getDownloadURL,
@@ -20,43 +18,39 @@ import {
   uploadBytes,
   uploadBytesResumable,
 } from 'firebase/storage';
-import GroupMemberList from './GroupMemberList';
-import useUser from '../hooks/useUser';
 
 const { height, width } = Dimensions.get('screen');
 
-export default function SingleGroup({ navigation, route }) {
-  const singleGroup = route.params.selectedGroup;
-  const { data } = useUser();
+export default function VenueDetailScreen({ navigation, route }) {
+  const singleVenue = route.params.selectedVenue;
   const [image, setImage] = useState('');
 
   // useEffect(() => {
-  //   if (!singleGroup.photo_url) {
+  //   if (!singleVenue.photo_url) {
   //     setImage(
   //       'https://www.slntechnologies.com/wp-content/uploads/2017/08/ef3-placeholder-image.jpg',
   //     );
   //   } else {
-  //     const fileRef = ref(getStorage(), singleGroup.photo_url);
+  //     const fileRef = ref(getStorage(), singleVenue.photo_url);
   //     getDownloadURL(fileRef).then((res) => {
   //       setImage(res);
   //     });
   //   }
   // });
-  const [groupID, setGroupID] = useState(singleGroup.id);
+
+  const goToMaps = () => {
+    openMap({ query: singleVenue.address, provider: 'google' });
+  };
 
   return (
     <View>
-      <ScrollView
-        style={{
-          backgroundColor: 'white',
-        }}
-      >
+      <ScrollView>
         <View
           style={{
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'center',
-            marginLeft: 20,
+            marginLeft: 25,
           }}
         >
           {/* <Image
@@ -64,26 +58,25 @@ export default function SingleGroup({ navigation, route }) {
             source={{
               uri: image,
             }}
-          /> */}
+          ></Image> */}
         </View>
-        <Text style={styles.title}>{singleGroup.group_name} </Text>
-        <Text style={styles.details}>{singleGroup.group_description} </Text>
-        <Text style={styles.detailsUnderlined}>Group Leader: {singleGroup.group_leader} </Text>
-        <Text style={styles.detailsUnderlined}>Privacy:{singleGroup.private} </Text>
-        <GroupMemberList groupID={groupID} />
-        <TouchableOpacity
-          onPress={() => {
-            if (!data?.id) {
-              Alert.alert('Please Login to Join Groups!');
-            } else {
-              axios.post(`http://tomokuru.i-re.io/api/groups/${singleGroup.id}/${data.id}!`);
-              Alert.alert(`You have joined ${singleGroup.group_name}`);
-            }
-          }}
-          style={styles.button}
-        >
-          <Text style={styles.details}>Join This Group</Text>
+        <Text style={styles.title}>{singleVenue.location_name} </Text>
+        <Text style={styles.detailsItalicized}>{singleVenue.venue_type} </Text>
+        <Text style={styles.details}> {singleVenue.description} </Text>
+        <Text style={styles.details}>
+          🏙{singleVenue.city_ward}, {singleVenue.prefecture}
+        </Text>
+        <Text style={styles.details}> 📞 {singleVenue.phone_num} </Text>
+        <Text style={styles.details}>📍{singleVenue.address} </Text>
+        <TouchableOpacity>
+          <Button title="🗺Open in Maps🗺" onPress={goToMaps} />
         </TouchableOpacity>
+        <Text style={styles.details}> ✉️ {singleVenue.venue_email} </Text>
+        <Text style={styles.details}>🪑{singleVenue.num_seats} </Text>
+        <Text style={styles.details}>🚬 {singleVenue.smoking} </Text>
+        {/* <Text> {singleVenue.outdoor_seating} </Text>
+        <Text> {singleVenue.venue_url} </Text>
+        <Text> {singleVenue.photo_link} </Text> */}
         <Button title="Back" onPress={() => navigation.goBack()}></Button>
       </ScrollView>
     </View>
@@ -121,9 +114,14 @@ const styles = StyleSheet.create({
     // fontFamily: "OpenSans",
     textDecorationLine: 'underline',
   },
+  detailsItalicized: {
+    fontSize: 20,
+    // fontFamily: "OpenSans",
+    fontStyle: 'italic',
+  },
   image: {
     height: height * 0.3,
-    width: width * 0.6,
+    width: width * 0.9,
     marginTop: 20,
     marginLeft: 20,
     marginRight: 50,
