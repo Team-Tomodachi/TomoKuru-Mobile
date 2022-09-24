@@ -11,15 +11,8 @@ import {
   Alert,
 } from 'react-native';
 import { useState, useEffect } from 'react';
-import { useFonts } from 'expo-font';
 import axios from 'axios';
-import {
-  getStorage,
-  getDownloadURL,
-  ref,
-  uploadBytes,
-  uploadBytesResumable,
-} from 'firebase/storage';
+import { getStorage, getDownloadURL, ref } from 'firebase/storage';
 import GroupMemberList from '../components/GroupMemberList';
 import useUser from '../hooks/useUser';
 
