@@ -34,8 +34,6 @@ const shortenDescription = (description: any) => {
 export default function ListVenueItems({ singleVenue }) {
   const [image, setImage] = useState("");
 
-  console.log(singleVenue);
-
   useEffect(() => {
     if (!singleVenue.photo_url) {
       setImage(

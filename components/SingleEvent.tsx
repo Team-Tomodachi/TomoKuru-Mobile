@@ -27,7 +27,6 @@ const { height, width } = Dimensions.get("screen");
 
 export default function SingleEvent({ navigation, route }) {
   const singleEvent = route.params.selectedEvent;
-  console.log(singleEvent);
   const { id } = useUserStore();
   const [image, setImage] = useState("");
 

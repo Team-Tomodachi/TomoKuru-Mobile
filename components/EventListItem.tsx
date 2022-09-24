@@ -34,7 +34,6 @@ const shortenDescription = (description: any) => {
 // let image = "";
 export default function ListEventItems({ singleEvent }) {
   const [image, setImage] = useState("");
-  console.log(singleEvent);
   useEffect(() => {
     if (!singleEvent.photo_url) {
       setImage(
