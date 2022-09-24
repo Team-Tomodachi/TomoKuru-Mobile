@@ -14,7 +14,7 @@ import { styles } from "../styles/styles";
 
 const { height, width } = Dimensions.get("screen");
 
-export default function ListVenues() {
+export default function ListVenues({ navigation }) {
   const [query, setQuery] = useState<string>("");
   const [location, setLocation] = useState<string>("");
   const [venueData, setVenueData] = useState([]);
@@ -98,7 +98,13 @@ export default function ListVenues() {
         <ScrollView style={{ backgroundColor: "rgba(182, 182, 182, 1)" }}>
           {venueData.map((venue, index) => {
             return (
-              <TouchableOpacity key={index}>
+              <TouchableOpacity
+                key={index}
+                onPress={venue =>
+                  navigation.navigate("Venue Details", {
+                    selectedVenue: venueData[index],
+                  })
+                }>
                 <View
                   style={{
                     flexDirection: "row",
