@@ -31,8 +31,6 @@ const shortenDescription = (description: any) => {
     }
   };
 
-  
-// let image = "";
 export default function ListVenueItems ({ singleVenue }) {
 
     const [image, setImage] = useState("")
@@ -42,7 +40,6 @@ export default function ListVenueItems ({ singleVenue }) {
     useEffect(() => {
         if (!singleVenue.photo_url){
           setImage("https://www.slntechnologies.com/wp-content/uploads/2017/08/ef3-placeholder-image.jpg")
-
         }
         else{
         const fileRef = ref(getStorage(), singleVenue.photo_url );
@@ -52,14 +49,16 @@ export default function ListVenueItems ({ singleVenue }) {
         }
       }
     )
-    // const navigation = useNavigation();
+    const navigation = useNavigation();
 
 
           return (
             <TouchableOpacity
-            //   onPress={() => {
-            //     navigation.navigate("Group Details")
-            //   }}
+              onPress={() => {
+                navigation.navigate("Venue Details", {
+                  selectedVenue: singleVenue
+                })
+              }}
               >
               <View
                 style={{

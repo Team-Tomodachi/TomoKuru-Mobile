@@ -50,14 +50,16 @@ export default function ListEventItems ({ singleEvent }) {
         }
       }
     )
-    // const navigation = useNavigation();
+    const navigation = useNavigation();
 
 
           return (
             <TouchableOpacity
-            //   onPress={() => {
-            //     navigation.navigate("Group Details")
-            //   }}
+              onPress={() => {
+                navigation.navigate("Event Details", {
+                  selectedEvent: singleEvent
+                })
+              }}
               >
               <View
                 style={{

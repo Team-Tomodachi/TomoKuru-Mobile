@@ -53,14 +53,16 @@ export default function ListGroupItems ({ singleGroup }) {
         }
       }
     )
-    // const navigation = useNavigation();
+    const navigation = useNavigation();
 
 
           return (
             <TouchableOpacity
-            //   onPress={() => {
-            //     navigation.navigate("Group Details")
-            //   }}
+              onPress={() => {
+                navigation.navigate("Group Details", {
+                  selectedGroup: singleGroup
+                })
+              }}
               >
               <View
                 style={{

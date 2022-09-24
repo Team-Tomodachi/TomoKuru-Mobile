@@ -10,9 +10,17 @@ import {
   Alert,
   Button,
 } from "react-native";
+import { useState, useEffect } from "react";
 import { useFonts } from "expo-font";
 import axios from "axios";
 import useUserStore from "../store/user";
+import {
+  getStorage,
+  getDownloadURL,
+  ref,
+  uploadBytes,
+  uploadBytesResumable,
+} from "firebase/storage";
 
 const { height, width } = Dimensions.get("screen");
 
@@ -20,6 +28,22 @@ export default function SingleGroup({ navigation, route }) {
   const [isMember, setIsMember] = React.useState(false);
   const singleGroup = route.params.selectedGroup;
   const { id } = useUserStore();
+  const [image, setImage] = useState("")
+
+  console.log(singleGroup);
+
+  useEffect(() => {
+    if (!singleGroup.photo_url){
+      setImage("https://www.slntechnologies.com/wp-content/uploads/2017/08/ef3-placeholder-image.jpg")
+    }
+    else{
+    const fileRef = ref(getStorage(), singleGroup.photo_url );
+    getDownloadURL(fileRef).then(res => { 
+      setImage(res);
+    })
+    }
+  }
+)
 
   return (
     <View>
@@ -36,7 +60,9 @@ export default function SingleGroup({ navigation, route }) {
           }}>
           <Image
             style={styles.image}
-            source={require("../DummyData/DummyGroupPhotos/sunday-futsal-in-kinshicho.jpeg")}></Image>
+            source={{
+              uri: image,
+            }}/>
         </View>
         <Text style={styles.title}>{singleGroup.group_name} </Text>
         <Text style={styles.details}>{singleGroup.group_description} </Text>
