@@ -31,9 +31,12 @@ export default function UserScreen({ navigation }) {
 
   const queryClient = useQueryClient();
   const { data, isPlaceholderData } = useUser();
-  if (!isPlaceholderData) {
-    const fileRef = ref(getStorage(), data.photo_url);
-    getDownloadURL(fileRef).then(res => setImage(res));
+
+  if (data) {
+    try {
+      const fileRef = ref(getStorage(), data.photo_url || "users/user-png");
+      getDownloadURL(fileRef).then(res => setImage(res));
+    } catch (error) {}
   }
 
   // async function downloadUserPFP() {
@@ -133,8 +136,8 @@ export default function UserScreen({ navigation }) {
         onPress={async () => {
           try {
             await signOut(auth);
-            queryClient.clear();
             setImage("");
+            queryClient.clear();
             signUserOut();
           } catch (error) {
             console.log(error);

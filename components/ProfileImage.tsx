@@ -12,8 +12,10 @@ export default function ProfileImage() {
 
   useEffect(() => {
     if (isUserSignedIn && !isPlaceholderData) {
-      const fileRef = ref(getStorage(), data.photo_url);
-      getDownloadURL(fileRef).then(res => setProfileImage(res));
+      try {
+        const fileRef = ref(getStorage(), data.photo_url || "users/user-png");
+        getDownloadURL(fileRef).then(res => setProfileImage(res));
+      } catch (error) {}
     } else {
       setProfileImage("");
     }
