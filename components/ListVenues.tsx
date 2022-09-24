@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import VenueListItem from "./VenueListItem";
 import { Chip, Searchbar } from "react-native-paper";
 import { styles } from "../styles/styles";
 
@@ -97,61 +98,7 @@ export default function ListVenues({ navigation }) {
         </ScrollView>
         <ScrollView style={{ backgroundColor: "rgba(182, 182, 182, 1)" }}>
           {venueData.map((venue, index) => {
-            return (
-              <TouchableOpacity
-                key={index}
-                onPress={venue =>
-                  navigation.navigate("Venue Details", {
-                    selectedVenue: venueData[index],
-                  })
-                }>
-                <View
-                  style={{
-                    flexDirection: "row",
-                    borderWidth: 0,
-                    borderRadius: 5,
-                    margin: 10,
-                    marginLeft: 15,
-                    marginRight: 15,
-                    paddingTop: 10,
-                    paddingBottom: 10,
-                    backgroundColor: "white",
-                  }}
-                  key={index}>
-                  <Image
-                    style={{
-                      height: height * 0.1,
-                      width: width * 0.2,
-                      marginTop: 20,
-                      marginLeft: 20,
-                      marginRight: 50,
-                      marginBottom: 20,
-                    }}
-                    source={require("../DummyData/DummyVenuePhotos/ce-la-vi.jpeg")}></Image>
-                  <View
-                    style={{
-                      flexDirection: "column",
-                      width: width * 0.5,
-                    }}>
-                    <Text
-                      style={{
-                        fontSize: 18,
-                        fontWeight: "700",
-                      }}>
-                      {venue.location_name}
-                    </Text>
-                    <Text
-                      style={{
-                        fontStyle: "italic",
-                        color: "#8F8F8F",
-                      }}>
-                      {venue.venue_type} {venue.prefecture} {venue.city_ward}
-                    </Text>
-                    <Text>{shortenDescription(venue.description)}</Text>
-                  </View>
-                </View>
-              </TouchableOpacity>
-            );
+            return <VenueListItem singleVenue={venue} key={index} />;
           })}
         </ScrollView>
       </KeyboardAvoidingView>

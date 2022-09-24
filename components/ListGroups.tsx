@@ -6,12 +6,19 @@ import {
   FlatList,
   Pressable,
 } from "react-native";
+import {
+  getStorage,
+  getDownloadURL,
+  ref,
+  uploadBytes,
+  uploadBytesResumable,
+} from "firebase/storage";
+import { styles } from "../styles/styles";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Constants from "expo-constants";
 import { Searchbar, Chip } from "react-native-paper";
 import BottomModal from "./BottomModal";
-import { styles } from "../styles/styles";
 
 const { height, width } = Dimensions.get("screen");
 
@@ -24,16 +31,6 @@ export default function ListGroups({ navigation }) {
   useEffect(() => {
     filterGroup(query, tag);
   }, [query, tag]);
-
-  const shortenDescription = (description: any) => {
-    if (!description) {
-      return "description is empty";
-    } else if (description.length > 120) {
-      return description.slice(0, 120) + "...";
-    } else {
-      return description;
-    }
-  };
 
   const isPrivate = (privacy: boolean) => {
     return privacy === false ? "public" : "private";
