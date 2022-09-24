@@ -7,10 +7,13 @@ import {
   Image,
   Button,
   StyleSheet,
+  TouchableOpacity,
+  Alert
 } from "react-native";
 import { useState, useEffect } from "react";
 import { useFonts } from "expo-font";
 import axios from "axios";
+import useUserStore from "../store/user";
 import {
   getStorage,
   getDownloadURL,
@@ -24,6 +27,7 @@ const { height, width } = Dimensions.get("screen");
 export default function SingleEvent({ navigation, route }) {
   const singleEvent = route.params.selectedEvent;
   console.log(singleEvent);
+  const { id } = useUserStore();
   const [image, setImage] = useState("")
 
   useEffect(() => {
@@ -56,6 +60,22 @@ export default function SingleEvent({ navigation, route }) {
         <Text style={styles.details}> End Time: {singleEvent.end_time} </Text>
         <Text style={styles.details}> Capacity {singleEvent.capacity} </Text>
         <Text style={styles.details}> Venue: {singleEvent.location_name} </Text>
+        <TouchableOpacity
+          onPress={() =>
+            {if (!{id}){
+              Alert.alert("Please Login to Join Groups!")
+              }
+            else {
+            axios.post(
+              `http://tomokuru.i-re.io/api/events/attendees/${singleEvent.id}/${id}`,
+            )
+            Alert.alert(`You have signed-up for ${singleEvent.name}!`)
+              }
+          }
+        }
+          style={styles.button}>
+          <Text style={styles.details}> Join This Event</Text>
+        </TouchableOpacity>
         <Button title="Back" onPress={() => navigation.goBack()}></Button>
       </ScrollView>
     </View>

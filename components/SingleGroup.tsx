@@ -25,7 +25,6 @@ import {
 const { height, width } = Dimensions.get("screen");
 
 export default function SingleGroup({ navigation, route }) {
-  const [isMember, setIsMember] = React.useState(false);
   const singleGroup = route.params.selectedGroup;
   const { id } = useUserStore();
   const [image, setImage] = useState("")
@@ -75,10 +74,17 @@ export default function SingleGroup({ navigation, route }) {
 
         <TouchableOpacity
           onPress={() =>
+            {if (!{id}){
+              Alert.alert("Please Login to Join Groups!")
+            }
+            else {
             axios.post(
-              `http://tomokuru.i-re.io/api/groups/${singleGroup.id}/${id}`,
+              `http://tomokuru.i-re.io/api/groups/${singleGroup.id}/${id}!`,
             )
+            Alert.alert(`You have joined ${singleGroup.group_name}`)
           }
+          }
+        }
           style={styles.button}>
           <Text style={styles.details}> Join This Group</Text>
         </TouchableOpacity>
