@@ -10,7 +10,7 @@ import useUser from "../hooks/useUser";
 import { Image, TouchableOpacity } from "react-native";
 import useAuthStore from "../store/auth";
 
-export default function MainTabs() {
+export default function MainTabsStack() {
   const { isUserSignedIn } = useAuthStore();
   const { data, isPlaceholderData } = useUser();
 
