@@ -24,8 +24,13 @@ const BottomModal = (props: Props) => {
   }, []);
 
   return (
-    <>
-      <Modal animationType="slide" transparent={true} visible={props.isVisible}>
+    <Modal animationType="slide" transparent={true} visible={props.isVisible}>
+      <Pressable
+        style={styled.centeredView}
+        onPress={() => {
+          setIsVisible(!isVisible);
+        }}
+      >
         <View style={styled.modalView}>
           <View style={styles('flex:wrap', 'flex:row', 'flex:1', 'flex:grow', 'mb:5')}>
             {tagData.map((tag) => {
@@ -55,12 +60,18 @@ const BottomModal = (props: Props) => {
             </Text>
           </Pressable>
         </View>
-      </Modal>
-    </>
+      </Pressable>
+    </Modal>
   );
 };
 
 const styled = StyleSheet.create({
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
   container: {
     backgroundColor: '#7CA1B4',
     flex: 1,
