@@ -13,7 +13,6 @@ import {
 import { useState, useEffect } from "react";
 import { useFonts } from "expo-font";
 import axios from "axios";
-import useUserStore from "../store/user";
 import {
   getStorage,
   getDownloadURL,
@@ -22,15 +21,14 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import GroupMemberList from "./GroupMemberList";
+import useUser from "../hooks/useUser";
 
 const { height, width } = Dimensions.get("screen");
 
 export default function SingleGroup({ navigation, route }) {
   const singleGroup = route.params.selectedGroup;
-  const { data } = useUserStore();
+  const { data } = useUser();
   const [image, setImage] = useState("");
-
-  console.log(singleGroup);
 
   useEffect(() => {
     if (!singleGroup.photo_url) {
