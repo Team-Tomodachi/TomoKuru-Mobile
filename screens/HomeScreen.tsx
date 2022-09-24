@@ -17,12 +17,14 @@ export default function HomeScreen({ navigation }) {
 
   useEffect(() => {
     const { id } = data;
-    axios
-      .get(`${Constants?.expoConfig?.extra?.apiURL}/api/groups/${id}`)
-      .then(res => setUserCreatedGroups(res.data));
-    axios
-      .get(`${Constants?.expoConfig?.extra?.apiURL}/api/events/user/${id}`)
-      .then(res => setUserCreatedEvents(res.data));
+    if (id) {
+      axios
+        .get(`${Constants?.expoConfig?.extra?.apiURL}/api/groups/${id}`)
+        .then(res => setUserCreatedGroups(res.data));
+      axios
+        .get(`${Constants?.expoConfig?.extra?.apiURL}/api/events/user/${id}`)
+        .then(res => setUserCreatedEvents(res.data));
+    }
   }, [isUserSignedIn]);
 
   return (
