@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import VenueListItem from "./VenueListItem"
 
 const { height, width } = Dimensions.get("screen");
 
@@ -39,63 +40,7 @@ export default function ListVenues({ navigation }) {
         <ScrollView style={{ backgroundColor: "rgba(182, 182, 182, 1)" }}>
           {venueData.map((venue, index) => {
             return (
-              <TouchableOpacity
-              onPress={ () => {
-                navigation.navigate({
-                  name: "Venue Details",
-                  params: { selectedVenue: venueData[index] },
-                });
-              }}
-              key={index}>
-              <View
-                style={{
-                  flexDirection: "row",
-                  borderWidth: 0,
-                  borderRadius: 5,
-                  margin: 10,
-                  marginLeft: 15,
-                  marginRight: 15,
-                  paddingTop: 10,
-                  paddingBottom: 10,
-                  backgroundColor: "white",
-                }}
-                key={index}>
-                <Image
-                  style={{
-                    height: height * 0.1,
-                    width: width * 0.2,
-                    marginTop: 20,
-                    marginLeft: 20,
-                    marginRight: 50,
-                    marginBottom: 20,
-                  }}
-                  source={require("../DummyData/DummyVenuePhotos/ce-la-vi.jpeg")}></Image>
-                <View
-                  style={{
-                    flexDirection: "column",
-                    width: width * 0.5,
-                  }}>
-                  <Text 
-                    style={{ fontSize: 18, fontFamily: "OpenSans", fontWeight: "700"}}>
-                    {venue.location_name}
-                  </Text>
-                  <Text
-                      style={{ fontFamily: "OpenSans", fontStyle: "italic", color: "#8F8F8F"}}>
-                      {venue.venue_type}
-                  </Text>
-                  <Text
-                      style={{ fontFamily: "OpenSans", fontStyle: "italic", color: "#8F8F8F"}}>
-                      {venue.prefecture} , {venue.city_ward}
-                  </Text>
-                  <Text
-                    style={{
-                      fontFamily: "OpenSans",
-                    }}>
-                    {shortenDescription(venue.description)}
-                  </Text>
-                </View>
-              </View>
-              </TouchableOpacity>
+              <VenueListItem singleVenue={venue} key={index} />
             );
           })}
         </ScrollView>
