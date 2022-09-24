@@ -30,7 +30,6 @@ import uuid from "react-native-uuid";
 import { ActivityIndicator } from "react-native-paper";
 import { Button as PaperButton } from "react-native-paper";
 
-
 interface Event {
   eventName: string;
   eventDescription: string;
@@ -46,7 +45,7 @@ interface Event {
 
 export default function CreateEventScreen({ navigation, route }) {
   const [venueId, setVenueId] = useState("");
-  const [venueName, setVenueName] = useState("No venue");
+  const [groupId, setGroupId] = useState("");
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
 
@@ -86,8 +85,8 @@ export default function CreateEventScreen({ navigation, route }) {
         const image = await fetch(result.uri);
         const blob: Blob = await image.blob();
         const filePath: string = `events/${uuid.v4()}-${Date.now()}`;
-        setImageRef(filePath)
-        console.log("set image ref", imageRef)
+        setImageRef(filePath);
+        console.log("set image ref", imageRef);
         const storageLocRef = ref(getStorage(), filePath);
         await uploadBytesResumable(storageLocRef, blob);
         setUploading(false);
@@ -107,16 +106,16 @@ export default function CreateEventScreen({ navigation, route }) {
   };
 
   useEffect(() => {
-    if (route.params?.venueName) {
-      setVenueName(route.params?.venueName);
-    }
-  }, [route.params?.venueName]);
-
-  useEffect(() => {
     if (route.params?.venueId) {
       setVenueId(route.params?.venueId);
     }
   }, [route.params?.venueId]);
+
+  useEffect(() => {
+    if (route.params?.groupId) {
+      setGroupId(route.params?.groupId);
+    }
+  }, [route.params?.groupId]);
 
   const { data } = useUser();
   const { id } = data;
@@ -139,7 +138,7 @@ export default function CreateEventScreen({ navigation, route }) {
                 start_time: values.eventTime,
                 venue_id: venueId,
                 photo_url: imageRef,
-                group_id: values.groupId
+                group_id: groupId,
               },
             );
             Alert.alert(
@@ -204,25 +203,30 @@ export default function CreateEventScreen({ navigation, route }) {
                 }}
                 onCancel={hideTimePicker}
               />
+              <Text>Group</Text>
+              <Pressable onPress={() => navigation.push("Select Group")}>
+                <Text style={styles("text:2xl")}>
+                  {route?.params?.groupName || "Select a group"}
+                </Text>
+              </Pressable>
               <Text>Event Venue</Text>
               <Pressable onPress={() => navigation.push("Select Venue")}>
-                <Text style={styles("text:2xl")}>{venueName}</Text>
+                <Text style={styles("text:2xl")}>
+                  {route?.params?.venueName || "Select a venue"}
+                </Text>
               </Pressable>
               <Text>Event Photo</Text>
-
               <PaperButton
                 icon="camera"
                 style={styles("bg:green-600", "my:2")}
                 onPress={pickImage}
-                disabled={isUploading}
-              >
+                disabled={isUploading}>
                 {isUploading ? (
                   <ActivityIndicator animating={true} color="white" />
                 ) : (
                   "select photo"
                 )}
               </PaperButton>
-
               <Button onPress={handleSubmit} title="Submit" />
             </View>
           )}
