@@ -3,28 +3,11 @@ import HomeStack from "./HomeStack";
 import ExploreStack from "./ExploreStack";
 import SafetyScreen from "./SafetyScreen";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { styles } from "../styles/styles";
-import { useEffect, useState } from "react";
-import { ref, getDownloadURL, getStorage } from "firebase/storage";
-import useUser from "../hooks/useUser";
-import { Image, TouchableOpacity } from "react-native";
-import useAuthStore from "../store/auth";
+import { TouchableOpacity } from "react-native";
+import ProfileImage from "../components/ProfileImage";
 
 export default function MainTabsStack() {
-  const { isUserSignedIn } = useAuthStore();
-  const { data, isPlaceholderData } = useUser();
-
   const Tab = createBottomTabNavigator();
-  const [profileImage, setProfileImage] = useState<string>("");
-
-  useEffect(() => {
-    if (isUserSignedIn && !isPlaceholderData) {
-      const fileRef = ref(getStorage(), data.photo_url);
-      getDownloadURL(fileRef).then(res => setProfileImage(res));
-    } else {
-      setProfileImage("");
-    }
-  }, [isUserSignedIn]);
 
   return (
     <Tab.Navigator
@@ -54,19 +37,7 @@ export default function MainTabsStack() {
               delayPressIn={0}
               //TODO: fix ~1 sec delay after press (android only?)
             >
-              {isUserSignedIn && profileImage.length !== 0 ? (
-                <Image
-                  style={styles("rounded:full", "w:10", "h:10", "ml:2")}
-                  source={{
-                    uri: profileImage,
-                  }}
-                />
-              ) : (
-                <Image
-                  style={styles("rounded:full", "w:10", "h:10", "ml:2")}
-                  source={require("../assets/new-user.png")}
-                />
-              )}
+              <ProfileImage />
             </TouchableOpacity>
           );
         },
