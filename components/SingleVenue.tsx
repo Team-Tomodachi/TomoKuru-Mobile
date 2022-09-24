@@ -25,18 +25,18 @@ export default function SingleVenue({ navigation, route }) {
   const singleVenue = route.params.selectedVenue;
   const [image, setImage] = useState('');
 
-  useEffect(() => {
-    if (!singleVenue.photo_url) {
-      setImage(
-        'https://www.slntechnologies.com/wp-content/uploads/2017/08/ef3-placeholder-image.jpg',
-      );
-    } else {
-      const fileRef = ref(getStorage(), singleVenue.photo_url);
-      getDownloadURL(fileRef).then((res) => {
-        setImage(res);
-      });
-    }
-  });
+  // useEffect(() => {
+  //   if (!singleVenue.photo_url) {
+  //     setImage(
+  //       'https://www.slntechnologies.com/wp-content/uploads/2017/08/ef3-placeholder-image.jpg',
+  //     );
+  //   } else {
+  //     const fileRef = ref(getStorage(), singleVenue.photo_url);
+  //     getDownloadURL(fileRef).then((res) => {
+  //       setImage(res);
+  //     });
+  //   }
+  // });
 
   const goToMaps = () => {
     openMap({ query: singleVenue.address, provider: 'google' });
@@ -53,12 +53,12 @@ export default function SingleVenue({ navigation, route }) {
             marginLeft: 25,
           }}
         >
-          <Image
+          {/* <Image
             style={styles.image}
             source={{
               uri: image,
             }}
-          ></Image>
+          ></Image> */}
         </View>
         <Text style={styles.title}>{singleVenue.location_name} </Text>
         <Text style={styles.detailsItalicized}>{singleVenue.venue_type} </Text>

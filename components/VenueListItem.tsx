@@ -27,18 +27,18 @@ const shortenDescription = (description: any) => {
 export default function ListVenueItems({ singleVenue }) {
   const [image, setImage] = useState('');
 
-  useEffect(() => {
-    if (!singleVenue.photo_url) {
-      setImage(
-        'https://www.slntechnologies.com/wp-content/uploads/2017/08/ef3-placeholder-image.jpg',
-      );
-    } else {
-      const fileRef = ref(getStorage(), singleVenue.photo_url);
-      getDownloadURL(fileRef).then((res) => {
-        setImage(res);
-      });
-    }
-  });
+  // useEffect(() => {
+  //   if (!singleVenue.photo_url) {
+  //     setImage(
+  //       'https://www.slntechnologies.com/wp-content/uploads/2017/08/ef3-placeholder-image.jpg',
+  //     );
+  //   } else {
+  //     const fileRef = ref(getStorage(), singleVenue.photo_url);
+  //     getDownloadURL(fileRef).then((res) => {
+  //       setImage(res);
+  //     });
+  //   }
+  // });
   const navigation = useNavigation();
 
   return (

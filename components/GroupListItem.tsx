@@ -23,18 +23,18 @@ const isPrivate = (privacy: boolean) => {
 export default function GroupListItem({ singleGroup }) {
   const [image, setImage] = useState('');
 
-  useEffect(() => {
-    if (!singleGroup.photo_url) {
-      setImage(
-        'https://www.slntechnologies.com/wp-content/uploads/2017/08/ef3-placeholder-image.jpg',
-      );
-    } else {
-      const fileRef = ref(getStorage(), singleGroup.photo_url);
-      getDownloadURL(fileRef).then((res) => {
-        setImage(res);
-      });
-    }
-  });
+  // useEffect(() => {
+  //   if (!singleGroup.photo_url) {
+  //     setImage(
+  //       'https://www.slntechnologies.com/wp-content/uploads/2017/08/ef3-placeholder-image.jpg',
+  //     );
+  //   } else {
+  //     const fileRef = ref(getStorage(), singleGroup.photo_url);
+  //     getDownloadURL(fileRef).then((res) => {
+  //       setImage(res);
+  //     });
+  //   }
+  // });
   const navigation = useNavigation();
 
   return (

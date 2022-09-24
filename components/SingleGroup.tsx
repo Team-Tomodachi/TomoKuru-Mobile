@@ -30,18 +30,18 @@ export default function SingleGroup({ navigation, route }) {
   const { data } = useUser();
   const [image, setImage] = useState('');
 
-  useEffect(() => {
-    if (!singleGroup.photo_url) {
-      setImage(
-        'https://www.slntechnologies.com/wp-content/uploads/2017/08/ef3-placeholder-image.jpg',
-      );
-    } else {
-      const fileRef = ref(getStorage(), singleGroup.photo_url);
-      getDownloadURL(fileRef).then((res) => {
-        setImage(res);
-      });
-    }
-  });
+  // useEffect(() => {
+  //   if (!singleGroup.photo_url) {
+  //     setImage(
+  //       'https://www.slntechnologies.com/wp-content/uploads/2017/08/ef3-placeholder-image.jpg',
+  //     );
+  //   } else {
+  //     const fileRef = ref(getStorage(), singleGroup.photo_url);
+  //     getDownloadURL(fileRef).then((res) => {
+  //       setImage(res);
+  //     });
+  //   }
+  // });
   const [groupID, setGroupID] = useState(singleGroup.id);
 
   return (
@@ -59,12 +59,12 @@ export default function SingleGroup({ navigation, route }) {
             marginLeft: 20,
           }}
         >
-          <Image
+          {/* <Image
             style={styles.image}
             source={{
               uri: image,
             }}
-          />
+          /> */}
         </View>
         <Text style={styles.title}>{singleGroup.group_name} </Text>
         <Text style={styles.details}>{singleGroup.group_description} </Text>
