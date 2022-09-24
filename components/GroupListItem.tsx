@@ -33,7 +33,7 @@ export default function GroupListItem({ singleGroup }) {
         })
         .catch((error) => console.log(error));
     }
-  });
+  }, []);
 
   return (
     <TouchableOpacity
