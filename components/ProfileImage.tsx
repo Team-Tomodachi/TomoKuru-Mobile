@@ -10,15 +10,15 @@ export default function ProfileImage() {
   const { data, isPlaceholderData } = useUser();
   const [profileImage, setProfileImage] = useState<string>('');
 
+  if (data) {
+    const fileRef = ref(getStorage(), data.photo_url || 'users/new-user.png');
+    getDownloadURL(fileRef)
+      .then((res) => setProfileImage(res))
+      .catch((error) => {});
+  }
+
   useEffect(() => {
-    if (isUserSignedIn && !isPlaceholderData) {
-      const fileRef = ref(getStorage(), data.photo_url);
-      getDownloadURL(fileRef)
-        .then((res) => setProfileImage(res))
-        .catch((error) => {});
-    } else {
-      setProfileImage('');
-    }
+    setProfileImage('');
   }, [isUserSignedIn]);
 
   return (
