@@ -11,18 +11,40 @@ import {
 import { useState, useEffect } from "react";
 import { useFonts } from "expo-font";
 import axios from "axios";
+import {
+  getStorage,
+  getDownloadURL,
+  ref,
+  uploadBytes,
+  uploadBytesResumable,
+} from "firebase/storage";
 
 const { height, width } = Dimensions.get("screen");
 
 export default function SingleEvent({ navigation, route }) {
   const singleEvent = route.params.selectedEvent;
+  console.log(singleEvent);
+  const [image, setImage] = useState("")
+
+  useEffect(() => {
+    if (!singleEvent.photo_url){
+      setImage("https://www.slntechnologies.com/wp-content/uploads/2017/08/ef3-placeholder-image.jpg")
+    }
+    else{
+    const fileRef = ref(getStorage(), singleEvent.photo_url );
+    getDownloadURL(fileRef).then(res => { 
+      setImage(res);
+    })
+    }
+  }
+)
 
   return (
     <View>
       <ScrollView>
         <Image
           style={styles.image}
-          source={require("../DummyData/DummyEventPhotos/canada-world-cup.jpeg")}></Image>
+          source={{ uri: image }} />
         <Text style={styles.title}> {singleEvent.name} </Text>
         <Text style={styles.details}> Group: {singleEvent.group_name} </Text>
         <Text style={styles.details}> {singleEvent.description} </Text>
