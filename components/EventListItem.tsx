@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Text, View, ScrollView, Dimensions, Image, TouchableOpacity } from 'react-native';
+import { Text, View, ScrollView, Dimensions, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import {
   getStorage,
   getDownloadURL,

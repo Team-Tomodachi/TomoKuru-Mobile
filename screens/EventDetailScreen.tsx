@@ -13,6 +13,7 @@ import {
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import useUserStore from '../store/user';
+import useUser from '../hooks/useUser';
 import {
   getStorage,
   getDownloadURL,
@@ -26,8 +27,11 @@ const { height, width } = Dimensions.get('screen');
 
 export default function EventDetailScreen({ navigation, route }) {
   const singleEvent = route.params.selectedEvent;
-  const { id } = useUserStore();
-  const [image, setImage] = useState('');
+  const [image, setImage] = useState(''); 
+  const { data } = useUser();
+  const { id } = data;
+
+  console.log(singleEvent);
 
   // useEffect(() => {
   //   if (!singleEvent.photo_url) {
@@ -55,6 +59,19 @@ export default function EventDetailScreen({ navigation, route }) {
         <Text style={styles.details}> Capacity {singleEvent.capacity} </Text>
         <Text style={styles.details}> Venue: {singleEvent.location_name} </Text>
         <EventAttendeeList />
+        <View>
+          <TouchableOpacity
+            onPress={() => {
+              if (!data.id) {
+                Alert.alert('Please Login to Join Events!');
+              } else {
+                axios.post(`http://tomokuru.i-re.io/api/events/attendees/${singleEvent.id}/${data.id}!`);
+                Alert.alert(`You have joined the event: ${singleEvent.name}`);
+              }
+            }}
+            style={styles.button}
+          ></TouchableOpacity>
+        </View>
         <Button title="Back" onPress={() => navigation.goBack()}></Button>
       </ScrollView>
     </View>
