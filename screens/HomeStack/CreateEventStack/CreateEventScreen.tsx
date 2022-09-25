@@ -33,9 +33,6 @@ interface Event {
   photoURL: string;
   groupId: string;
 }
-//TODO: react-native-paper button?
-//TODO: this doesn't push to db and my image ref isn't getting passed in??
-//TODO: is the endpoint for photo_url here?
 
 export default function CreateEventScreen({ navigation, route }) {
   const [venueId, setVenueId] = useState('');
@@ -71,8 +68,8 @@ export default function CreateEventScreen({ navigation, route }) {
       let result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: false,
-        aspect: [4, 3],
-        quality: 1,
+        // aspect: [4, 3],
+        quality: 0.2,
       });
       if (!result.cancelled) {
         setUploading(true);
@@ -83,7 +80,6 @@ export default function CreateEventScreen({ navigation, route }) {
         const storageLocRef = ref(getStorage(), filePath);
         await uploadBytesResumable(storageLocRef, blob);
         setUploading(false);
-        //TODO Implement lazy loading
       }
     }
   };
