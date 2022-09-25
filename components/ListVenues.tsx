@@ -4,10 +4,11 @@ import axios from 'axios';
 import VenueListItem from './VenueListItem';
 import { Chip, Searchbar } from 'react-native-paper';
 import { styles } from '../styles/styles';
+import { FlashList } from '@shopify/flash-list';
 
 export default function ListVenues({ navigation }) {
-  const [query, setQuery] = useState<string>('');
-  const [location, setLocation] = useState<string>('');
+  const [query, setQuery] = useState('');
+  const [location, setLocation] = useState('');
   const [venueData, setVenueData] = useState([]);
   const [isLocationModalVisibile, setLocationModalVisibile] = useState<boolean>(false);
 
@@ -67,11 +68,14 @@ export default function ListVenues({ navigation }) {
             </Chip>
           </View>
         </ScrollView>
-        <ScrollView style={{ backgroundColor: 'rgba(182, 182, 182, 1)' }}>
-          {venueData.map((venue, index) => {
-            return <VenueListItem singleVenue={venue} key={index} />;
-          })}
-        </ScrollView>
+        <FlashList
+          estimatedItemSize={164}
+          data={venueData}
+          keyExtractor={(venue) => venue.id}
+          renderItem={(venue) => {
+            return <VenueListItem singleVenue={venue.item} />;
+          }}
+        />
       </KeyboardAvoidingView>
     </ScrollView>
   );
