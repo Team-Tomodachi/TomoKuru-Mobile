@@ -92,7 +92,7 @@ export default function ListVenues({ navigation }) {
     );
 
   useEffect(() => {
-    filterVenues(query, location, smoking, capacity, undefined);
+    filterVenues(query, location, smoking, capacity, outdoor);
   }, [query, location, smoking, capacity, outdoor]);
 
   const filterVenues = (
@@ -156,14 +156,16 @@ export default function ListVenues({ navigation }) {
             </Chip>
           </View>
         </ScrollView>
-        <FlashList
-          estimatedItemSize={200}
-          data={venueData}
-          keyExtractor={(venue) => venue.id}
-          renderItem={(venue) => {
-            return <VenueListItem singleVenue={venue.item} />;
-          }}
-        />
+        <View style={styles('w:full')}>
+          <FlashList
+            estimatedItemSize={170}
+            data={venueData}
+            keyExtractor={(venue) => venue.id}
+            renderItem={(venue) => {
+              return <VenueListItem singleVenue={venue.item} />;
+            }}
+          />
+        </View>
       </KeyboardAvoidingView>
     </ScrollView>
   );
