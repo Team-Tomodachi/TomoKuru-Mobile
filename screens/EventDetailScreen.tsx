@@ -4,52 +4,49 @@ import {
   View,
   ScrollView,
   Dimensions,
-  Image,
   Button,
   StyleSheet,
+  Image,
   TouchableOpacity,
   Alert,
 } from 'react-native';
 import { useState, useEffect } from 'react';
-import axios from 'axios';
-import useUserStore from '../store/user';
-import useUser from '../hooks/useUser';
-import {
-  getStorage,
-  getDownloadURL,
-  ref,
-  uploadBytes,
-  uploadBytesResumable,
-} from 'firebase/storage';
 import EventAttendeeList from '../components/EventAttendeeList';
+import useUser from '../hooks/useUser';
+import firebaseUtils from '../utils/firebaseUtils';
+import axios from 'axios';
 
 const { height, width } = Dimensions.get('screen');
+const { getImgUrl } = firebaseUtils;
 
 export default function EventDetailScreen({ navigation, route }) {
   const singleEvent = route.params.selectedEvent;
-  const [image, setImage] = useState(''); 
+  const [image, setImage] = useState('');
   const { data } = useUser();
   const { id } = data;
 
-  console.log(singleEvent);
-
-  // useEffect(() => {
-  //   if (!singleEvent.photo_url) {
-  //     setImage(
-  //       'https://www.slntechnologies.com/wp-content/uploads/2017/08/ef3-placeholder-image.jpg',
-  //     );
-  //   } else {
-  //     const fileRef = ref(getStorage(), singleEvent.photo_url);
-  //     getDownloadURL(fileRef).then((res) => {
-  //       setImage(res);
-  //     });
-  //   }
-  // });
+  useEffect(() => {
+    (async () => {
+      if (singleEvent.photo_url) {
+        const imgUrl = await getImgUrl(singleEvent.photo_url);
+        if (imgUrl) setImage(imgUrl);
+      }
+    })();
+  }, []);
 
   return (
     <View>
       <ScrollView>
-        {/* <Image style={styles.image} source={{ uri: image }} /> */}
+        <Image
+          style={styles.image}
+          source={
+            image.length === 0
+              ? require('../assets/place-holder.jpg')
+              : {
+                  uri: image,
+                }
+          }
+        />
         <Text style={styles.title}> {singleEvent.name} </Text>
         <Text style={styles.details}> Group: {singleEvent.group_name} </Text>
         <Text style={styles.details}> {singleEvent.description} </Text>
@@ -58,20 +55,24 @@ export default function EventDetailScreen({ navigation, route }) {
         <Text style={styles.details}> End Time: {singleEvent.end_time} </Text>
         <Text style={styles.details}> Capacity {singleEvent.capacity} </Text>
         <Text style={styles.details}> Venue: {singleEvent.location_name} </Text>
-        <View><EventAttendeeList eventID={singleEvent.id}/></View>
-          <TouchableOpacity
-            onPress={() => {
-              if (!data.id) {
-                Alert.alert('Please Login to Join Events!');
-              } else {
-                axios.post(`http://tomokuru.i-re.io/api/events/attendees/${singleEvent.id}/${data.id}!`);
-                Alert.alert(`You have joined the event: ${singleEvent.name}`);
-              }
-            }}
-            style={styles.button}
-          >
+        <View>
+          <EventAttendeeList eventID={singleEvent.id} />
+        </View>
+        <TouchableOpacity
+          onPress={() => {
+            if (!data.id) {
+              Alert.alert('Please Login to Join Events!');
+            } else {
+              axios.post(
+                `http://tomokuru.i-re.io/api/events/attendees/${singleEvent.id}/${data.id}!`,
+              );
+              Alert.alert(`You have joined the event: ${singleEvent.name}`);
+            }
+          }}
+          style={styles.button}
+        >
           <Text style={styles.details}>Join This Event!</Text>
-          </TouchableOpacity>
+        </TouchableOpacity>
         <Button title="Back" onPress={() => navigation.goBack()}></Button>
       </ScrollView>
     </View>

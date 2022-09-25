@@ -10,33 +10,24 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { useState, useEffect } from 'react';
-import openMap, { createOpenLink } from 'react-native-open-maps';
-import {
-  getStorage,
-  getDownloadURL,
-  ref,
-  uploadBytes,
-  uploadBytesResumable,
-} from 'firebase/storage';
+import openMap from 'react-native-open-maps';
+import firebaseUtils from '../utils/firebaseUtils';
 
 const { height, width } = Dimensions.get('screen');
+const { getImgUrl } = firebaseUtils;
 
 export default function VenueDetailScreen({ navigation, route }) {
   const singleVenue = route.params.selectedVenue;
   const [image, setImage] = useState('');
 
-  // useEffect(() => {
-  //   if (!singleVenue.photo_url) {
-  //     setImage(
-  //       'https://www.slntechnologies.com/wp-content/uploads/2017/08/ef3-placeholder-image.jpg',
-  //     );
-  //   } else {
-  //     const fileRef = ref(getStorage(), singleVenue.photo_url);
-  //     getDownloadURL(fileRef).then((res) => {
-  //       setImage(res);
-  //     });
-  //   }
-  // });
+  useEffect(() => {
+    (async () => {
+      if (singleVenue.photo_url) {
+        const imgUrl = await getImgUrl(singleVenue.photo_url);
+        if (imgUrl) setImage(imgUrl);
+      }
+    })();
+  }, []);
 
   const goToMaps = () => {
     openMap({ query: singleVenue.address, provider: 'google' });
@@ -53,12 +44,16 @@ export default function VenueDetailScreen({ navigation, route }) {
             marginLeft: 25,
           }}
         >
-          {/* <Image
+          <Image
             style={styles.image}
-            source={{
-              uri: image,
-            }}
-          ></Image> */}
+            source={
+              image.length === 0
+                ? require('../assets/place-holder.jpg')
+                : {
+                    uri: image,
+                  }
+            }
+          />
         </View>
         <Text style={styles.title}>{singleVenue.location_name} </Text>
         <Text style={styles.detailsItalicized}>{singleVenue.venue_type} </Text>

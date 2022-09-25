@@ -36,7 +36,7 @@ export default function UserScreen({ navigation }) {
     const fileRef = ref(getStorage(), data.photo_url || 'users/user-png');
     getDownloadURL(fileRef)
       .then((res) => setImage(res))
-      .catch((error) => {});
+      .catch((error) => { console.log("getDownloadURL error:", error) });
   }
 
   // async function downloadUserPFP() {
@@ -70,8 +70,8 @@ export default function UserScreen({ navigation }) {
       let result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: false,
-        aspect: [1, 1],
-        quality: 1,
+        // aspect: [1, 1],
+        quality: 0.2,
       });
       if (!result.cancelled) {
         setUploading(true);
@@ -87,7 +87,6 @@ export default function UserScreen({ navigation }) {
         //   { photo_url: filePath },
         // );
         setUploading(false);
-        //TODO Implement lazy loading
         // Alert.alert("Success", "Your profile picture has been updated");
       }
     }

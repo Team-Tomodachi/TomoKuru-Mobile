@@ -11,38 +11,27 @@ import {
   Alert,
 } from 'react-native';
 import { useState, useEffect } from 'react';
-import { useFonts } from 'expo-font';
 import axios from 'axios';
-import {
-  getStorage,
-  getDownloadURL,
-  ref,
-  uploadBytes,
-  uploadBytesResumable,
-} from 'firebase/storage';
 import GroupMemberList from '../components/GroupMemberList';
 import useUser from '../hooks/useUser';
+import firebaseUtils from '../utils/firebaseUtils';
 
 const { height, width } = Dimensions.get('screen');
+const { getImgUrl } = firebaseUtils;
 
 export default function GroupDetailScreen({ navigation, route }) {
   const singleGroup = route.params.selectedGroup;
   const { data } = useUser();
   const [image, setImage] = useState('');
 
-  // useEffect(() => {
-  //   if (!singleGroup.photo_url) {
-  //     setImage(
-  //       'https://www.slntechnologies.com/wp-content/uploads/2017/08/ef3-placeholder-image.jpg',
-  //     );
-  //   } else {
-  //     const fileRef = ref(getStorage(), singleGroup.photo_url);
-  //     getDownloadURL(fileRef).then((res) => {
-  //       setImage(res);
-  //     });
-  //   }
-  // });
-  const [groupID, setGroupID] = useState(singleGroup.id);
+  useEffect(() => {
+    (async () => {
+      if (singleGroup.photo_url) {
+        const imgUrl = await getImgUrl(singleGroup.photo_url);
+        if (imgUrl) setImage(imgUrl);
+      }
+    })();
+  }, []);
 
   return (
     <View>
@@ -59,18 +48,22 @@ export default function GroupDetailScreen({ navigation, route }) {
             marginLeft: 20,
           }}
         >
-          {/* <Image
+          <Image
             style={styles.image}
-            source={{
-              uri: image,
-            }}
-          /> */}
+            source={
+              image.length === 0
+                ? require('../assets/place-holder.jpg')
+                : {
+                    uri: image,
+                  }
+            }
+          />
         </View>
         <Text style={styles.title}>{singleGroup.group_name} </Text>
         <Text style={styles.details}>{singleGroup.group_description} </Text>
         <Text style={styles.detailsUnderlined}>Group Leader: {singleGroup.group_leader} </Text>
         <Text style={styles.detailsUnderlined}>Privacy:{singleGroup.private} </Text>
-        <GroupMemberList groupID={groupID} />
+        <GroupMemberList groupID={singleGroup.id} />
         <TouchableOpacity
           onPress={() => {
             if (!data?.id) {

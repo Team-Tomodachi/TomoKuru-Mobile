@@ -1,10 +1,11 @@
 import * as React from 'react';
 import { Text, View, Dimensions, Image, TouchableOpacity } from 'react-native';
-import { getStorage, getDownloadURL, ref } from 'firebase/storage';
 import { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
+import firebaseUtils from '../utils/firebaseUtils';
 
 const { height, width } = Dimensions.get('screen');
+const { getImgUrl } = firebaseUtils;
 
 const shortenDescription = (description: any) => {
   if (!description) {
@@ -21,21 +22,17 @@ const isPrivate = (privacy: boolean) => {
 };
 
 export default function GroupListItem({ singleGroup }) {
+  const navigation = useNavigation();
   const [image, setImage] = useState('');
 
-  // useEffect(() => {
-  //   if (!singleGroup.photo_url) {
-  //     setImage(
-  //       'https://www.slntechnologies.com/wp-content/uploads/2017/08/ef3-placeholder-image.jpg',
-  //     );
-  //   } else {
-  //     const fileRef = ref(getStorage(), singleGroup.photo_url);
-  //     getDownloadURL(fileRef).then((res) => {
-  //       setImage(res);
-  //     });
-  //   }
-  // });
-  const navigation = useNavigation();
+  useEffect(() => {
+    (async () => {
+      if (singleGroup.photo_url) {
+        const imgUrl = await getImgUrl(singleGroup.photo_url);
+        if (imgUrl) setImage(imgUrl);
+      }
+    })();
+  }, []);
 
   return (
     <TouchableOpacity
@@ -58,7 +55,7 @@ export default function GroupListItem({ singleGroup }) {
           backgroundColor: 'white',
         }}
       >
-        {/* <Image
+        <Image
           style={{
             height: height * 0.1,
             width: width * 0.2,
@@ -67,11 +64,14 @@ export default function GroupListItem({ singleGroup }) {
             marginRight: 50,
             marginBottom: 20,
           }}
-          source={{
-            uri: image,
-          }}
-        /> */}
-
+          source={
+            image.length === 0
+              ? require('../assets/place-holder.jpg')
+              : {
+                  uri: image,
+                }
+          }
+        />
         <View
           style={{
             flexDirection: 'column',
