@@ -1,17 +1,29 @@
 import * as React from 'react';
-import { Text, View, ScrollView, Dimensions, Button, StyleSheet, Image } from 'react-native';
+import {
+  Text,
+  View,
+  ScrollView,
+  Dimensions,
+  Button,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  Alert,
+} from 'react-native';
 import { useState, useEffect } from 'react';
 import EventAttendeeList from '../components/EventAttendeeList';
 import useUser from '../hooks/useUser';
 import firebaseUtils from '../utils/firebaseUtils';
+import axios from 'axios';
 
 const { height, width } = Dimensions.get('screen');
 const { getImgUrl } = firebaseUtils;
 
 export default function EventDetailScreen({ navigation, route }) {
   const singleEvent = route.params.selectedEvent;
-
   const [image, setImage] = useState('');
+  const { data } = useUser();
+  const { id } = data;
 
   useEffect(() => {
     (async () => {
@@ -43,7 +55,24 @@ export default function EventDetailScreen({ navigation, route }) {
         <Text style={styles.details}> End Time: {singleEvent.end_time} </Text>
         <Text style={styles.details}> Capacity {singleEvent.capacity} </Text>
         <Text style={styles.details}> Venue: {singleEvent.location_name} </Text>
-        <EventAttendeeList />
+        <View>
+          <EventAttendeeList eventID={singleEvent.id} />
+        </View>
+        <TouchableOpacity
+          onPress={() => {
+            if (!data.id) {
+              Alert.alert('Please Login to Join Events!');
+            } else {
+              axios.post(
+                `http://tomokuru.i-re.io/api/events/attendees/${singleEvent.id}/${data.id}!`,
+              );
+              Alert.alert(`You have joined the event: ${singleEvent.name}`);
+            }
+          }}
+          style={styles.button}
+        >
+          <Text style={styles.details}>Join This Event!</Text>
+        </TouchableOpacity>
         <Button title="Back" onPress={() => navigation.goBack()}></Button>
       </ScrollView>
     </View>
