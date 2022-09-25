@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, ScrollView, Text, View } from 'react-native';
+import { Button, ScrollView, Text, View, Pressable } from 'react-native';
 import useAuthStore from '../../store/auth';
 import useUserStore from '../../store/user';
 import axios from 'axios';
@@ -45,7 +45,22 @@ export default function HomeScreen({ navigation }) {
           <Button onPress={() => navigation.navigate('Create Event Stack')} title="Create Event" />
         </View>
       ) : (
-        <Button onPress={() => navigation.navigate('Modal User')} title="Sign In" />
+        <>
+          <Button onPress={() => navigation.navigate('Modal User')} title="Sign In" />
+          <Pressable
+            onPress={() => navigation.navigate('Modal User', { screen: 'Sign Up' })}
+            style={styles(
+              'bg:orange-400',
+              'rounded:lg',
+              'p:2',
+              'flex:row',
+              'justify:evenly',
+              'm:2',
+            )}
+          >
+            <Text>Sign Up</Text>
+          </Pressable>
+        </>
       )}
     </View>
   );
