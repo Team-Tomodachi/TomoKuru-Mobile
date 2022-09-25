@@ -53,8 +53,8 @@ export default function CreateGroupScreen() {
       let result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: false,
-        aspect: [4, 3],
-        quality: 1,
+        // aspect: [4, 3],
+        quality: 0.2,
       });
       if (!result.cancelled) {
         setUploading(true);
