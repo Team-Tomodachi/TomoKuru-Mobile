@@ -28,8 +28,8 @@ const { height, width } = Dimensions.get('screen');
 export default function EventDetailScreen({ navigation, route }) {
   const singleEvent = route.params.selectedEvent;
   const [image, setImage] = useState(''); 
-  const { data } = useUser();
-  const { id } = data;
+  // const { data } = useUser();
+  // const { id } = data;
 
   console.log(singleEvent);
 
@@ -59,7 +59,7 @@ export default function EventDetailScreen({ navigation, route }) {
         <Text style={styles.details}> Capacity {singleEvent.capacity} </Text>
         <Text style={styles.details}> Venue: {singleEvent.location_name} </Text>
         <EventAttendeeList />
-        <View>
+        {/* <View>
           <TouchableOpacity
             onPress={() => {
               if (!data.id) {
@@ -71,7 +71,7 @@ export default function EventDetailScreen({ navigation, route }) {
             }}
             style={styles.button}
           ></TouchableOpacity>
-        </View>
+        </View> */}
         <Button title="Back" onPress={() => navigation.goBack()}></Button>
       </ScrollView>
     </View>
