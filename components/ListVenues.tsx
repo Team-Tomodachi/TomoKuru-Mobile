@@ -10,7 +10,8 @@ export default function ListVenues({ navigation }) {
   const [query, setQuery] = useState('');
   const [location, setLocation] = useState('');
   const [smoking, setSmoking] = useState('');
-  const [capacity, setCapacity] = useState<number | null>(null);
+  const [capacity, setCapacity] = useState<number | undefined>();
+  const [outdoor, setOutdoor] = useState<boolean | undefined>();
   const [venueData, setVenueData] = useState([]);
   const [isLocationModalVisibile, setLocationModalVisibile] = useState(false);
 
@@ -68,20 +69,38 @@ export default function ListVenues({ navigation }) {
           setCapacity(150);
         }
         if (buttonIndex === 4) {
-          setCapacity(null);
+          setCapacity(undefined);
+        }
+      },
+    );
+
+  const outdoorActionSheet = () =>
+    ActionSheetIOS.showActionSheetWithOptions(
+      {
+        options: ['Required', 'Not Required', 'Cancel'],
+        destructiveButtonIndex: 1,
+        cancelButtonIndex: 2,
+      },
+      (buttonIndex) => {
+        if (buttonIndex === 0) {
+          setOutdoor(true);
+        }
+        if (buttonIndex === 1) {
+          setOutdoor(undefined);
         }
       },
     );
 
   useEffect(() => {
-    filterVenues(query, location, smoking, capacity);
-  }, [query, location, smoking, capacity]);
+    filterVenues(query, location, smoking, capacity, undefined);
+  }, [query, location, smoking, capacity, outdoor]);
 
   const filterVenues = (
     query: string,
     location: string,
     smoking: string,
-    capacity: number | null,
+    capacity: number | undefined,
+    outdoor: boolean | undefined,
   ) => {
     axios
       .get('http://tomokuru.i-re.io/api/venues', {
@@ -90,6 +109,7 @@ export default function ListVenues({ navigation }) {
           location: location?.toLowerCase(),
           smoking: smoking,
           capacity: capacity,
+          outdoor: outdoor,
         },
       })
       .then((response) => {
@@ -128,8 +148,8 @@ export default function ListVenues({ navigation }) {
             <Chip mode="outlined" icon="smoking-off" onPress={smokingActionSheet}>
               {smoking.length === 0 ? 'Smoking' : smoking}
             </Chip>
-            <Chip mode="outlined" icon="table-chair">
-              Outdoor Seating
+            <Chip mode="outlined" icon="table-chair" onPress={outdoorActionSheet}>
+              {outdoor ? 'Outdoor Seating: Required' : 'Outdoor Seating: Not Required'}
             </Chip>
             <Chip mode="outlined" icon="account-multiple" onPress={capacityActionSheet}>
               {!capacity ? 'Capacity' : capacity}
