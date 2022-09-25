@@ -36,4 +36,4 @@ jobs:
         run: npm install --immutable
 
       - name: Publish update
-        run: eas update --auto
+        run: FB_APIKEY="${{ secrets.FB_APIKEY }}" API_URL="${{ secrets.API_URL }}" FB_AUTHDOMAIN="${{ secrets.FB_AUTHDOMAIN }}" FB_PROJECTID="${{ secrets.FB_PROJECTID }}" FB_STORAGEBUCKET="${{ secrets.FB_STORAGEBUCKET}}" FB_MESSAGINGSENDERID="${{ secrets.FB_MESSAGINGSENDERID }}" FB_APPID="${{ secrets.FB_APPID }}" eas update --auto
