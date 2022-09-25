@@ -10,6 +10,7 @@ export default function ListVenues({ navigation }) {
   const [query, setQuery] = useState('');
   const [location, setLocation] = useState('');
   const [smoking, setSmoking] = useState('');
+  const [capacity, setCapacity] = useState<number | null>(null);
   const [venueData, setVenueData] = useState([]);
   const [isLocationModalVisibile, setLocationModalVisibile] = useState(false);
 
@@ -46,17 +47,49 @@ export default function ListVenues({ navigation }) {
       },
     );
 
-  useEffect(() => {
-    filterVenues(query, location, smoking);
-  }, [query, location, smoking]);
+  const capacityActionSheet = () =>
+    ActionSheetIOS.showActionSheetWithOptions(
+      {
+        options: ['20', '50', '100', '150', 'Reset', 'Cancel'],
+        destructiveButtonIndex: 4,
+        cancelButtonIndex: 5,
+      },
+      (buttonIndex) => {
+        if (buttonIndex === 0) {
+          setCapacity(20);
+        }
+        if (buttonIndex === 1) {
+          setCapacity(50);
+        }
+        if (buttonIndex === 2) {
+          setCapacity(100);
+        }
+        if (buttonIndex === 3) {
+          setCapacity(150);
+        }
+        if (buttonIndex === 4) {
+          setCapacity(null);
+        }
+      },
+    );
 
-  const filterVenues = (query: string, location: string, smoking: string) => {
+  useEffect(() => {
+    filterVenues(query, location, smoking, capacity);
+  }, [query, location, smoking, capacity]);
+
+  const filterVenues = (
+    query: string,
+    location: string,
+    smoking: string,
+    capacity: number | null,
+  ) => {
     axios
       .get('http://tomokuru.i-re.io/api/venues', {
         params: {
           query: query?.toLowerCase(),
           location: location?.toLowerCase(),
           smoking: smoking,
+          capacity: capacity,
         },
       })
       .then((response) => {
@@ -98,8 +131,8 @@ export default function ListVenues({ navigation }) {
             <Chip mode="outlined" icon="table-chair">
               Outdoor Seating
             </Chip>
-            <Chip mode="outlined" icon="account-multiple">
-              Capacity
+            <Chip mode="outlined" icon="account-multiple" onPress={capacityActionSheet}>
+              {!capacity ? 'Capacity' : capacity}
             </Chip>
           </View>
         </ScrollView>
