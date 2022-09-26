@@ -54,28 +54,15 @@ export default function HomeScreen({ navigation }) {
           {/* <Button onPress={() => navigation.navigate('Modal User')} title="Sign In" /> */}
           <Pressable
             onPress={() => navigation.navigate('Modal User', { screen: 'Sign In' })}
-            style={[Styling.orangeButton, styles(
-              'rounded:lg',
-              'p:2',
-              'flex:row',
-              'justify:evenly',
-              'm:5',
-              'mt:10',
-            )]}
+            style={Styling.actionButton}
           >
-            <Text style={Styling.orangeButton}>SIGN IN</Text>
+            <Text style={Styling.actionButtonText}>SIGN IN</Text>
           </Pressable>
           <Pressable
             onPress={() => navigation.navigate('Modal User', { screen: 'Sign Up' })}
-            style={[Styling.darkorangeButton, styles(
-              'rounded:lg',
-              'p:2',
-              'flex:row',
-              'justify:evenly',
-              'm:5',
-            )]}
+            style={[Styling.actionButton, { backgroundColor: "#CC960C" }]}
           >
-            <Text style={Styling.darkorangeButton}>SIGN UP</Text>
+            <Text style={[Styling.actionButtonText, { backgroundColor: "#CC960C" }]}>SIGN UP</Text>
           </Pressable>
         </>
       )}

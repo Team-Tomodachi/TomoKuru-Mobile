@@ -2,22 +2,6 @@ import { StyleSheet } from "react-native";
 
 export const Styling = StyleSheet.create({
 
-  orangeButton: {
-    backgroundColor: "#FCB90F",
-    fontSize: 20,
-    fontFamily: 'OpenSans-Bold',
-    paddingLeft: 25,
-    paddingRight: 25,
-  },
-
-  darkorangeButton: {
-    backgroundColor: "#CC960C",
-    fontSize: 20,
-    fontFamily: 'OpenSans-Bold',
-    paddingLeft: 25,
-    paddingRight: 25,
-  },
-
   tomoLogo: {
     fontFamily: 'Kanit-Black',
     fontSize: 60,
@@ -44,22 +28,13 @@ export const Styling = StyleSheet.create({
     fontSize: 15,
     paddingLeft: 20,
     paddingRight: 20,
-
   },
 
-  greyBox : {
+  greyBox: {
     backgroundColor: "#DFDFDF",
     padding: 15,
     margin: 10,
     borderRadius: 10,
-  },
-
-  nativeButton: {
-    backgroundColor: "#FCB90F",
-    fontSize: 20,
-    fontFamily: 'OpenSans-Bold',
-    paddingLeft: 25,
-    paddingRight: 25,
   },
 
   navigationButton: {
@@ -76,12 +51,33 @@ export const Styling = StyleSheet.create({
   navigationButtonText: {
     backgroundColor: "#FCB90F",
     fontSize: 20,
-    fontFamily: 'OpenSans-Bold',
+    fontFamily: 'OpenSans-ExtraBold',
   },
 
-  navigationText: {
-    fontFamily: "Kanit-Bold",
+  actionButton: {
+    backgroundColor: "#FCB90F",
+    padding: 7,
+    paddingLeft: 50,
+    paddingRight: 50,
+    marginRight: 15,
+    borderRadius: 5,
+    margin: 15,
+  },
+
+  actionButtonText: {
+    backgroundColor: "#FCB90F",
     fontSize: 20,
+    fontFamily: 'OpenSans-ExtraBold',
+  },
+
+  h2Text: {
+    fontFamily: "OpenSans-SemiBold",
+    fontSize: 18,
+  },
+
+  formField: {
+    fontFamily: "OpenSans-Medium",
+    fontSize: 18,
   }
-  
+
 });

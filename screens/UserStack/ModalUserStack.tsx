@@ -4,7 +4,7 @@ import SignUpScreen from './SignUpScreen';
 import UserCustomiseScreen from './UserCustomiseScreen';
 import UserScreen from './UserScreen';
 import useAuthStore from '../../store/auth';
-import { Button, Pressable, Text } from 'react-native';
+import { Pressable, Text } from 'react-native';
 import { Styling } from "../../styles/styling"
 
 
@@ -32,7 +32,7 @@ export default function ModalUser() {
                 )
               },
               headerTitleStyle: {
-                fontFamily: "OpenSans-Bold",
+                fontFamily: "OpenSans-ExtraBold",
                 fontSize: 20,
               }
             })}
@@ -56,7 +56,7 @@ export default function ModalUser() {
                 )
               },
               headerTitleStyle: {
-                fontFamily: "OpenSans-Bold",
+                fontFamily: "OpenSans-ExtraBold",
                 fontSize: 20,
               }
             })}
