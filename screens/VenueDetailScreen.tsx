@@ -12,6 +12,7 @@ import {
 import { useState, useEffect } from 'react';
 import openMap from 'react-native-open-maps';
 import firebaseUtils from '../utils/firebaseUtils';
+import ViewPackages from '../components/ViewPackages';
 
 const { height, width } = Dimensions.get('screen');
 const { getImgUrl } = firebaseUtils;
@@ -19,6 +20,12 @@ const { getImgUrl } = firebaseUtils;
 export default function VenueDetailScreen({ navigation, route }) {
   const singleVenue = route.params.selectedVenue;
   const [image, setImage] = useState('');
+  const [showPackages, setShowPackages] = useState(false);
+
+  const goBackHidePackages = () => {
+    setShowPackages(false);
+    navigation.goBack();
+  };
 
   useEffect(() => {
     (async () => {
@@ -72,7 +79,17 @@ export default function VenueDetailScreen({ navigation, route }) {
         {/* <Text> {singleVenue.outdoor_seating} </Text>
         <Text> {singleVenue.venue_url} </Text>
         <Text> {singleVenue.photo_link} </Text> */}
-        <Button title="Back" onPress={() => navigation.goBack()}></Button>
+        {showPackages ? (
+          <ViewPackages singleVenue={singleVenue.id} />
+        ) : (
+          <Button title="Show Packages" onPress={() => setShowPackages(true)} />
+        )}
+        <Button
+          title="Go Back"
+          onPress={() => {
+            goBackHidePackages();
+          }}
+        />
       </ScrollView>
     </View>
   );
