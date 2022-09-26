@@ -1,15 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Button, ScrollView, Text, View, Pressable, StyleSheet } from 'react-native';
 import useAuthStore from '../../store/auth';
-import useUserStore from '../../store/user';
 import axios from 'axios';
 import Constants from 'expo-constants';
 import HListItem from '../../components/HListItem';
 import HorizontalList from '../../components/HorizontalList';
 import { styles } from '../../styles/styles';
 import useUser from '../../hooks/useUser';
-import * as Font from 'expo-font';
-
 
 export default function HomeScreen({ navigation }) {
   const { isUserSignedIn } = useAuthStore();
@@ -49,7 +46,7 @@ export default function HomeScreen({ navigation }) {
       ) : (
         <>
           <Button onPress={() => navigation.navigate('Modal User')} title="Sign In" />
-          {/* <Pressable
+          <Pressable
             onPress={() => navigation.navigate('Modal User', { screen: 'Sign Up' })}
             style={[componentStyles.yellow, styles(
 
@@ -60,8 +57,8 @@ export default function HomeScreen({ navigation }) {
               'm:2',
             )]}
           >
-            <Text style={componentStyles.yellow}>Sign Up</Text>
-          </Pressable> */}
+            <Text style={componentStyles.yellow}>SIGN UP</Text>
+          </Pressable>
         </>
       )}
     </View>
@@ -79,7 +76,7 @@ const componentStyles = StyleSheet.create({
   },
   yellow: {
     backgroundColor: "#FCB90F",
-    fontSize: 30,
-    // fontFamily: 'Kanit-Black'
+    fontSize: 20,
+    fontFamily: 'OpenSans-Bold'
   },
 });
