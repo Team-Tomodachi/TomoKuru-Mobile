@@ -19,6 +19,7 @@ import { createUserWithEmailAndPassword } from 'firebase/auth';
 import authError from '../../utils/authError';
 import { FirebaseError } from 'firebase/app';
 import useUserStore from '../../store/user';
+import { Styling } from "../../styles/styling"
 
 export default function SignInScreen({ navigation }) {
   const [email, setEmail] = useState('');
@@ -50,9 +51,9 @@ export default function SignInScreen({ navigation }) {
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <Text style={styles('w:56', 'text-align:justify')}>Email</Text>
+          <Text style={[styles('w:56', 'text-align:justify'), Styling.h2Text]}>Email</Text>
           <TextInput
-            style={styles('border:1', 'p:1', 'w:56', 'm:5')}
+            style={[styles('border:1', 'p:2', 'w:56', 'm:5', "mt:1", "mb:7"), Styling.formField]}
             placeholder="Email"
             clearButtonMode="while-editing"
             keyboardType="email-address"
@@ -62,9 +63,9 @@ export default function SignInScreen({ navigation }) {
             }}
             autoCapitalize="none"
           ></TextInput>
-          <Text style={styles('w:56', 'text-align:justify')}>Name</Text>
+          <Text style={[styles('w:56', 'text-align:justify'), Styling.h2Text]}>Name</Text>
           <TextInput
-            style={styles('border:1', 'p:1', 'w:56', 'm:5')}
+            style={[styles('border:1', 'p:2', 'w:56', 'm:5', "mt:1", "mb:7"), Styling.formField]}
             placeholder="Name"
             clearButtonMode="while-editing"
             keyboardType="default"
@@ -74,9 +75,9 @@ export default function SignInScreen({ navigation }) {
             }}
             autoCapitalize="none"
           ></TextInput>
-          <Text style={styles('w:56', 'text-align:justify')}>Password</Text>
+          <Text style={[styles('w:56', 'text-align:justify'), Styling.h2Text]}>Password</Text>
           <TextInput
-            style={styles('border:1', 'p:1', 'w:56', 'm:5')}
+            style={[styles('border:1', 'p:2', 'w:56', 'm:5', "mt:1", "mb:7"), Styling.formField]}
             placeholder="Password"
             clearButtonMode="while-editing"
             returnKeyType="done"
@@ -86,9 +87,9 @@ export default function SignInScreen({ navigation }) {
             autoCapitalize={'none'}
             secureTextEntry={true}
           ></TextInput>
-          <Text style={styles('w:56', 'text-align:justify')}>Confirm password</Text>
+          <Text style={[styles('w:56', 'text-align:justify'), Styling.h2Text]}>Confirm password</Text>
           <TextInput
-            style={styles('border:1', 'p:1', 'w:56', 'm:5')}
+            style={[styles('border:1', 'p:2', 'w:56', 'm:5', "mt:1", "mb:7"), Styling.formField]}
             placeholder="Password"
             clearButtonMode="while-editing"
             returnKeyType="done"
@@ -113,9 +114,9 @@ export default function SignInScreen({ navigation }) {
                 }
               }
             }}
-            style={styles('bg:green-600', 'rounded:lg', 'p:2', 'flex:row', 'justify:evenly', 'm:2')}
+            style={Styling.actionButton}
           >
-            <Text style={{ color: 'white' }}>Sign Up</Text>
+            <Text style={Styling.actionButtonText}>SIGN UP</Text>
           </Pressable>
         </View>
       </TouchableWithoutFeedback>

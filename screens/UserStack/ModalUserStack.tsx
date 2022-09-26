@@ -61,7 +61,26 @@ export default function ModalUser() {
               }
             })}
           />
-          <Stack.Screen name="Sign Up" component={SignUpScreen} />
+          <Stack.Screen
+            name="Sign Up"
+            component={SignUpScreen}
+            options={({ navigation }) => ({
+              headerLeft: () => {
+                return (
+                  <Pressable
+                    onPress={() => navigation.popToTop()}
+                    style={Styling.navigationButton}
+                  >
+                    <Text style={Styling.navigationButtonText}>BACK</Text>
+                  </Pressable>
+                )
+              },
+              headerTitleStyle: {
+                fontFamily: "OpenSans-ExtraBold",
+                fontSize: 20,
+              }
+            })}
+          />
         </>
       )}
     </Stack.Navigator>

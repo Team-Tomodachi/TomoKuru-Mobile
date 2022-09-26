@@ -33,7 +33,7 @@ export const Styling = StyleSheet.create({
   greyBox: {
     backgroundColor: "#DFDFDF",
     padding: 15,
-    margin: 10,
+    margin: 15,
     borderRadius: 10,
   },
 
@@ -76,7 +76,7 @@ export const Styling = StyleSheet.create({
   },
 
   formField: {
-    fontFamily: "OpenSans-Medium",
+    fontFamily: "OpenSans-Regular",
     fontSize: 18,
   }
 
