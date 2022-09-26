@@ -51,7 +51,6 @@ export default function HomeScreen({ navigation }) {
           <View style={Styling.greyBox}>
             <Text style={Styling.sectionText}><Text style={Styling.tomoNoSize}>Tomo<Text style={Styling.kuruNoSize}>Kuru</Text></Text> is an app where you can join groups, browse events, and connect with venues to find the best place to host your social gatherings!</Text>
           </View>
-          {/* <Button onPress={() => navigation.navigate('Modal User')} title="Sign In" /> */}
           <Pressable
             onPress={() => navigation.navigate('Modal User', { screen: 'Sign In' })}
             style={Styling.actionButton}
