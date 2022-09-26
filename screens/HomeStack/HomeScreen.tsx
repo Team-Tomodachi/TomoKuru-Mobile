@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, ScrollView, Text, View, Pressable, StyleSheet } from 'react-native';
+import { Button, ScrollView, Text, View, Pressable } from 'react-native';
 import useAuthStore from '../../store/auth';
 import axios from 'axios';
 import Constants from 'expo-constants';
@@ -47,10 +47,10 @@ export default function HomeScreen({ navigation }) {
         </View>
       ) : (
         <>
+          <Text style={Styling.tomoLogo}>Tomo<Text style={Styling.kuruLogo}>Kuru</Text></Text>
           <View style={Styling.greyBox}>
             <Text style={Styling.sectionText}><Text style={Styling.tomoNoSize}>Tomo<Text style={Styling.kuruNoSize}>Kuru</Text></Text> is an app where you can join groups, browse events, and connect with venues to find the best place to host your social gatherings!</Text>
           </View>
-          <Text style={Styling.tomoLogo}>Tomo<Text style={Styling.kuruLogo}>Kuru</Text></Text>
           {/* <Button onPress={() => navigation.navigate('Modal User')} title="Sign In" /> */}
           <Pressable
             onPress={() => navigation.navigate('Modal User', { screen: 'Sign In' })}
@@ -59,8 +59,8 @@ export default function HomeScreen({ navigation }) {
               'p:2',
               'flex:row',
               'justify:evenly',
-              'm:2',
-              "mb:7",
+              'm:5',
+              'mt:10',
             )]}
           >
             <Text style={Styling.orangeButton}>SIGN IN</Text>
@@ -72,7 +72,7 @@ export default function HomeScreen({ navigation }) {
               'p:2',
               'flex:row',
               'justify:evenly',
-              'm:2',
+              'm:5',
             )]}
           >
             <Text style={Styling.darkorangeButton}>SIGN UP</Text>

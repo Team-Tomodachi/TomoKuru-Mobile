@@ -20,13 +20,14 @@ export const Styling = StyleSheet.create({
 
   tomoLogo: {
     fontFamily: 'Kanit-Black',
-    fontSize: 50,
+    fontSize: 60,
     padding: 50,
   },
 
   kuruLogo: {
     fontFamily: 'Kanit-Black-Italic',
-    fontSize: 50,
+    color: "#FCB90F",
+    fontSize: 60,
     padding: 50,
   },
 
@@ -51,5 +52,36 @@ export const Styling = StyleSheet.create({
     padding: 15,
     margin: 10,
     borderRadius: 10,
+  },
+
+  nativeButton: {
+    backgroundColor: "#FCB90F",
+    fontSize: 20,
+    fontFamily: 'OpenSans-Bold',
+    paddingLeft: 25,
+    paddingRight: 25,
+  },
+
+  navigationButton: {
+    backgroundColor: "#FCB90F",
+    fontSize: 20,
+    fontFamily: 'OpenSans-Bold',
+    padding: 5,
+    paddingLeft: 15,
+    paddingRight: 15,
+    marginRight: 15,
+    borderRadius: 5,
+  },
+
+  navigationButtonText: {
+    backgroundColor: "#FCB90F",
+    fontSize: 20,
+    fontFamily: 'OpenSans-Bold',
+  },
+
+  navigationText: {
+    fontFamily: "Kanit-Bold",
+    fontSize: 20,
   }
+  
 });
