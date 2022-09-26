@@ -48,7 +48,7 @@ export default function HomeScreen({ navigation }) {
       ) : (
         <>
           <View style={Styling.greyBox}>
-            <Text style={Styling.sectionText}><Text style={Styling.tomoNoSize}>Tomo<Text style={Styling.kuruNoSize}>Kuru</Text></Text> is an app where you can find and join groups, as well as connect with venues to find the best place to host events!</Text>
+            <Text style={Styling.sectionText}><Text style={Styling.tomoNoSize}>Tomo<Text style={Styling.kuruNoSize}>Kuru</Text></Text> is an app where you can join groups, browse events, and connect with venues to find the best place to host your social gatherings!</Text>
           </View>
           <Text style={Styling.tomoLogo}>Tomo<Text style={Styling.kuruLogo}>Kuru</Text></Text>
           {/* <Button onPress={() => navigation.navigate('Modal User')} title="Sign In" /> */}
