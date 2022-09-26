@@ -11,7 +11,7 @@ import VenueDetailScreen from './screens/VenueDetailScreen';
 import { useCallback } from 'react';
 import * as SplashScreen from 'expo-splash-screen';
 import { useFonts } from 'expo-font';
-import { View } from 'react-native';
+import { Text, View, StyleSheet } from 'react-native';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -34,16 +34,17 @@ export default function App() {
   }
 
   return (
-    <View onLayout={onLayoutRootView}>
-      <QueryClientProvider client={queryClient}>
-        <StyleProvider>
-          <NavigationContainer>
+    <QueryClientProvider client={queryClient}>
+      <StyleProvider>
+        <NavigationContainer>
+          <View style={styles.container} onLayout={onLayoutRootView}>
+            <Stack.Screen
+              name="Main Tab"
+              component={MainTabsStack}
+              options={{ headerShown: false }}
+            />
+            <Text>THIS IS HAPPENING</Text>
             <Stack.Navigator>
-              <Stack.Screen
-                name="Main Tab"
-                component={MainTabsStack}
-                options={{ headerShown: false }}
-              />
               <Stack.Screen
                 name="Modal User"
                 component={ModalUser}
@@ -55,9 +56,15 @@ export default function App() {
                 <Stack.Screen name="Venue Details" component={VenueDetailScreen} />
               </Stack.Group>
             </Stack.Navigator>
-          </NavigationContainer>
-        </StyleProvider>
-      </QueryClientProvider>
-    </View>
+          </View>
+        </NavigationContainer>
+      </StyleProvider>
+    </QueryClientProvider>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: "green"
+  }
+}); 
