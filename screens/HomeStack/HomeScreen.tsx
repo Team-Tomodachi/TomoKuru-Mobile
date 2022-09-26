@@ -23,6 +23,7 @@ export default function HomeScreen({ navigation }) {
 
   return (
     <View style={styles('w:full', 'flex:1', 'justify:center', 'items:center', 'p:1')}>
+
       {isUserSignedIn ? (
         <View>
           <View style={styles('flex:row', 'justify:between', 'items:center')}>
@@ -46,12 +47,27 @@ export default function HomeScreen({ navigation }) {
         </View>
       ) : (
         <>
+          <View style={Styling.greyBox}>
+            <Text style={Styling.sectionText}><Text style={Styling.tomoNoSize}>Tomo<Text style={Styling.kuruNoSize}>Kuru</Text></Text> is an app where you can find and join groups, as well as connect with venues to find the best place to host events!</Text>
+          </View>
           <Text style={Styling.tomoLogo}>Tomo<Text style={Styling.kuruLogo}>Kuru</Text></Text>
-          <Button onPress={() => navigation.navigate('Modal User')} title="Sign In" />
+          {/* <Button onPress={() => navigation.navigate('Modal User')} title="Sign In" /> */}
+          <Pressable
+            onPress={() => navigation.navigate('Modal User', { screen: 'Sign In' })}
+            style={[Styling.orangeButton, styles(
+              'rounded:lg',
+              'p:2',
+              'flex:row',
+              'justify:evenly',
+              'm:2',
+              "mb:7",
+            )]}
+          >
+            <Text style={Styling.orangeButton}>SIGN IN</Text>
+          </Pressable>
           <Pressable
             onPress={() => navigation.navigate('Modal User', { screen: 'Sign Up' })}
-            style={[Styling.yellow, styles(
-
+            style={[Styling.darkorangeButton, styles(
               'rounded:lg',
               'p:2',
               'flex:row',
@@ -59,36 +75,10 @@ export default function HomeScreen({ navigation }) {
               'm:2',
             )]}
           >
-            <Text style={Styling.yellow}>SIGN UP</Text>
+            <Text style={Styling.darkorangeButton}>SIGN UP</Text>
           </Pressable>
         </>
       )}
     </View>
   );
 }
-
-const componentStyles = StyleSheet.create({
-  container: {
-    marginTop: 50,
-  },
-  bigBlue: {
-    color: 'blue',
-    fontWeight: 'bold',
-
-  },
-  yellow: {
-    backgroundColor: "#FCB90F",
-    fontSize: 20,
-    fontFamily: 'OpenSans-Bold'
-  },
-  tomoLogo: {
-    fontFamily: 'Kanit-Black',
-    fontSize: 50,
-    padding: 50,
-  },
-  kuruLogo: {
-    fontFamily: 'Kanit-Black-Italic',
-    fontSize: 50,
-    padding: 50,
-  }
-});
