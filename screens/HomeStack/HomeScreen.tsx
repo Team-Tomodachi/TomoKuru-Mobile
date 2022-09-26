@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { Button, ScrollView, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { Button, ScrollView, Text, View, Pressable } from 'react-native';
 import useAuthStore from '../../store/auth';
-import useUserStore from '../../store/user';
 import axios from 'axios';
 import Constants from 'expo-constants';
 import HListItem from '../../components/HListItem';
 import HorizontalList from '../../components/HorizontalList';
 import { styles } from '../../styles/styles';
 import useUser from '../../hooks/useUser';
+import { Styling } from "../../styles/styling"
 
 export default function HomeScreen({ navigation }) {
   const { isUserSignedIn } = useAuthStore();
@@ -23,6 +23,7 @@ export default function HomeScreen({ navigation }) {
 
   return (
     <View style={styles('w:full', 'flex:1', 'justify:center', 'items:center', 'p:1')}>
+
       {isUserSignedIn ? (
         <View>
           <View style={styles('flex:row', 'justify:between', 'items:center')}>
@@ -45,7 +46,25 @@ export default function HomeScreen({ navigation }) {
           <Button onPress={() => navigation.navigate('Create Event Stack')} title="Create Event" />
         </View>
       ) : (
-        <Button onPress={() => navigation.navigate('Modal User')} title="Sign In" />
+        <>
+          <Text style={Styling.tomoLogo}>Tomo<Text style={Styling.kuruLogo}>Kuru</Text></Text>
+          <View style={Styling.greyBox}>
+            <Text style={Styling.sectionText}><Text style={Styling.tomoNoSize}>Tomo<Text style={Styling.kuruNoSize}>Kuru</Text></Text> is an app where you can join groups, browse events, and connect with venues to find the best place to host your social gatherings!</Text>
+          </View>
+          {/* <Button onPress={() => navigation.navigate('Modal User')} title="Sign In" /> */}
+          <Pressable
+            onPress={() => navigation.navigate('Modal User', { screen: 'Sign In' })}
+            style={Styling.actionButton}
+          >
+            <Text style={Styling.actionButtonText}>SIGN IN</Text>
+          </Pressable>
+          <Pressable
+            onPress={() => navigation.navigate('Modal User', { screen: 'Sign Up' })}
+            style={[Styling.actionButton, { backgroundColor: "#CC960C" }]}
+          >
+            <Text style={[Styling.actionButtonText, { backgroundColor: "#CC960C" }]}>SIGN UP</Text>
+          </Pressable>
+        </>
       )}
     </View>
   );
