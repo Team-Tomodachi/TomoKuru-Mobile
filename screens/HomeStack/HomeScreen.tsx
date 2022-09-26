@@ -7,6 +7,7 @@ import HListItem from '../../components/HListItem';
 import HorizontalList from '../../components/HorizontalList';
 import { styles } from '../../styles/styles';
 import useUser from '../../hooks/useUser';
+import { Styling } from "../../styles/styling"
 
 export default function HomeScreen({ navigation }) {
   const { isUserSignedIn } = useAuthStore();
@@ -45,10 +46,11 @@ export default function HomeScreen({ navigation }) {
         </View>
       ) : (
         <>
+          <Text style={Styling.tomoLogo}>Tomo<Text style={Styling.kuruLogo}>Kuru</Text></Text>
           <Button onPress={() => navigation.navigate('Modal User')} title="Sign In" />
           <Pressable
             onPress={() => navigation.navigate('Modal User', { screen: 'Sign Up' })}
-            style={[componentStyles.yellow, styles(
+            style={[Styling.yellow, styles(
 
               'rounded:lg',
               'p:2',
@@ -57,7 +59,7 @@ export default function HomeScreen({ navigation }) {
               'm:2',
             )]}
           >
-            <Text style={componentStyles.yellow}>SIGN UP</Text>
+            <Text style={Styling.yellow}>SIGN UP</Text>
           </Pressable>
         </>
       )}
@@ -79,4 +81,14 @@ const componentStyles = StyleSheet.create({
     fontSize: 20,
     fontFamily: 'OpenSans-Bold'
   },
+  tomoLogo: {
+    fontFamily: 'Kanit-Black',
+    fontSize: 50,
+    padding: 50,
+  },
+  kuruLogo: {
+    fontFamily: 'Kanit-Black-Italic',
+    fontSize: 50,
+    padding: 50,
+  }
 });
