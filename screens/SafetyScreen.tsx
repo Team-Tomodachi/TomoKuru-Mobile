@@ -7,6 +7,7 @@ import * as Linking from 'expo-linking';
 import useUserStore from '../store/user';
 import useAuthStore from '../store/auth';
 import axios from 'axios';
+import Messages from '../components/Messages';
 
 export default function SafetyScreen() {
   const [userData, setUserData] = useState('');
@@ -61,7 +62,7 @@ export default function SafetyScreen() {
 
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <View
+      {/* <View
         style={styles('bg:green-600', 'rounded:lg', 'p:2', 'flex:row', 'justify:evenly', 'm:10')}
       >
         <Feather name="user-check" color="white" size={30}></Feather>
@@ -77,7 +78,8 @@ export default function SafetyScreen() {
       <View style={styles('bg:red-700', 'rounded:lg', 'p:2', 'flex:row', 'justify:evenly')}>
         <Feather name="alert-circle" color="white" size={30}></Feather>
         <Button title="NOTIFY POLICE" color="white" onPress={callCops} />
-      </View>
+      </View> */}
+      <Messages />
     </View>
   );
 }
