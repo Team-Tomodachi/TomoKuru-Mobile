@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Button, FlatList, ScrollView, Text, View } from 'react-native';
+import { Button, FlatList, Pressable, ScrollView, Text, View } from 'react-native';
 import useAuthStore from '../../store/auth';
 import axios from 'axios';
 import Constants from 'expo-constants';
 import HListItem from '../../components/HListItem';
 import { styles } from '../../styles/styles';
 import useUser from '../../hooks/useUser';
-import { Styling } from "../../styles/styling"
+import { Styling } from '../../styles/styling';
 
 export default function HomeScreen({ navigation }) {
   const { isUserSignedIn } = useAuthStore();
@@ -38,9 +38,9 @@ export default function HomeScreen({ navigation }) {
             <FlatList
               horizontal={true}
               data={userCreatedGroups}
-              keyExtractor={(item) => item.id}
+              keyExtractor={(item, index) => index}
               renderItem={({ item }) => {
-                return <HListItem imgUrl={item.photo_url} name={item.group_name} />;
+                return <HListItem imgUrl={item?.photo_url} name={item?.group_name} />;
               }}
             />
           </View>
@@ -53,9 +53,9 @@ export default function HomeScreen({ navigation }) {
             <FlatList
               horizontal={true}
               data={userCreatedEvents}
-              keyExtractor={(item) => item.id}
+              keyExtractor={(item, index) => index}
               renderItem={({ item }) => {
-                return <HListItem imgUrl={item.photo_url} name={item.name} />;
+                return <HListItem imgUrl={item?.photo_url} name={item?.name} />;
               }}
             />
           </View>
@@ -63,9 +63,17 @@ export default function HomeScreen({ navigation }) {
         </View>
       ) : (
         <>
-          <Text style={Styling.tomoLogo}>Tomo<Text style={Styling.kuruLogo}>Kuru</Text></Text>
+          <Text style={Styling.tomoLogo}>
+            Tomo<Text style={Styling.kuruLogo}>Kuru</Text>
+          </Text>
           <View style={Styling.greyBox}>
-            <Text style={Styling.sectionText}><Text style={Styling.tomoNoSize}>Tomo<Text style={Styling.kuruNoSize}>Kuru</Text></Text> is an app where you can join groups, browse events, and connect with venues to find the best place to host your social gatherings!</Text>
+            <Text style={Styling.sectionText}>
+              <Text style={Styling.tomoNoSize}>
+                Tomo<Text style={Styling.kuruNoSize}>Kuru</Text>
+              </Text>{' '}
+              is an app where you can join groups, browse events, and connect with venues to find
+              the best place to host your social gatherings!
+            </Text>
           </View>
           <Pressable
             onPress={() => navigation.navigate('Modal User', { screen: 'Sign In' })}
@@ -75,9 +83,9 @@ export default function HomeScreen({ navigation }) {
           </Pressable>
           <Pressable
             onPress={() => navigation.navigate('Modal User', { screen: 'Sign Up' })}
-            style={[Styling.actionButton, { backgroundColor: "#CC960C" }]}
+            style={[Styling.actionButton, { backgroundColor: '#CC960C' }]}
           >
-            <Text style={[Styling.actionButtonText, { backgroundColor: "#CC960C" }]}>SIGN UP</Text>
+            <Text style={[Styling.actionButtonText, { backgroundColor: '#CC960C' }]}>SIGN UP</Text>
           </Pressable>
         </>
       )}
