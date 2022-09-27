@@ -5,8 +5,7 @@ import UserCustomiseScreen from './UserCustomiseScreen';
 import UserScreen from './UserScreen';
 import useAuthStore from '../../store/auth';
 import { Pressable, Text } from 'react-native';
-import { Styling } from "../../styles/styling"
-
+import { Styling } from '../../styles/styling';
 
 const Stack = createNativeStackNavigator();
 
@@ -23,18 +22,15 @@ export default function ModalUser() {
             options={({ navigation }) => ({
               headerLeft: () => {
                 return (
-                  <Pressable
-                    onPress={() => navigation.popToTop()}
-                    style={Styling.navigationButton}
-                  >
+                  <Pressable onPress={() => navigation.popToTop()} style={Styling.navigationButton}>
                     <Text style={Styling.navigationButtonText}>BACK</Text>
                   </Pressable>
-                )
+                );
               },
               headerTitleStyle: {
-                fontFamily: "OpenSans-ExtraBold",
+                fontFamily: 'OpenSans-ExtraBold',
                 fontSize: 20,
-              }
+              },
             })}
           />
           <Stack.Screen name="Edit Details" component={UserCustomiseScreen} />
@@ -47,18 +43,15 @@ export default function ModalUser() {
             options={({ navigation }) => ({
               headerLeft: () => {
                 return (
-                  <Pressable
-                    onPress={() => navigation.popToTop()}
-                    style={Styling.navigationButton}
-                  >
+                  <Pressable onPress={() => navigation.popToTop()} style={Styling.navigationButton}>
                     <Text style={Styling.navigationButtonText}>BACK</Text>
                   </Pressable>
-                )
+                );
               },
               headerTitleStyle: {
-                fontFamily: "OpenSans-ExtraBold",
+                fontFamily: 'OpenSans-ExtraBold',
                 fontSize: 20,
-              }
+              },
             })}
           />
           <Stack.Screen
@@ -67,18 +60,15 @@ export default function ModalUser() {
             options={({ navigation }) => ({
               headerLeft: () => {
                 return (
-                  <Pressable
-                    onPress={() => navigation.popToTop()}
-                    style={Styling.navigationButton}
-                  >
+                  <Pressable onPress={() => navigation.popToTop()} style={Styling.navigationButton}>
                     <Text style={Styling.navigationButtonText}>BACK</Text>
                   </Pressable>
-                )
+                );
               },
               headerTitleStyle: {
-                fontFamily: "OpenSans-ExtraBold",
+                fontFamily: 'OpenSans-ExtraBold',
                 fontSize: 20,
-              }
+              },
             })}
           />
         </>
@@ -86,5 +76,3 @@ export default function ModalUser() {
     </Stack.Navigator>
   );
 }
-
-

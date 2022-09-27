@@ -19,7 +19,7 @@ import { createUserWithEmailAndPassword } from 'firebase/auth';
 import authError from '../../utils/authError';
 import { FirebaseError } from 'firebase/app';
 import useUserStore from '../../store/user';
-import { Styling } from "../../styles/styling"
+import { Styling } from '../../styles/styling';
 
 export default function SignInScreen({ navigation }) {
   const [email, setEmail] = useState('');
@@ -53,7 +53,7 @@ export default function SignInScreen({ navigation }) {
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
           <Text style={[styles('w:56', 'text-align:justify'), Styling.h2Text]}>Email</Text>
           <TextInput
-            style={[styles('border:1', 'p:2', 'w:56', 'm:5', "mt:1", "mb:7"), Styling.formField]}
+            style={[styles('border:1', 'p:2', 'w:56', 'm:5', 'mt:1', 'mb:7'), Styling.formField]}
             placeholder="Email"
             clearButtonMode="while-editing"
             keyboardType="email-address"
@@ -65,7 +65,7 @@ export default function SignInScreen({ navigation }) {
           ></TextInput>
           <Text style={[styles('w:56', 'text-align:justify'), Styling.h2Text]}>Name</Text>
           <TextInput
-            style={[styles('border:1', 'p:2', 'w:56', 'm:5', "mt:1", "mb:7"), Styling.formField]}
+            style={[styles('border:1', 'p:2', 'w:56', 'm:5', 'mt:1', 'mb:7'), Styling.formField]}
             placeholder="Name"
             clearButtonMode="while-editing"
             keyboardType="default"
@@ -77,7 +77,7 @@ export default function SignInScreen({ navigation }) {
           ></TextInput>
           <Text style={[styles('w:56', 'text-align:justify'), Styling.h2Text]}>Password</Text>
           <TextInput
-            style={[styles('border:1', 'p:2', 'w:56', 'm:5', "mt:1", "mb:7"), Styling.formField]}
+            style={[styles('border:1', 'p:2', 'w:56', 'm:5', 'mt:1', 'mb:7'), Styling.formField]}
             placeholder="Password"
             clearButtonMode="while-editing"
             returnKeyType="done"
@@ -87,9 +87,11 @@ export default function SignInScreen({ navigation }) {
             autoCapitalize={'none'}
             secureTextEntry={true}
           ></TextInput>
-          <Text style={[styles('w:56', 'text-align:justify'), Styling.h2Text]}>Confirm password</Text>
+          <Text style={[styles('w:56', 'text-align:justify'), Styling.h2Text]}>
+            Confirm password
+          </Text>
           <TextInput
-            style={[styles('border:1', 'p:2', 'w:56', 'm:5', "mt:1", "mb:7"), Styling.formField]}
+            style={[styles('border:1', 'p:2', 'w:56', 'm:5', 'mt:1', 'mb:7'), Styling.formField]}
             placeholder="Password"
             clearButtonMode="while-editing"
             returnKeyType="done"

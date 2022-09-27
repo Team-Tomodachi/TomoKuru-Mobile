@@ -36,7 +36,9 @@ export default function UserScreen({ navigation }) {
     const fileRef = ref(getStorage(), data.photo_url || 'users/user-png');
     getDownloadURL(fileRef)
       .then((res) => setImage(res))
-      .catch((error) => { console.log("getDownloadURL error:", error) });
+      .catch((error) => {
+        console.log('getDownloadURL error:', error);
+      });
   }
 
   // async function downloadUserPFP() {

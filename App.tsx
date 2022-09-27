@@ -16,7 +16,6 @@ const queryClient = new QueryClient();
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-
   const [fontsLoaded] = useFonts({
     'Kanit-Black': require('./assets/fonts/Kanit-Black.ttf'),
     'Kanit-Black-Italic': require('./assets/fonts/Kanit-BlackItalic.ttf'),

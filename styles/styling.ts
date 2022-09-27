@@ -1,7 +1,6 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet } from 'react-native';
 
 export const Styling = StyleSheet.create({
-
   tomoLogo: {
     fontFamily: 'Kanit-Black',
     fontSize: 60,
@@ -10,7 +9,7 @@ export const Styling = StyleSheet.create({
 
   kuruLogo: {
     fontFamily: 'Kanit-Black-Italic',
-    color: "#FCB90F",
+    color: '#FCB90F',
     fontSize: 60,
     padding: 50,
   },
@@ -31,14 +30,14 @@ export const Styling = StyleSheet.create({
   },
 
   greyBox: {
-    backgroundColor: "#DFDFDF",
+    backgroundColor: '#DFDFDF',
     padding: 15,
     margin: 15,
     borderRadius: 10,
   },
 
   navigationButton: {
-    backgroundColor: "#FCB90F",
+    backgroundColor: '#FCB90F',
     fontSize: 20,
     fontFamily: 'OpenSans-Bold',
     padding: 5,
@@ -49,13 +48,13 @@ export const Styling = StyleSheet.create({
   },
 
   navigationButtonText: {
-    backgroundColor: "#FCB90F",
+    backgroundColor: '#FCB90F',
     fontSize: 20,
     fontFamily: 'OpenSans-ExtraBold',
   },
 
   actionButton: {
-    backgroundColor: "#FCB90F",
+    backgroundColor: '#FCB90F',
     padding: 7,
     paddingLeft: 50,
     paddingRight: 50,
@@ -65,19 +64,18 @@ export const Styling = StyleSheet.create({
   },
 
   actionButtonText: {
-    backgroundColor: "#FCB90F",
+    backgroundColor: '#FCB90F',
     fontSize: 20,
     fontFamily: 'OpenSans-ExtraBold',
   },
 
   h2Text: {
-    fontFamily: "OpenSans-SemiBold",
+    fontFamily: 'OpenSans-SemiBold',
     fontSize: 18,
   },
 
   formField: {
-    fontFamily: "OpenSans-Regular",
+    fontFamily: 'OpenSans-Regular',
     fontSize: 18,
-  }
-
+  },
 });

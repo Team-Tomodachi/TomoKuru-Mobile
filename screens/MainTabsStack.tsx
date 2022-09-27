@@ -35,7 +35,7 @@ export default function MainTabsStack() {
             <TouchableOpacity
               onPress={() => navigation.navigate('Modal User')}
               delayPressIn={0}
-            //TODO: fix ~1 sec delay after press (android only?)
+              //TODO: fix ~1 sec delay after press (android only?)
             >
               <ProfileImage />
             </TouchableOpacity>
