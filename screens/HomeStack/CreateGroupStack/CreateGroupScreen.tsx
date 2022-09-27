@@ -12,10 +12,10 @@ import {
   Pressable,
 } from 'react-native';
 import { Formik } from 'formik';
-import { styles } from '../../styles/styles';
+import { styles } from '../../../styles/styles';
 import Constants from 'expo-constants';
 import Axios from 'axios';
-import useUser from '../../hooks/useUser';
+import useUser from '../../../hooks/useUser';
 import { ActivityIndicator } from 'react-native-paper';
 import { getStorage, getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import * as ImagePicker from 'expo-image-picker';
@@ -141,7 +141,13 @@ export default function CreateGroupScreen({ navigation, route }) {
                 ></TextInput>
               </View>
               <Text>Tag</Text>
-              <Pressable onPress={() => navigation.push('Tags')}>
+              <Pressable
+                onPress={() =>
+                  navigation.navigate('Tags', {
+                    prevScreen: 'Create Group',
+                  })
+                }
+              >
                 <Text style={styles('text:2xl')}>
                   {route.params?.selectedTag || 'Select a tag'}
                 </Text>
