@@ -6,8 +6,8 @@ import { View, Text, FlatList, TextInput, Button } from 'react-native';
 import { styles } from '../styles/styles';
 import useUser from '../hooks/useUser';
 
-export default function Messages({ collectionName }) {
-  const messagesRef = collection(firestore, `${collectionName}`);
+export default function MessagesScreen({ route }) {
+  const messagesRef = collection(firestore, `${route.params?.collectionName}`);
   const messageQuery = query(messagesRef, orderBy('timestamp'), limit(25));
   const [messages] = useCollectionData(messageQuery, { idField: 'id' });
   const [messageToSend, setMessageToSend] = useState('');
