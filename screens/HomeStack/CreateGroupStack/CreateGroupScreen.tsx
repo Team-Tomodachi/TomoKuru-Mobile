@@ -18,7 +18,7 @@ import Constants from 'expo-constants';
 import Axios from 'axios';
 import useUser from '../../../hooks/useUser';
 import { ActivityIndicator } from 'react-native-paper';
-import { getStorage, getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
+import { getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 import * as ImagePicker from 'expo-image-picker';
 import uuid from 'react-native-uuid';
 import { Button } from 'react-native-paper';
@@ -27,7 +27,6 @@ interface Group {
   groupName: string;
   groupDesciption: string;
   isPrivate: boolean;
-  photoURL: string;
 }
 
 export default function CreateGroupScreen({ navigation, route }) {
@@ -35,14 +34,12 @@ export default function CreateGroupScreen({ navigation, route }) {
     groupName: '',
     groupDesciption: '',
     isPrivate: false,
-    photoURL: 'placeholder.gif',
   };
 
   const { data } = useUser();
   const { id } = data;
 
-  const [imageRef, setImageRef] = useState<string>('placeholder.gif');
-  const [imageUri, setImageUri] = useState<string | undefined>();
+  const [imageUri, setImageUri] = useState('');
   const [status, requestPermission] = ImagePicker.useCameraPermissions();
   const [isUploading, setUploading] = useState<boolean>(false);
 
@@ -59,17 +56,31 @@ export default function CreateGroupScreen({ navigation, route }) {
       });
       if (!result.cancelled) {
         setImageUri(result.uri);
-        // setUploading(true);
-        // const image = await fetch(result.uri);
-        // const blob: Blob = await image.blob();
-        // const filePath: string = `groups/${uuid.v4()}-${Date.now()}`;
-        // setImageRef(filePath);
-        // const storageLocRef = ref(getStorage(), filePath);
-        // await uploadBytesResumable(storageLocRef, blob);
-        // setUploading(false);
-        //TODO Implement lazy loading
       }
     }
+  };
+
+  const uploadImage = async () => {
+    const image = await fetch(imageUri);
+    const blob: Blob = await image.blob();
+    const filePath: string = `groups/${uuid.v4()}-${Date.now()}`;
+    const storageLocRef = ref(getStorage(), filePath);
+    await uploadBytesResumable(storageLocRef, blob);
+    return filePath;
+  };
+
+  const sendToDB = async (values, photoUrl) => {
+    await Axios.post(`${Constants?.expoConfig?.extra?.apiURL}/api/groups`, {
+      group_name: values.groupName,
+      group_description: values.groupDesciption,
+      user_id: id,
+      private: values.isPrivate,
+      photo_url: photoUrl,
+      tag_id: route.params?.tagId,
+    }).catch(function (error) {
+      console.log('Axios Post Error!', error);
+      return Promise.reject(error);
+    });
   };
 
   return (
@@ -80,9 +91,13 @@ export default function CreateGroupScreen({ navigation, route }) {
       >
         <Text>Group Photo</Text>
         <Image
-          source={{
-            uri: imageUri,
-          }}
+          source={
+            imageUri.length === 0
+              ? require('../../../assets/place-holder.jpg')
+              : {
+                  uri: imageUri,
+                }
+          }
           style={{ width: 300, height: 150, backgroundColor: 'gray' }}
           resizeMode="cover"
         />
@@ -97,32 +112,15 @@ export default function CreateGroupScreen({ navigation, route }) {
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <Formik
             initialValues={initialValues}
-            onSubmit={async (values: Group) => {
+            onSubmit={async (values) => {
               setUploading(true);
-              if (imageUri) {
-                const image = await fetch(imageUri);
-                const blob: Blob = await image.blob();
-                const filePath: string = `groups/${uuid.v4()}-${Date.now()}`;
-                setImageRef(filePath);
-                const storageLocRef = ref(getStorage(), filePath);
-                await uploadBytesResumable(storageLocRef, blob);
-              }
-              await Axios.post(`${Constants?.expoConfig?.extra?.apiURL}/api/groups`, {
-                group_name: values.groupName,
-                group_description: values.groupDesciption,
-                user_id: id,
-                private: values.isPrivate,
-                photo_url: imageRef,
-                tag_id: route.params?.tagId,
-              }).catch(function (error) {
-                console.log('Axios Post Error!', error);
-                return Promise.reject(error);
-              });
+              const photoUrl = await uploadImage();
+              await sendToDB(values, photoUrl);
               setUploading(false);
               Alert.alert('Group created', 'You have successfully created a group');
             }}
           >
-            {({ handleChange, handleBlur, handleSubmit, setFieldValue, values }) => (
+            {({ handleChange, handleBlur, handleSubmit, values }) => (
               <View>
                 <Text>Group Name</Text>
                 <TextInput

@@ -29,9 +29,6 @@ interface Event {
   eventName: string;
   eventDescription: string;
   eventDateTime: Date;
-  venueId: string;
-  photoURL: string;
-  groupId: string;
 }
 
 export default function CreateEventScreen({ navigation, route }) {
@@ -39,8 +36,7 @@ export default function CreateEventScreen({ navigation, route }) {
   const [groupId, setGroupId] = useState('');
   const [isDateTimePickerVisible, setDateTimePickerVisibility] = useState(false);
 
-  const [imageRef, setImageRef] = useState<string>('placeholder.gif');
-  const [imageUri, setImageUri] = useState<string | undefined>();
+  const [imageUri, setImageUri] = useState<string>('');
   const [status, requestPermission] = ImagePicker.useCameraPermissions();
   const [isUploading, setUploading] = useState<boolean>(false);
 
@@ -65,14 +61,6 @@ export default function CreateEventScreen({ navigation, route }) {
       });
       if (!result.cancelled) {
         setImageUri(result.uri);
-        // setUploading(true);
-        // const image = await fetch(result.uri);
-        // const blob: Blob = await image.blob();
-        // const filePath: string = `events/${uuid.v4()}-${Date.now()}`;
-        // setImageRef(filePath);
-        // const storageLocRef = ref(getStorage(), filePath);
-        // await uploadBytesResumable(storageLocRef, blob);
-        // setUploading(false);
       }
     }
   };
@@ -81,9 +69,6 @@ export default function CreateEventScreen({ navigation, route }) {
     eventName: '',
     eventDescription: '',
     eventDateTime: new Date(),
-    venueId: '',
-    photoURL: 'events/placeholder.gif',
-    groupId: '',
   };
 
   useEffect(() => {
@@ -102,6 +87,27 @@ export default function CreateEventScreen({ navigation, route }) {
   const { id } = data;
   const createdGroup = useUserCreatedGroup().data;
 
+  const uploadImage = async () => {
+    const image = await fetch(imageUri);
+    const blob: Blob = await image.blob();
+    const filePath: string = `groups/${uuid.v4()}-${Date.now()}`;
+    const storageLocRef = ref(getStorage(), filePath);
+    await uploadBytesResumable(storageLocRef, blob);
+    return filePath;
+  };
+
+  const sendToDB = async (values, photoUrl) => {
+    await axios.post(`${Constants?.expoConfig?.extra?.apiURL}/api/events`, {
+      user_id: id,
+      name: values.eventName,
+      description: values.eventDescription,
+      start_time: values.eventDateTime,
+      venue_id: venueId,
+      photo_url: photoUrl,
+      group_id: groupId,
+    });
+  };
+
   return (
     <ScrollView>
       <KeyboardAvoidingView
@@ -110,9 +116,13 @@ export default function CreateEventScreen({ navigation, route }) {
       >
         <Text>Event Photo</Text>
         <Image
-          source={{
-            uri: imageUri,
-          }}
+          source={
+            imageUri.length === 0
+              ? require('../../../assets/place-holder.jpg')
+              : {
+                  uri: imageUri,
+                }
+          }
           style={{ width: 300, height: 150, backgroundColor: 'gray' }}
           resizeMode="cover"
         />
@@ -129,24 +139,8 @@ export default function CreateEventScreen({ navigation, route }) {
             initialValues={initialValues}
             onSubmit={async (values: Event) => {
               setUploading(true);
-              if (imageUri) {
-                setUploading(true);
-                const image = await fetch(imageUri);
-                const blob: Blob = await image.blob();
-                const filePath: string = `events/${uuid.v4()}-${Date.now()}`;
-                setImageRef(filePath);
-                const storageLocRef = ref(getStorage(), filePath);
-                await uploadBytesResumable(storageLocRef, blob);
-              }
-              await axios.post(`${Constants?.expoConfig?.extra?.apiURL}/api/events`, {
-                user_id: id,
-                name: values.eventName,
-                description: values.eventDescription,
-                start_time: values.eventDateTime,
-                venue_id: venueId,
-                photo_url: imageRef,
-                group_id: groupId,
-              });
+              const photoUrl = await uploadImage();
+              await sendToDB(values, photoUrl);
               setUploading(false);
               Alert.alert('Event created', 'You have successfully created an event');
             }}
