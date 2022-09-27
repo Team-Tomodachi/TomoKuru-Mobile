@@ -5,13 +5,13 @@ import {
   KeyboardAvoidingView,
   ActionSheetIOS,
   FlatList,
+  Button,
 } from 'react-native';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import VenueListItem from './VenueListItem';
 import { Chip, Searchbar } from 'react-native-paper';
 import { styles } from '../styles/styles';
-import { FlashList } from '@shopify/flash-list';
 
 export default function ListVenues({ navigation, route }) {
   const [query, setQuery] = useState('');
@@ -24,6 +24,14 @@ export default function ListVenues({ navigation, route }) {
   useEffect(() => {
     setLocation(route.params?.selectedLocation);
   }, [route.params?.selectedLocation]);
+
+  const resetFilter = () => {
+    setQuery('');
+    setLocation(undefined);
+    setSmoking('');
+    setCapacity(undefined);
+    setOutdoor(undefined);
+  };
 
   const smokingActionSheet = () =>
     ActionSheetIOS.showActionSheetWithOptions(
@@ -136,22 +144,44 @@ export default function ListVenues({ navigation, route }) {
         }}
         value={query}
       />
-      <ScrollView horizontal={true}>
-        <View style={styles('bg-opacity:0', 'flex:row', 'h:10', 'justify:evenly', 'p:1')}>
-          <Chip mode="outlined" icon="map-marker" onPress={() => navigation.navigate('Locations')}>
+
+      <View style={styles('flex:row')}>
+        <Button title="Reset" onPress={resetFilter} />
+        <ScrollView horizontal={true}>
+          <Chip
+            style={styles('mr:1')}
+            mode="outlined"
+            icon="map-marker"
+            onPress={() => navigation.navigate('Locations')}
+          >
             {location ? location : 'Location'}
           </Chip>
-          <Chip mode="outlined" icon="smoking-off" onPress={smokingActionSheet}>
+          <Chip
+            style={styles('mr:1')}
+            mode="outlined"
+            icon="smoking-off"
+            onPress={smokingActionSheet}
+          >
             {smoking.length === 0 ? 'Smoking' : smoking}
           </Chip>
-          <Chip mode="outlined" icon="table-chair" onPress={outdoorActionSheet}>
+          <Chip
+            style={styles('mr:1')}
+            mode="outlined"
+            icon="table-chair"
+            onPress={outdoorActionSheet}
+          >
             {outdoor ? 'Outdoor Seating: Required' : 'Outdoor Seating: Not Required'}
           </Chip>
-          <Chip mode="outlined" icon="account-multiple" onPress={capacityActionSheet}>
+          <Chip
+            style={styles('mr:1')}
+            mode="outlined"
+            icon="account-multiple"
+            onPress={capacityActionSheet}
+          >
             {!capacity ? 'Capacity' : capacity}
           </Chip>
-        </View>
-      </ScrollView>
+        </ScrollView>
+      </View>
       <FlatList
         estimatedItemSize={170}
         data={venueData}
