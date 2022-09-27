@@ -5,16 +5,14 @@ import axios from 'axios';
 
 const { height, width } = Dimensions.get('screen');
 
-export default function EventAttendeeList() {
+export default function EventAttendeeList({ eventID }) {
   const [attendeeList, setAttendeeList] = useState([]);
 
-  // useEffect(() => {
-  //   axios
-  //     .get(`http://tomokuru.i-re.io/api/events/attendees/${props.groupID}`)
-  //     .then(function (response) {
-  //       setAttendeeList(response.data);
-  //     });
-  // }, []);
+  useEffect(() => {
+    axios.get(`http://tomokuru.i-re.io/api/events/attendees/${eventID}`).then(function (response) {
+      setAttendeeList(response.data);
+    });
+  }, []);
 
   const getAttendeeList = () => {
     let memberList = '';

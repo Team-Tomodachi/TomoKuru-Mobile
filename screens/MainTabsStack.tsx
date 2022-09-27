@@ -28,7 +28,7 @@ export default function MainTabsStack() {
           // You can return any component that you like here!
           return <Feather name={iconName} size={size} color={color} />;
         },
-        tabBarActiveTintColor: 'tomato',
+        tabBarActiveTintColor: '#FCB90F',
         tabBarInactiveTintColor: 'gray',
         headerLeft: () => {
           return (
