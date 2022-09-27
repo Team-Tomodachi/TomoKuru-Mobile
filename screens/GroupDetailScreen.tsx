@@ -36,7 +36,7 @@ export default function GroupDetailScreen({ navigation, route }) {
         if (imgUrl) setImage(imgUrl);
       }
     })();
-    if (joinedGroups?.map((group) => group.group_id).includes(singleGroup.id)) setUserJoined(true);
+    if (joinedGroups?.map((group) => group.id).includes(singleGroup.id)) setUserJoined(true);
   }, []);
 
   return (
@@ -84,15 +84,17 @@ export default function GroupDetailScreen({ navigation, route }) {
         >
           <Text style={styles.details}>Join This Group</Text>
         </TouchableOpacity>
-        <Pressable
-          onPress={() =>
-            navigation.navigate('Messages', {
-              collectionName: `groups_${singleGroup.group_id}`,
-            })
-          }
-        >
-          <Text>Messages</Text>
-        </Pressable>
+        {userJoined ? (
+          <Pressable
+            onPress={() =>
+              navigation.navigate('Messages', {
+                collectionName: `groups_${singleGroup.id}`,
+              })
+            }
+          >
+            <Text>Messages</Text>
+          </Pressable>
+        ) : null}
         <Button title="Back" onPress={() => navigation.goBack()}></Button>
       </ScrollView>
     </View>
