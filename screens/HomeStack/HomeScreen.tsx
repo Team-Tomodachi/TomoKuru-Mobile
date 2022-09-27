@@ -3,8 +3,6 @@ import { Button, Pressable, ScrollView, Text, View } from 'react-native';
 import useAuthStore from '../../store/auth';
 import { styles } from '../../styles/styles';
 import { Styling } from '../../styles/styling';
-import UserCreatedGroupsList from '../../components/UserCreatedGroupsList';
-import UserCreatedEventsList from '../../components/UserCreatedEventsList';
 
 export default function HomeScreen({ navigation }) {
   const { isUserSignedIn } = useAuthStore();
@@ -13,21 +11,19 @@ export default function HomeScreen({ navigation }) {
     <ScrollView>
       {isUserSignedIn ? (
         <View style={styles('flex:1', 'justify:center', 'items:center')}>
-          <View style={styles('flex:row', 'justify:between', 'items:center')}>
+          <Pressable
+            style={styles('flex:row', 'justify:between', 'items:center')}
+            onPress={() => navigation.navigate('User Groups')}
+          >
             <Text style={styles('text:2xl')}>Your groups</Text>
-            <Button title="See More"></Button>
-          </View>
-          <View style={{ height: 200, flexGrow: 0 }}>
-            <UserCreatedGroupsList />
-          </View>
-          <Button onPress={() => navigation.navigate('Create Group')} title="Create Group" />
-          <View style={styles('flex:row', 'justify:between', 'items:center')}>
+          </Pressable>
+          <Button onPress={() => navigation.navigate('Create Group Stack')} title="Create Group" />
+          <Pressable
+            style={styles('flex:row', 'justify:between', 'items:center')}
+            onPress={() => navigation.navigate('User Events')}
+          >
             <Text style={styles('text:2xl')}>Your events</Text>
-            <Button title="See More"></Button>
-          </View>
-          <View style={{ height: 200, flexGrow: 0 }}>
-            <UserCreatedEventsList />
-          </View>
+          </Pressable>
           <Button onPress={() => navigation.navigate('Create Event Stack')} title="Create Event" />
         </View>
       ) : (

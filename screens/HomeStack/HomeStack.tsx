@@ -2,6 +2,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from './HomeScreen';
 import CreateGroupStack from './CreateGroupStack/CreateGroupStack';
 import CreateEventStack from './CreateEventStack/CreatEvenStack';
+import UserCreatedGroupsScreen from './UserGroupsScreen';
+import UserCreatedEventsScreen from './UserEventsScreen';
 import { Button } from 'react-native';
 
 const Stack = createNativeStackNavigator();
@@ -10,6 +12,8 @@ export default function HomeStack() {
   return (
     <Stack.Navigator>
       <Stack.Screen name="Home Main" component={HomeScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="User Groups" component={UserCreatedGroupsScreen} />
+      <Stack.Screen name="User Events" component={UserCreatedEventsScreen} />
       <Stack.Group
         screenOptions={({ navigation }) => ({
           presentation: 'modal',
