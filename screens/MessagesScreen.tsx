@@ -40,6 +40,7 @@ export default function MessagesScreen({ route }) {
               user_name: data.first_name,
               photo_url: data.photo_url,
             });
+            setMessageToSend('');
           }}
         />
       </View>
