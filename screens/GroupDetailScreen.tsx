@@ -15,6 +15,7 @@ import axios from 'axios';
 import GroupMemberList from '../components/GroupMemberList';
 import useUser from '../hooks/useUser';
 import firebaseUtils from '../utils/firebaseUtils';
+import useJoinedGroups from '../hooks/useJoinedGroup';
 
 const { height, width } = Dimensions.get('screen');
 const { getImgUrl } = firebaseUtils;
@@ -23,6 +24,9 @@ export default function GroupDetailScreen({ navigation, route }) {
   const singleGroup = route.params.selectedGroup;
   const { data } = useUser();
   const [image, setImage] = useState('');
+  const [userJoined, setUserJoined] = useState(false);
+
+  const joinedGroups = useJoinedGroups().data;
 
   useEffect(() => {
     (async () => {
@@ -31,6 +35,7 @@ export default function GroupDetailScreen({ navigation, route }) {
         if (imgUrl) setImage(imgUrl);
       }
     })();
+    if (joinedGroups.map((group) => group.group_id).includes(singleGroup.id)) setUserJoined(true);
   }, []);
 
   return (
@@ -65,13 +70,14 @@ export default function GroupDetailScreen({ navigation, route }) {
         <Text style={styles.detailsUnderlined}>Privacy:{singleGroup.private} </Text>
         <GroupMemberList groupID={singleGroup.id} />
         <TouchableOpacity
+          disabled={userJoined}
           onPress={() => {
             if (!data?.id) {
               Alert.alert('Please Login to Join Groups!');
-            } else {
-              axios.post(`http://tomokuru.i-re.io/api/groups/${singleGroup.id}/${data.id}!`);
-              Alert.alert(`You have joined ${singleGroup.group_name}`);
+              return;
             }
+            axios.post(`http://tomokuru.i-re.io/api/groups/members/${singleGroup.id}/${data.id}`);
+            Alert.alert(`You have joined ${singleGroup.group_name}`);
           }}
           style={styles.button}
         >
