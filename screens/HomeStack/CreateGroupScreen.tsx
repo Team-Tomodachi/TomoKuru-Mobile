@@ -1,27 +1,25 @@
 import React, { useState } from 'react';
 import {
-  Button,
   TextInput,
   View,
-  Switch,
   Text,
   Alert,
   KeyboardAvoidingView,
   Keyboard,
   TouchableWithoutFeedback,
   Platform,
+  Image,
 } from 'react-native';
 import { Formik } from 'formik';
 import { styles } from '../../styles/styles';
 import Constants from 'expo-constants';
 import Axios from 'axios';
-import useUserStore from '../../store/user';
 import useUser from '../../hooks/useUser';
 import { ActivityIndicator } from 'react-native-paper';
 import { getStorage, getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import * as ImagePicker from 'expo-image-picker';
 import uuid from 'react-native-uuid';
-// import { Button } from "react-native-paper";
+import { Button } from 'react-native-paper';
 
 interface Group {
   groupName: string;
@@ -42,6 +40,7 @@ export default function CreateGroupScreen() {
   const { id } = data;
 
   const [imageRef, setImageRef] = useState<string>('placeholder.gif');
+  const [imageUri, setImageUri] = useState<string | undefined>();
   const [status, requestPermission] = ImagePicker.useCameraPermissions();
   const [isUploading, setUploading] = useState<boolean>(false);
 
@@ -57,14 +56,15 @@ export default function CreateGroupScreen() {
         quality: 0.2,
       });
       if (!result.cancelled) {
-        setUploading(true);
-        const image = await fetch(result.uri);
-        const blob: Blob = await image.blob();
-        const filePath: string = `groups/${uuid.v4()}-${Date.now()}`;
-        setImageRef(filePath);
-        const storageLocRef = ref(getStorage(), filePath);
-        await uploadBytesResumable(storageLocRef, blob);
-        setUploading(false);
+        setImageUri(result.uri);
+        // setUploading(true);
+        // const image = await fetch(result.uri);
+        // const blob: Blob = await image.blob();
+        // const filePath: string = `groups/${uuid.v4()}-${Date.now()}`;
+        // setImageRef(filePath);
+        // const storageLocRef = ref(getStorage(), filePath);
+        // await uploadBytesResumable(storageLocRef, blob);
+        // setUploading(false);
         //TODO Implement lazy loading
       }
     }
@@ -75,10 +75,34 @@ export default function CreateGroupScreen() {
       style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
+      <Image
+        source={{
+          uri: imageUri,
+        }}
+        style={{ width: 300, height: 150, backgroundColor: 'gray' }}
+        resizeMode="cover"
+      />
+      <Button
+        icon="camera"
+        style={styles('bg:green-600', 'my:2')}
+        onPress={pickImage}
+        disabled={isUploading}
+      >
+        {isUploading ? <ActivityIndicator animating={true} color="white" /> : 'select photo'}
+      </Button>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <Formik
           initialValues={initialValues}
           onSubmit={async (values: Group) => {
+            setUploading(true);
+            if (imageUri) {
+              const image = await fetch(imageUri);
+              const blob: Blob = await image.blob();
+              const filePath: string = `groups/${uuid.v4()}-${Date.now()}`;
+              setImageRef(filePath);
+              const storageLocRef = ref(getStorage(), filePath);
+              await uploadBytesResumable(storageLocRef, blob);
+            }
             await Axios.post(`${Constants?.expoConfig?.extra?.apiURL}/api/groups`, {
               group_name: values.groupName,
               group_description: values.groupDesciption,
@@ -89,6 +113,7 @@ export default function CreateGroupScreen() {
               console.log('Axios Post Error!', error);
               return Promise.reject(error);
             });
+            setUploading(false);
             Alert.alert('Group created', 'You have successfully created a group');
           }}
         >
@@ -114,38 +139,7 @@ export default function CreateGroupScreen() {
               </View>
               <Text>Group Photo</Text>
 
-              <Button
-                icon="camera"
-                style={styles('bg:green-600', 'my:2')}
-                onPress={pickImage}
-                disabled={isUploading}
-                title="Select Group Photo"
-              >
-                {isUploading ? (
-                  <ActivityIndicator animating={true} color="white" />
-                ) : (
-                  'select photo'
-                )}
-              </Button>
-
-              {/* <View style={styles("border:1", "p:1", "w:56", "m:5", "h:20")}> */}
-
-              {/*<Text>Group Privacy</Text>
-               <View
-                style={styles(
-                  "flex:row",
-                  "items:center",
-                  "w:56",
-                  "m:5",
-                  "justify:evenly",
-                )}>
-                <Text>Private</Text>
-                <Switch
-                  value={values.isPrivate}
-                  onValueChange={value => setFieldValue("isPrivate", value)}
-                />
-              </View> */}
-              <Button onPress={handleSubmit} title="Submit" />
+              <Button onPress={handleSubmit}>Submit</Button>
             </View>
           )}
         </Formik>
