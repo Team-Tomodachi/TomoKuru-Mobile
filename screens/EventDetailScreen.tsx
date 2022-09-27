@@ -70,6 +70,7 @@ export default function EventDetailScreen({ navigation, route }) {
               Alert.alert('Please Login to Join Events!');
               return;
             }
+            setUserJoined(true);
             axios.post(`http://tomokuru.i-re.io/api/events/attendees/${singleEvent.id}/${data.id}`);
             Alert.alert(`You have joined the event: ${singleEvent.name}`);
           }}

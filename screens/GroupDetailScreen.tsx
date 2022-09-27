@@ -77,6 +77,7 @@ export default function GroupDetailScreen({ navigation, route }) {
               Alert.alert('Please Login to Join Groups!');
               return;
             }
+            setUserJoined(true);
             axios.post(`http://tomokuru.i-re.io/api/groups/members/${singleGroup.id}/${data.id}`);
             Alert.alert(`You have joined ${singleGroup.group_name}`);
           }}
