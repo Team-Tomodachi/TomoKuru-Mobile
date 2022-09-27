@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Button, FlatList, ScrollView, Text, View } from 'react-native';
 import useAuthStore from '../../store/auth';
-import useUserStore from '../../store/user';
 import axios from 'axios';
 import Constants from 'expo-constants';
 import HListItem from '../../components/HListItem';
@@ -26,7 +25,7 @@ export default function HomeScreen({ navigation }) {
   }, []);
 
   return (
-    <View style={styles('w:full', 'flex:1', 'justify:center', 'items:center', 'p:1')}>
+    <ScrollView style={styles('w:full', 'flex:1', 'justify:center', 'items:center', 'p:1')}>
       {isUserSignedIn ? (
         <View>
           <View style={styles('flex:row', 'justify:between', 'items:center')}>
@@ -63,6 +62,6 @@ export default function HomeScreen({ navigation }) {
       ) : (
         <Button onPress={() => navigation.navigate('Modal User')} title="Sign In" />
       )}
-    </View>
+    </ScrollView>
   );
 }
