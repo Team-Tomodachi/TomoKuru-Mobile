@@ -14,6 +14,7 @@ import { useFonts } from 'expo-font';
 import TagSelect from './components/TagSelect';
 import LocationSelectScreen from './screens/LocationSelectScreen';
 import { Button } from 'react-native';
+import MessagesScreen from './screens/MessagesScreen';
 
 const queryClient = new QueryClient();
 const Stack = createNativeStackNavigator();
@@ -84,6 +85,7 @@ export default function App() {
               <Stack.Screen name="Group Details" component={GroupDetailScreen} />
               <Stack.Screen name="Event Details" component={EventDetailScreen} />
               <Stack.Screen name="Venue Details" component={VenueDetailScreen} />
+              <Stack.Screen name="Messages" component={MessagesScreen} />
             </Stack.Group>
           </Stack.Navigator>
         </NavigationContainer>

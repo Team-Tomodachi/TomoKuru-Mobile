@@ -1,8 +1,10 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from './HomeScreen';
-import CreateGroupScreen from './CreateGroupScreen';
+import CreateGroupStack from './CreateGroupStack/CreateGroupStack';
 import CreateEventStack from './CreateEventStack/CreatEvenStack';
+import UserGroupsScreen from './UserGroupsScreen';
 import { Button } from 'react-native';
+import UserEventsScreen from './UserEventsScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -10,6 +12,8 @@ export default function HomeStack() {
   return (
     <Stack.Navigator>
       <Stack.Screen name="Home Main" component={HomeScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="User Groups" component={UserGroupsScreen} />
+      <Stack.Screen name="User Events" component={UserEventsScreen} />
       <Stack.Group
         screenOptions={({ navigation }) => ({
           presentation: 'modal',
@@ -17,11 +21,9 @@ export default function HomeStack() {
         })}
       >
         <Stack.Screen
-          name="Create Group"
-          component={CreateGroupScreen}
-          options={({ navigation }) => ({
-            headerLeft: () => <Button title="Close" onPress={() => navigation.popToTop()} />,
-          })}
+          name="Create Group Stack"
+          component={CreateGroupStack}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name="Create Event Stack"

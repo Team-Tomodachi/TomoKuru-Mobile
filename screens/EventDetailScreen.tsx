@@ -9,12 +9,14 @@ import {
   Image,
   TouchableOpacity,
   Alert,
+  Pressable,
 } from 'react-native';
 import { useState, useEffect } from 'react';
 import EventAttendeeList from '../components/EventAttendeeList';
 import useUser from '../hooks/useUser';
 import firebaseUtils from '../utils/firebaseUtils';
 import axios from 'axios';
+import useJoinedEvents from '../hooks/useJoinedEvent';
 
 const { height, width } = Dimensions.get('screen');
 const { getImgUrl } = firebaseUtils;
@@ -22,8 +24,10 @@ const { getImgUrl } = firebaseUtils;
 export default function EventDetailScreen({ navigation, route }) {
   const singleEvent = route.params.selectedEvent;
   const [image, setImage] = useState('');
+  const [userJoined, setUserJoined] = useState(false);
   const { data } = useUser();
-  const { id } = data;
+
+  const joinedEvents = useJoinedEvents().data;
 
   useEffect(() => {
     (async () => {
@@ -32,6 +36,7 @@ export default function EventDetailScreen({ navigation, route }) {
         if (imgUrl) setImage(imgUrl);
       }
     })();
+    if (joinedEvents?.map((event) => event.id).includes(singleEvent.id)) setUserJoined(true);
   }, []);
 
   return (
@@ -59,20 +64,31 @@ export default function EventDetailScreen({ navigation, route }) {
           <EventAttendeeList eventID={singleEvent.id} />
         </View>
         <TouchableOpacity
+          disabled={userJoined}
           onPress={() => {
             if (!data.id) {
               Alert.alert('Please Login to Join Events!');
-            } else {
-              axios.post(
-                `http://tomokuru.i-re.io/api/events/attendees/${singleEvent.id}/${data.id}!`,
-              );
-              Alert.alert(`You have joined the event: ${singleEvent.name}`);
+              return;
             }
+            setUserJoined(true);
+            axios.post(`http://tomokuru.i-re.io/api/events/attendees/${singleEvent.id}/${data.id}`);
+            Alert.alert(`You have joined the event: ${singleEvent.name}`);
           }}
           style={styles.button}
         >
           <Text style={styles.details}>Join This Event!</Text>
         </TouchableOpacity>
+        {userJoined ? (
+          <Pressable
+            onPress={() =>
+              navigation.navigate('Messages', {
+                collectionName: `event_${singleEvent.id}`,
+              })
+            }
+          >
+            <Text>Messages</Text>
+          </Pressable>
+        ) : null}
         <Button title="Back" onPress={() => navigation.goBack()}></Button>
       </ScrollView>
     </View>

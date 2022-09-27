@@ -5,7 +5,7 @@ import { Chip, TextInput } from 'react-native-paper';
 import axios from 'axios';
 import Constants from 'expo-constants';
 
-export default function TagSelect({ navigation }) {
+export default function TagSelect({ navigation, route }) {
   const [tags, setTags] = useState<Array<object> | undefined>();
 
   useEffect(() => {
@@ -21,7 +21,8 @@ export default function TagSelect({ navigation }) {
               style={styles('m:1')}
               key={tag.id}
               onPress={() =>
-                navigation.navigate('Groups', {
+                navigation.navigate(`${route.params?.prevScreen}`, {
+                  selectedId: tags[index].id,
                   selectedTag: tags[index].tag,
                 })
               }

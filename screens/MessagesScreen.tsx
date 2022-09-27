@@ -5,9 +5,10 @@ import { useCollectionData } from 'react-firebase-hooks/firestore';
 import { View, Text, FlatList, TextInput, Button } from 'react-native';
 import { styles } from '../styles/styles';
 import useUser from '../hooks/useUser';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-export default function Messages({ collectionName }) {
-  const messagesRef = collection(firestore, `${collectionName}`);
+export default function MessagesScreen({ route }) {
+  const messagesRef = collection(firestore, `${route.params?.collectionName}`);
   const messageQuery = query(messagesRef, orderBy('timestamp'), limit(25));
   const [messages] = useCollectionData(messageQuery, { idField: 'id' });
   const [messageToSend, setMessageToSend] = useState('');
@@ -15,7 +16,7 @@ export default function Messages({ collectionName }) {
   const { data } = useUser();
 
   return (
-    <>
+    <SafeAreaView>
       <FlatList
         data={messages}
         keyExtractor={(item, index) => index}
@@ -39,9 +40,10 @@ export default function Messages({ collectionName }) {
               user_name: data.first_name,
               photo_url: data.photo_url,
             });
+            setMessageToSend('');
           }}
         />
       </View>
-    </>
+    </SafeAreaView>
   );
 }
