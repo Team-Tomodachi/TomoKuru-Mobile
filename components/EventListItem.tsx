@@ -17,7 +17,7 @@ const shortenDescription = (description: any) => {
   }
 };
 
-export default function ListEventItems({ singleEvent }) {
+export default function EventListItem({ singleEvent }) {
   const navigation = useNavigation();
   const [image, setImage] = useState('');
 
