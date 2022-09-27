@@ -12,6 +12,7 @@ import { useCallback } from 'react';
 import * as SplashScreen from 'expo-splash-screen';
 import { useFonts } from 'expo-font';
 import TagSelect from './components/TagSelect';
+import LocationSelectScreen from './screens/LocationSelectScreen';
 import { Button } from 'react-native';
 
 const queryClient = new QueryClient();
@@ -65,7 +66,7 @@ export default function App() {
             />
             <Stack.Screen
               name="Tags"
-              component={TagSelect}
+              component={LocationSelectScreen}
               options={({ navigation }) => ({
                 presentation: 'modal',
                 headerLeft: () => <Button title="Close" onPress={() => navigation.goBack()} />,
