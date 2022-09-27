@@ -88,7 +88,7 @@ export default function GroupDetailScreen({ navigation, route }) {
           <Pressable
             onPress={() =>
               navigation.navigate('Messages', {
-                collectionName: `groups_${singleGroup.id}`,
+                collectionName: `group_${singleGroup.id}`,
               })
             }
           >
