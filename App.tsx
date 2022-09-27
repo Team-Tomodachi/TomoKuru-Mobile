@@ -66,6 +66,14 @@ export default function App() {
             />
             <Stack.Screen
               name="Tags"
+              component={TagSelect}
+              options={({ navigation }) => ({
+                presentation: 'modal',
+                headerLeft: () => <Button title="Close" onPress={() => navigation.goBack()} />,
+              })}
+            />
+            <Stack.Screen
+              name="Locations"
               component={LocationSelectScreen}
               options={({ navigation }) => ({
                 presentation: 'modal',
