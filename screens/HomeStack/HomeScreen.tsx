@@ -13,8 +13,9 @@ export default function HomeScreen({ navigation }) {
   const [userCreatedEvents, setUserCreatedEvents] = useState([]);
 
   const { data } = useUser();
+
   useEffect(() => {
-    if (data) {
+    if (data && isUserSignedIn) {
       axios
         .get(`${Constants?.expoConfig?.extra?.apiURL}/api/users/${data.id}/groups/creator`)
         .then((res) => setUserCreatedGroups(res.data));
@@ -22,12 +23,12 @@ export default function HomeScreen({ navigation }) {
         .get(`${Constants?.expoConfig?.extra?.apiURL}/api/users/${data.id}/events/creator`)
         .then((res) => setUserCreatedEvents(res.data));
     }
-  }, []);
+  }, [isUserSignedIn]);
 
   return (
-    <ScrollView style={styles('w:full', 'flex:1', 'justify:center', 'items:center', 'p:1')}>
+    <ScrollView>
       {isUserSignedIn ? (
-        <View>
+        <View style={styles('flex:1', 'justify:center', 'items:center')}>
           <View style={styles('flex:row', 'justify:between', 'items:center')}>
             <Text style={styles('text:2xl')}>Your groups</Text>
             <Button title="See More"></Button>
