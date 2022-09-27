@@ -9,6 +9,7 @@ import {
   Image,
   TouchableOpacity,
   Alert,
+  Pressable,
 } from 'react-native';
 import { useState, useEffect } from 'react';
 import EventAttendeeList from '../components/EventAttendeeList';
@@ -69,7 +70,6 @@ export default function EventDetailScreen({ navigation, route }) {
               Alert.alert('Please Login to Join Events!');
               return;
             }
-
             axios.post(`http://tomokuru.i-re.io/api/events/attendees/${singleEvent.id}/${data.id}`);
             Alert.alert(`You have joined the event: ${singleEvent.name}`);
           }}
@@ -77,6 +77,17 @@ export default function EventDetailScreen({ navigation, route }) {
         >
           <Text style={styles.details}>Join This Event!</Text>
         </TouchableOpacity>
+        {userJoined ? (
+          <Pressable
+            onPress={() =>
+              navigation.navigate('Messages', {
+                collectionName: `groups_${singleEvent.id}`,
+              })
+            }
+          >
+            <Text>Messages</Text>
+          </Pressable>
+        ) : null}
         <Button title="Back" onPress={() => navigation.goBack()}></Button>
       </ScrollView>
     </View>
