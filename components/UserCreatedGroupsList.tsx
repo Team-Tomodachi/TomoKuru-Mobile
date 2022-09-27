@@ -1,4 +1,4 @@
-import { FlatList } from 'react-native';
+import { ScrollView } from 'react-native';
 import React from 'react';
 import useUserCreatedGroup from '../hooks/useUserGroup';
 import HListItem from './HListItem';
@@ -8,14 +8,11 @@ export default function UserCreatedGroupsList() {
 
   if (data) {
     return (
-      <FlatList
-        horizontal={true}
-        data={data}
-        keyExtractor={(item, index) => index}
-        renderItem={({ item }) => {
-          return <HListItem imgUrl={item?.photo_url} name={item?.group_name} />;
-        }}
-      />
+      <ScrollView>
+        {data?.map((item, index) => {
+          return <HListItem key={index} imgUrl={item?.photo_url} name={item?.group_name} />;
+        })}
+      </ScrollView>
     );
   }
 }

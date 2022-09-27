@@ -1,4 +1,4 @@
-import { FlatList } from 'react-native';
+import { ScrollView } from 'react-native';
 import React from 'react';
 import HListItem from './HListItem';
 import useUserCreatedEvents from '../hooks/useUserEvent';
@@ -8,14 +8,11 @@ export default function UserCreatedEventsList() {
 
   if (data) {
     return (
-      <FlatList
-        horizontal={true}
-        data={data}
-        keyExtractor={(item, index) => index}
-        renderItem={({ item }) => {
-          return <HListItem imgUrl={item?.photo_url} name={item?.name} />;
-        }}
-      />
+      <ScrollView>
+        {data?.map((item, index) => {
+          return <HListItem key={index} imgUrl={item?.photo_url} name={item?.name} />;
+        })}
+      </ScrollView>
     );
   }
 }
