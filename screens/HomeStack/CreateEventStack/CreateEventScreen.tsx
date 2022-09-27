@@ -10,6 +10,7 @@ import {
   Platform,
   Pressable,
   Image,
+  ScrollView,
 } from 'react-native';
 import { Formik } from 'formik';
 import { styles } from '../../../styles/styles';
@@ -102,116 +103,118 @@ export default function CreateEventScreen({ navigation, route }) {
   const createdGroup = useUserCreatedGroup().data;
 
   return (
-    <KeyboardAvoidingView
-      style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-    >
-      <Text>Event Photo</Text>
-      <Image
-        source={{
-          uri: imageUri,
-        }}
-        style={{ width: 300, height: 150, backgroundColor: 'gray' }}
-        resizeMode="cover"
-      />
-      <Button
-        icon="camera"
-        style={styles('bg:green-600', 'my:2')}
-        onPress={pickImage}
-        disabled={isUploading}
+    <ScrollView>
+      <KeyboardAvoidingView
+        style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
-        {isUploading ? <ActivityIndicator animating={true} color="white" /> : 'select photo'}
-      </Button>
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <Formik
-          initialValues={initialValues}
-          onSubmit={async (values: Event) => {
-            setUploading(true);
-            if (imageUri) {
-              setUploading(true);
-              const image = await fetch(imageUri);
-              const blob: Blob = await image.blob();
-              const filePath: string = `events/${uuid.v4()}-${Date.now()}`;
-              setImageRef(filePath);
-              const storageLocRef = ref(getStorage(), filePath);
-              await uploadBytesResumable(storageLocRef, blob);
-            }
-            await axios.post(`${Constants?.expoConfig?.extra?.apiURL}/api/events`, {
-              user_id: id,
-              name: values.eventName,
-              description: values.eventDescription,
-              start_time: values.eventDateTime,
-              venue_id: venueId,
-              photo_url: imageRef,
-              group_id: groupId,
-            });
-            setUploading(false);
-            Alert.alert('Event created', 'You have successfully created an event');
+        <Text>Event Photo</Text>
+        <Image
+          source={{
+            uri: imageUri,
           }}
+          style={{ width: 300, height: 150, backgroundColor: 'gray' }}
+          resizeMode="cover"
+        />
+        <Button
+          icon="camera"
+          style={styles('bg:green-600', 'my:2')}
+          onPress={pickImage}
+          disabled={isUploading}
         >
-          {({ handleChange, handleBlur, handleSubmit, values, setFieldValue }) => (
-            <View>
-              <Text>Event Name</Text>
-              <TextInput
-                style={styles('border:1', 'p:1', 'w:56', 'm:5')}
-                onChangeText={handleChange('eventName')}
-                onBlur={handleBlur('eventName')}
-                value={values.eventName}
-                placeholder={values.eventName}
-              />
-              <Text>Event Description</Text>
-              <View style={styles('border:1', 'p:1', 'w:56', 'm:5', 'h:20')}>
+          {isUploading ? <ActivityIndicator animating={true} color="white" /> : 'select photo'}
+        </Button>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <Formik
+            initialValues={initialValues}
+            onSubmit={async (values: Event) => {
+              setUploading(true);
+              if (imageUri) {
+                setUploading(true);
+                const image = await fetch(imageUri);
+                const blob: Blob = await image.blob();
+                const filePath: string = `events/${uuid.v4()}-${Date.now()}`;
+                setImageRef(filePath);
+                const storageLocRef = ref(getStorage(), filePath);
+                await uploadBytesResumable(storageLocRef, blob);
+              }
+              await axios.post(`${Constants?.expoConfig?.extra?.apiURL}/api/events`, {
+                user_id: id,
+                name: values.eventName,
+                description: values.eventDescription,
+                start_time: values.eventDateTime,
+                venue_id: venueId,
+                photo_url: imageRef,
+                group_id: groupId,
+              });
+              setUploading(false);
+              Alert.alert('Event created', 'You have successfully created an event');
+            }}
+          >
+            {({ handleChange, handleBlur, handleSubmit, values, setFieldValue }) => (
+              <View>
+                <Text>Event Name</Text>
                 <TextInput
-                  onChangeText={handleChange('eventDescription')}
-                  onBlur={handleBlur('eventDescription')}
-                  multiline={true}
-                  value={values.eventDescription}
-                  placeholder={values.eventDescription}
-                ></TextInput>
+                  style={styles('border:1', 'p:1', 'w:56', 'm:5')}
+                  onChangeText={handleChange('eventName')}
+                  onBlur={handleBlur('eventName')}
+                  value={values.eventName}
+                  placeholder={values.eventName}
+                />
+                <Text>Event Description</Text>
+                <View style={styles('border:1', 'p:1', 'w:56', 'm:5', 'h:20')}>
+                  <TextInput
+                    onChangeText={handleChange('eventDescription')}
+                    onBlur={handleBlur('eventDescription')}
+                    multiline={true}
+                    value={values.eventDescription}
+                    placeholder={values.eventDescription}
+                  ></TextInput>
+                </View>
+                <Text>Event Date & Time</Text>
+                <Button onPress={showDateTimePicker}>
+                  {values.eventDateTime.toLocaleDateString() +
+                    ' ' +
+                    values.eventDateTime.toLocaleTimeString([], {
+                      hour: '2-digit',
+                      minute: '2-digit',
+                    })}
+                </Button>
+                <DateTimePickerModal
+                  isVisible={isDateTimePickerVisible}
+                  mode="datetime"
+                  onConfirm={(time) => {
+                    setFieldValue('eventTime', time);
+                    hideDateTimePicker();
+                  }}
+                  onCancel={hideDateTimePicker}
+                />
+                <Text>Group</Text>
+                <Pressable
+                  onPress={() => {
+                    if (!Array.isArray(createdGroup)) {
+                      Alert.alert('No group', 'You need to create a group');
+                      return;
+                    }
+                    navigation.push('Select Group');
+                  }}
+                >
+                  <Text style={styles('text:2xl')}>
+                    {route?.params?.groupName || 'Select a group'}
+                  </Text>
+                </Pressable>
+                <Text>Event Venue</Text>
+                <Pressable onPress={() => navigation.push('Select Venue')}>
+                  <Text style={styles('text:2xl')}>
+                    {route?.params?.venueName || 'Select a venue'}
+                  </Text>
+                </Pressable>
+                <Button onPress={handleSubmit}>Submit</Button>
               </View>
-              <Text>Event Date & Time</Text>
-              <Button onPress={showDateTimePicker}>
-                {values.eventDateTime.toLocaleDateString() +
-                  ' ' +
-                  values.eventDateTime.toLocaleTimeString([], {
-                    hour: '2-digit',
-                    minute: '2-digit',
-                  })}
-              </Button>
-              <DateTimePickerModal
-                isVisible={isDateTimePickerVisible}
-                mode="datetime"
-                onConfirm={(time) => {
-                  setFieldValue('eventTime', time);
-                  hideDateTimePicker();
-                }}
-                onCancel={hideDateTimePicker}
-              />
-              <Text>Group</Text>
-              <Pressable
-                onPress={() => {
-                  if (!Array.isArray(createdGroup)) {
-                    Alert.alert('No group', 'You need to create a group');
-                    return;
-                  }
-                  navigation.push('Select Group');
-                }}
-              >
-                <Text style={styles('text:2xl')}>
-                  {route?.params?.groupName || 'Select a group'}
-                </Text>
-              </Pressable>
-              <Text>Event Venue</Text>
-              <Pressable onPress={() => navigation.push('Select Venue')}>
-                <Text style={styles('text:2xl')}>
-                  {route?.params?.venueName || 'Select a venue'}
-                </Text>
-              </Pressable>
-              <Button onPress={handleSubmit}>Submit</Button>
-            </View>
-          )}
-        </Formik>
-      </TouchableWithoutFeedback>
-    </KeyboardAvoidingView>
+            )}
+          </Formik>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
+    </ScrollView>
   );
 }
