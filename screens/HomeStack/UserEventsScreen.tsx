@@ -2,8 +2,12 @@ import { FlatList } from 'react-native';
 import React from 'react';
 import EventListItem from '../../components/EventListItem';
 import useUserCreatedEvents from '../../hooks/useUserEvent';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import useJoinedEvents from '../../hooks/useJoinedEvent';
 
-export default function UserCreatedEventsScreen() {
+const Tab = createMaterialTopTabNavigator();
+
+function CreatedEvents() {
   const { data } = useUserCreatedEvents();
 
   return (
@@ -14,5 +18,28 @@ export default function UserCreatedEventsScreen() {
       }}
       keyExtractor={(item) => item.id}
     />
+  );
+}
+
+function JoinedEvents() {
+  const { data } = useJoinedEvents();
+
+  return (
+    <FlatList
+      data={data}
+      renderItem={({ item }) => {
+        return <EventListItem singleEvent={item} />;
+      }}
+      keyExtractor={(item) => item.id}
+    />
+  );
+}
+
+export default function UserEventsScreen() {
+  return (
+    <Tab.Navigator>
+      <Tab.Screen name="Creator" component={CreatedEvents} />
+      <Tab.Screen name="Attendee" component={JoinedEvents} />
+    </Tab.Navigator>
   );
 }
