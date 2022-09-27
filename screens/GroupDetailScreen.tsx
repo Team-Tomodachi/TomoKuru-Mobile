@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   Button,
   Alert,
+  Pressable,
 } from 'react-native';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -35,7 +36,7 @@ export default function GroupDetailScreen({ navigation, route }) {
         if (imgUrl) setImage(imgUrl);
       }
     })();
-    if (joinedGroups.map((group) => group.group_id).includes(singleGroup.id)) setUserJoined(true);
+    if (joinedGroups?.map((group) => group.group_id).includes(singleGroup.id)) setUserJoined(true);
   }, []);
 
   return (
@@ -83,6 +84,15 @@ export default function GroupDetailScreen({ navigation, route }) {
         >
           <Text style={styles.details}>Join This Group</Text>
         </TouchableOpacity>
+        <Pressable
+          onPress={() =>
+            navigation.navigate('Messages', {
+              collectionName: `groups_${singleGroup.group_id}`,
+            })
+          }
+        >
+          <Text>Messages</Text>
+        </Pressable>
         <Button title="Back" onPress={() => navigation.goBack()}></Button>
       </ScrollView>
     </View>
