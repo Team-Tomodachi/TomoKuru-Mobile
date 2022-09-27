@@ -20,6 +20,7 @@ import Constants from 'expo-constants';
 import { FirebaseError } from 'firebase/app';
 import { useQuery } from '@tanstack/react-query';
 import useUserStore from '../../store/user';
+import { Styling } from "../../styles/styling"
 
 export default function SignInScreen({ navigation }) {
   const [email, setEmail] = useState('');
@@ -47,9 +48,9 @@ export default function SignInScreen({ navigation }) {
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <Text style={styles('w:56', 'text-align:justify')}>Email</Text>
+          <Text style={[styles('w:56', 'text-align:justify'), Styling.h2Text]}>Email</Text>
           <TextInput
-            style={styles('border:1', 'p:1', 'w:56', 'm:5')}
+            style={[styles('border:1', 'p:2', 'w:56', 'm:5', "mt:1", "mb:7"), Styling.formField]}
             placeholder="Email"
             clearButtonMode="while-editing"
             keyboardType="email-address"
@@ -59,9 +60,9 @@ export default function SignInScreen({ navigation }) {
             }}
             autoCapitalize="none"
           ></TextInput>
-          <Text style={styles('w:56', 'text-align:justify')}>Password</Text>
+          <Text style={[styles('w:56', 'text-align:justify'), Styling.h2Text]}>Password</Text>
           <TextInput
-            style={styles('border:1', 'p:1', 'w:56', 'm:5')}
+            style={[styles('border:1', 'p:2', 'w:56', 'm:5', "mt:1"), Styling.formField]}
             placeholder="Password"
             clearButtonMode="while-editing"
             returnKeyType="done"
@@ -83,26 +84,14 @@ export default function SignInScreen({ navigation }) {
                 if (error instanceof FirebaseError) {
                   console.log('There was an error', error);
                   Alert.alert('Error', authError[error.code]);
+                } else {
+                  console.log("Sing in Error:", error);
                 }
               }
             }}
-            style={styles('bg:green-600', 'rounded:lg', 'p:2', 'flex:row', 'justify:evenly', 'm:2')}
+            style={Styling.actionButton}
           >
-            <Text style={{ color: 'white' }}>Sign In</Text>
-          </Pressable>
-          <Text>or</Text>
-          <Pressable
-            onPress={() => navigation.navigate('Modal User', { screen: 'Sign Up' })}
-            style={styles(
-              'bg:orange-400',
-              'rounded:lg',
-              'p:2',
-              'flex:row',
-              'justify:evenly',
-              'm:2',
-            )}
-          >
-            <Text>Sign Up</Text>
+            <Text style={Styling.actionButtonText}>SIGN IN</Text>
           </Pressable>
         </View>
       </TouchableWithoutFeedback>

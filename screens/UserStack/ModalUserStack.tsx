@@ -4,7 +4,9 @@ import SignUpScreen from './SignUpScreen';
 import UserCustomiseScreen from './UserCustomiseScreen';
 import UserScreen from './UserScreen';
 import useAuthStore from '../../store/auth';
-import { Button } from 'react-native';
+import { Pressable, Text } from 'react-native';
+import { Styling } from "../../styles/styling"
+
 
 const Stack = createNativeStackNavigator();
 
@@ -16,10 +18,23 @@ export default function ModalUser() {
       {isUserSignedIn ? (
         <>
           <Stack.Screen
-            name="User"
+            name="Profile"
             component={UserScreen}
             options={({ navigation }) => ({
-              headerLeft: () => <Button title="Close" onPress={() => navigation.popToTop()} />,
+              headerLeft: () => {
+                return (
+                  <Pressable
+                    onPress={() => navigation.popToTop()}
+                    style={Styling.navigationButton}
+                  >
+                    <Text style={Styling.navigationButtonText}>BACK</Text>
+                  </Pressable>
+                )
+              },
+              headerTitleStyle: {
+                fontFamily: "OpenSans-ExtraBold",
+                fontSize: 20,
+              }
             })}
           />
           <Stack.Screen name="Edit Details" component={UserCustomiseScreen} />
@@ -27,15 +42,49 @@ export default function ModalUser() {
       ) : (
         <>
           <Stack.Screen
-            name="Sign In"
+            name="Sign in"
             component={SignInScreen}
             options={({ navigation }) => ({
-              headerLeft: () => <Button title="Close" onPress={() => navigation.popToTop()} />,
+              headerLeft: () => {
+                return (
+                  <Pressable
+                    onPress={() => navigation.popToTop()}
+                    style={Styling.navigationButton}
+                  >
+                    <Text style={Styling.navigationButtonText}>BACK</Text>
+                  </Pressable>
+                )
+              },
+              headerTitleStyle: {
+                fontFamily: "OpenSans-ExtraBold",
+                fontSize: 20,
+              }
             })}
           />
-          <Stack.Screen name="Sign Up" component={SignUpScreen} />
+          <Stack.Screen
+            name="Sign Up"
+            component={SignUpScreen}
+            options={({ navigation }) => ({
+              headerLeft: () => {
+                return (
+                  <Pressable
+                    onPress={() => navigation.popToTop()}
+                    style={Styling.navigationButton}
+                  >
+                    <Text style={Styling.navigationButtonText}>BACK</Text>
+                  </Pressable>
+                )
+              },
+              headerTitleStyle: {
+                fontFamily: "OpenSans-ExtraBold",
+                fontSize: 20,
+              }
+            })}
+          />
         </>
       )}
     </Stack.Navigator>
   );
 }
+
+

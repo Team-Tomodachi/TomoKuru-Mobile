@@ -28,14 +28,14 @@ export default function MainTabsStack() {
           // You can return any component that you like here!
           return <Feather name={iconName} size={size} color={color} />;
         },
-        tabBarActiveTintColor: 'tomato',
+        tabBarActiveTintColor: '#FCB90F',
         tabBarInactiveTintColor: 'gray',
         headerLeft: () => {
           return (
             <TouchableOpacity
               onPress={() => navigation.navigate('Modal User')}
               delayPressIn={0}
-              //TODO: fix ~1 sec delay after press (android only?)
+            //TODO: fix ~1 sec delay after press (android only?)
             >
               <ProfileImage />
             </TouchableOpacity>
