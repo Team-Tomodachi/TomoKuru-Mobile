@@ -13,14 +13,17 @@ import { Chip, Searchbar } from 'react-native-paper';
 import { styles } from '../styles/styles';
 import { FlashList } from '@shopify/flash-list';
 
-export default function ListVenues({ navigation }) {
+export default function ListVenues({ navigation, route }) {
   const [query, setQuery] = useState('');
-  const [location, setLocation] = useState('');
+  const [location, setLocation] = useState<string | undefined>();
   const [smoking, setSmoking] = useState('');
   const [capacity, setCapacity] = useState<number | undefined>();
   const [outdoor, setOutdoor] = useState<boolean | undefined>();
   const [venueData, setVenueData] = useState([]);
-  const [isLocationModalVisibile, setLocationModalVisibile] = useState(false);
+
+  useEffect(() => {
+    setLocation(route.params?.selectedLocation);
+  }, [route.params?.selectedLocation]);
 
   const smokingActionSheet = () =>
     ActionSheetIOS.showActionSheetWithOptions(
@@ -104,7 +107,7 @@ export default function ListVenues({ navigation }) {
 
   const filterVenues = (
     query: string,
-    location: string,
+    location: string | undefined,
     smoking: string,
     capacity: number | undefined,
     outdoor: boolean | undefined,
@@ -133,23 +136,10 @@ export default function ListVenues({ navigation }) {
         }}
         value={query}
       />
-      {isLocationModalVisibile ? (
-        <Searchbar
-          placeholder="Location"
-          onChangeText={(text) => {
-            setLocation(text);
-          }}
-          value={location}
-        />
-      ) : null}
       <ScrollView horizontal={true}>
         <View style={styles('bg-opacity:0', 'flex:row', 'h:10', 'justify:evenly', 'p:1')}>
-          <Chip
-            mode="outlined"
-            icon="map-marker"
-            onPress={() => setLocationModalVisibile(!isLocationModalVisibile)}
-          >
-            {location.length === 0 ? 'Location' : location}
+          <Chip mode="outlined" icon="map-marker" onPress={() => navigation.navigate('Locations')}>
+            {location ? location : 'Location'}
           </Chip>
           <Chip mode="outlined" icon="smoking-off" onPress={smokingActionSheet}>
             {smoking.length === 0 ? 'Smoking' : smoking}

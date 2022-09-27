@@ -50,7 +50,7 @@ export default function LocationSelectScreen({ navigation }) {
               style={styles('border:1', 'p:1', 'm:1')}
               onPress={() =>
                 navigation.navigate('Venues', {
-                  selectedLocation: location,
+                  selectedLocation: item,
                 })
               }
             >
