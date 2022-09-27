@@ -9,6 +9,8 @@ export default function useUserCreatedGroup() {
   const { id } = data;
 
   return useQuery(['userCreatedGroup'], () =>
-    axios.get(`${Constants?.expoConfig?.extra?.apiURL}/api/groups/${id}`).then((res) => res.data),
+    axios
+      .get(`${Constants?.expoConfig?.extra?.apiURL}/api/users/${id}/groups/creator`)
+      .then((res) => res.data),
   );
 }
