@@ -10,6 +10,7 @@ import {
   Platform,
   Image,
   Pressable,
+  ScrollView,
 } from 'react-native';
 import { Formik } from 'formik';
 import { styles } from '../../../styles/styles';
@@ -72,91 +73,93 @@ export default function CreateGroupScreen({ navigation, route }) {
   };
 
   return (
-    <KeyboardAvoidingView
-      style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-    >
-      <Text>Group Photo</Text>
-      <Image
-        source={{
-          uri: imageUri,
-        }}
-        style={{ width: 300, height: 150, backgroundColor: 'gray' }}
-        resizeMode="cover"
-      />
-      <Button
-        icon="camera"
-        style={styles('bg:green-600', 'my:2')}
-        onPress={pickImage}
-        disabled={isUploading}
+    <ScrollView>
+      <KeyboardAvoidingView
+        style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
-        {isUploading ? <ActivityIndicator animating={true} color="white" /> : 'select photo'}
-      </Button>
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <Formik
-          initialValues={initialValues}
-          onSubmit={async (values: Group) => {
-            setUploading(true);
-            if (imageUri) {
-              const image = await fetch(imageUri);
-              const blob: Blob = await image.blob();
-              const filePath: string = `groups/${uuid.v4()}-${Date.now()}`;
-              setImageRef(filePath);
-              const storageLocRef = ref(getStorage(), filePath);
-              await uploadBytesResumable(storageLocRef, blob);
-            }
-            await Axios.post(`${Constants?.expoConfig?.extra?.apiURL}/api/groups`, {
-              group_name: values.groupName,
-              group_description: values.groupDesciption,
-              user_id: id,
-              private: values.isPrivate,
-              photo_url: imageRef,
-              tag_id: route.params?.tagId,
-            }).catch(function (error) {
-              console.log('Axios Post Error!', error);
-              return Promise.reject(error);
-            });
-            setUploading(false);
-            Alert.alert('Group created', 'You have successfully created a group');
+        <Text>Group Photo</Text>
+        <Image
+          source={{
+            uri: imageUri,
           }}
+          style={{ width: 300, height: 150, backgroundColor: 'gray' }}
+          resizeMode="cover"
+        />
+        <Button
+          icon="camera"
+          style={styles('bg:green-600', 'my:2')}
+          onPress={pickImage}
+          disabled={isUploading}
         >
-          {({ handleChange, handleBlur, handleSubmit, setFieldValue, values }) => (
-            <View>
-              <Text>Group Name</Text>
-              <TextInput
-                style={styles('border:1', 'p:1', 'w:56', 'm:5')}
-                onChangeText={handleChange('groupName')}
-                onBlur={handleBlur('groupName')}
-                value={values.groupName}
-                placeholder={values.groupName}
-              />
-              <Text>Group Description</Text>
-              <View style={styles('border:1', 'p:1', 'w:56', 'm:5', 'h:20')}>
+          {isUploading ? <ActivityIndicator animating={true} color="white" /> : 'select photo'}
+        </Button>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <Formik
+            initialValues={initialValues}
+            onSubmit={async (values: Group) => {
+              setUploading(true);
+              if (imageUri) {
+                const image = await fetch(imageUri);
+                const blob: Blob = await image.blob();
+                const filePath: string = `groups/${uuid.v4()}-${Date.now()}`;
+                setImageRef(filePath);
+                const storageLocRef = ref(getStorage(), filePath);
+                await uploadBytesResumable(storageLocRef, blob);
+              }
+              await Axios.post(`${Constants?.expoConfig?.extra?.apiURL}/api/groups`, {
+                group_name: values.groupName,
+                group_description: values.groupDesciption,
+                user_id: id,
+                private: values.isPrivate,
+                photo_url: imageRef,
+                tag_id: route.params?.tagId,
+              }).catch(function (error) {
+                console.log('Axios Post Error!', error);
+                return Promise.reject(error);
+              });
+              setUploading(false);
+              Alert.alert('Group created', 'You have successfully created a group');
+            }}
+          >
+            {({ handleChange, handleBlur, handleSubmit, setFieldValue, values }) => (
+              <View>
+                <Text>Group Name</Text>
                 <TextInput
-                  onChangeText={handleChange('groupDesciption')}
-                  onBlur={handleBlur('groupDesciption')}
-                  multiline={true}
-                  value={values.groupDesciption}
-                  placeholder={values.groupDesciption}
-                ></TextInput>
+                  style={styles('border:1', 'p:1', 'w:56', 'm:5')}
+                  onChangeText={handleChange('groupName')}
+                  onBlur={handleBlur('groupName')}
+                  value={values.groupName}
+                  placeholder={values.groupName}
+                />
+                <Text>Group Description</Text>
+                <View style={styles('border:1', 'p:1', 'w:56', 'm:5', 'h:20')}>
+                  <TextInput
+                    onChangeText={handleChange('groupDesciption')}
+                    onBlur={handleBlur('groupDesciption')}
+                    multiline={true}
+                    value={values.groupDesciption}
+                    placeholder={values.groupDesciption}
+                  ></TextInput>
+                </View>
+                <Text>Tag</Text>
+                <Pressable
+                  onPress={() =>
+                    navigation.navigate('Tags', {
+                      prevScreen: 'Create Group',
+                    })
+                  }
+                >
+                  <Text style={styles('text:2xl')}>
+                    {route.params?.selectedTag || 'Select a tag'}
+                  </Text>
+                </Pressable>
+                <Button onPress={handleSubmit}>Submit</Button>
               </View>
-              <Text>Tag</Text>
-              <Pressable
-                onPress={() =>
-                  navigation.navigate('Tags', {
-                    prevScreen: 'Create Group',
-                  })
-                }
-              >
-                <Text style={styles('text:2xl')}>
-                  {route.params?.selectedTag || 'Select a tag'}
-                </Text>
-              </Pressable>
-              <Button onPress={handleSubmit}>Submit</Button>
-            </View>
-          )}
-        </Formik>
-      </TouchableWithoutFeedback>
-    </KeyboardAvoidingView>
+            )}
+          </Formik>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
+    </ScrollView>
   );
 }
