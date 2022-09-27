@@ -1,6 +1,6 @@
-import { FlatList } from 'react-native';
+import { FlatList, Button, View } from 'react-native';
 import { styles } from '../styles/styles';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Constants from 'expo-constants';
 import { Searchbar, Chip } from 'react-native-paper';
@@ -36,6 +36,11 @@ export default function ListGroups({ navigation, route }) {
       });
   };
 
+  const resetFilter = () => {
+    setQuery(undefined);
+    setTag(undefined);
+  };
+
   return (
     <>
       <Searchbar
@@ -46,14 +51,18 @@ export default function ListGroups({ navigation, route }) {
         }}
         value={query ? query : ''}
       />
-      <Chip
-        mode="outlined"
-        style={styles('w:28')}
-        icon="tag"
-        onPress={() => navigation.navigate('Tags')}
-      >
-        {tag ? tag : 'any tags'}
-      </Chip>
+      <View style={styles('flex:row')}>
+        <Button title="Reset" onPress={resetFilter} />
+        <Chip
+          mode="outlined"
+          style={styles('w:28')}
+          icon="tag"
+          onPress={() => navigation.navigate('Tags')}
+        >
+          {tag ? tag : 'any tags'}
+        </Chip>
+      </View>
+
       <FlatList
         data={groupData}
         renderItem={({ item }) => {
