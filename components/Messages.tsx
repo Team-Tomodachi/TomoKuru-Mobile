@@ -6,31 +6,13 @@ import { View, Text, FlatList, TextInput, Button } from 'react-native';
 import { styles } from '../styles/styles';
 import useUser from '../hooks/useUser';
 
-export default function Messages() {
-  const messagesRef = collection(firestore, 'event_a319070e-b918-46e1-858a-3e6f87bc1965');
+export default function Messages({ collectionName }) {
+  const messagesRef = collection(firestore, `${collectionName}`);
   const messageQuery = query(messagesRef, orderBy('timestamp'), limit(25));
   const [messages] = useCollectionData(messageQuery, { idField: 'id' });
   const [messageToSend, setMessageToSend] = useState('');
 
-  const sendMessage = async () => {
-    const { data } = useUser();
-
-    if (data) {
-      try {
-        await addDoc(messagesRef, {
-          message: messageToSend,
-          timestamp: serverTimestamp(),
-          user_id: data.id,
-          name: data.first_name,
-          photo_url: data.photo_url,
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    }
-
-    setMessageToSend('');
-  };
+  const { data } = useUser();
 
   return (
     <>
@@ -47,7 +29,18 @@ export default function Messages() {
           placeholder="Your message"
           onChangeText={(text) => setMessageToSend(text)}
         />
-        <Button title="Send message" onPress={sendMessage} />
+        <Button
+          title="Send message"
+          onPress={() => {
+            addDoc(messagesRef, {
+              message: messageToSend,
+              timestamp: serverTimestamp(),
+              user_id: data.id,
+              user_name: data.first_name,
+              photo_url: data.photo_url,
+            });
+          }}
+        />
       </View>
     </>
   );
