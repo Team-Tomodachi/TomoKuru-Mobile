@@ -81,7 +81,7 @@ export default function EventDetailScreen({ navigation, route }) {
           <Pressable
             onPress={() =>
               navigation.navigate('Messages', {
-                collectionName: `groups_${singleEvent.id}`,
+                collectionName: `events_${singleEvent.id}`,
               })
             }
           >
