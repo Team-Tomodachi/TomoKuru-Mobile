@@ -47,7 +47,7 @@ export default function HomeScreen({ navigation }) {
             <Text style={Styling.actionButtonText}>SIGN IN</Text>
           </Pressable>
           <Pressable
-            onPress={() => navigation.navigate('Modal User', { screen: 'Sign Up' })}
+            onPress={() => navigation.navigate('Modal User', { screen: 'Sign up' })}
             style={[Styling.actionButton, { backgroundColor: '#CC960C' }]}
           >
             <Text style={[Styling.actionButtonText, { backgroundColor: '#CC960C' }]}>SIGN UP</Text>
