@@ -1,4 +1,4 @@
-import { Alert, Text, View } from 'react-native';
+import { Alert, Text, View, Pressable } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { styles } from '../../styles/styles';
 import { TextInput, Button } from 'react-native-paper';
@@ -7,6 +7,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import Constants from 'expo-constants';
 import useUser from '../../hooks/useUser';
+import { Styling } from "../../styles/styling"
 
 interface InfoToUpdate {
   name: string;
@@ -126,38 +127,23 @@ export default function UserCustomiseScreen({ navigation }) {
               }}
             />
             <View style={styles('flex:col', 'items:center', 'my:5')}>
-              <Button
-                disabled={isUpdateDisabled}
-                onPress={handleSubmit}
-                style={styles(
-                  'bg:green-500',
-                  'rounded:lg',
-                  'h:10',
-                  'justify:center',
-                  'items:center',
-                  'w:72',
-                )}
-              >
-                Update
-              </Button>
-              <Text style={styles('my:3', 'text:2xl')}>or</Text>
-              <Button
+              <Pressable
                 disabled={isResetDisabled}
                 onPress={() => {
                   resetForm();
                   disableButtons();
                 }}
-                style={styles(
-                  'bg:red-500',
-                  'rounded:lg',
-                  'h:10',
-                  'justify:center',
-                  'items:center',
-                  'w:72',
-                )}
+                style={[Styling.actionButton, { backgroundColor: "#D92222", marginBottom: 10 }]}
               >
-                Reset
-              </Button>
+                <Text style={[Styling.actionButtonText, { backgroundColor: "#D92222", fontSize: 20 }]}>RESET</Text>
+              </Pressable>
+              <Pressable
+                disabled={isUpdateDisabled}
+                onPress={handleSubmit}
+                style={[Styling.actionButton, { marginBottom: 10 }]}
+              >
+                <Text style={[Styling.actionButtonText, { fontSize: 20 }]}>UPDATE</Text>
+              </Pressable>
             </View>
           </>
         )}
@@ -165,3 +151,5 @@ export default function UserCustomiseScreen({ navigation }) {
     </View>
   );
 }
+
+

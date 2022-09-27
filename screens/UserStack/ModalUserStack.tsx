@@ -33,7 +33,16 @@ export default function ModalUser() {
               },
             })}
           />
-          <Stack.Screen name="Edit Details" component={UserCustomiseScreen} />
+          <Stack.Screen
+            name="Edit Details"
+            component={UserCustomiseScreen}
+            options={({ navigation }) => ({
+              headerTitleStyle: {
+                fontFamily: 'OpenSans-ExtraBold',
+                fontSize: 20,
+              },
+            })}
+          />
         </>
       ) : (
         <>
@@ -55,7 +64,7 @@ export default function ModalUser() {
             })}
           />
           <Stack.Screen
-            name="Sign Up"
+            name="Sign up"
             component={SignUpScreen}
             options={({ navigation }) => ({
               headerLeft: () => {
