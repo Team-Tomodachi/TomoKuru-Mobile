@@ -14,12 +14,12 @@ export default function ListEvents({ navigation }) {
   }, []);
 
   return (
-    <View>
-      <ScrollView style={{ backgroundColor: 'rgba(182, 182, 182, 1)' }}>
-        {eventData.map((event, index) => {
-          return <EventListItem singleEvent={event} key={index} />;
-        })}
-      </ScrollView>
-    </View>
+    <FlatList
+      data={eventData}
+      keyExtractor={(item, index) => index}
+      renderItem={({ item }) => {
+        return <EventListItem singleEvent={item} />;
+      }}
+    />
   );
 }

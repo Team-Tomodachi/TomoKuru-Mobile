@@ -4,14 +4,12 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Constants from 'expo-constants';
 import { Searchbar, Chip } from 'react-native-paper';
-import BottomModal from './BottomModal';
 import GroupListItem from './GroupListItem';
 
 export default function ListGroups({ navigation }) {
   const [query, setQuery] = useState<string>('');
   const [tag, setTag] = useState<string>('');
   const [groupData, setGroupData] = useState([]);
-  const [isModalVisibile, setModalVisibile] = useState<boolean>(false);
 
   useEffect(() => {
     filterGroup(query, tag);
@@ -35,8 +33,7 @@ export default function ListGroups({ navigation }) {
   };
 
   return (
-    <View>
-      <BottomModal isVisible={isModalVisibile} setIsVisible={setModalVisibile} setTag={setTag} />
+    <>
       <Searchbar
         placeholder="Search"
         onChangeText={(text) => {
@@ -44,12 +41,7 @@ export default function ListGroups({ navigation }) {
         }}
         value={query}
       />
-      <Chip
-        mode="outlined"
-        style={styles('w:28')}
-        icon="tag"
-        onPress={() => setModalVisibile(true)}
-      >
+      <Chip mode="outlined" style={styles('w:28')} icon="tag">
         {tag.length === 0 ? 'any tags' : tag}
       </Chip>
       <FlatList
@@ -59,6 +51,6 @@ export default function ListGroups({ navigation }) {
         }}
         keyExtractor={(item) => item.id}
       />
-    </View>
+    </>
   );
 }
