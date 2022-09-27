@@ -53,12 +53,7 @@ export default function ListGroups({ navigation, route }) {
       />
       <View style={styles('flex:row')}>
         <Button title="Reset" onPress={resetFilter} />
-        <Chip
-          mode="outlined"
-          style={styles('w:28')}
-          icon="tag"
-          onPress={() => navigation.navigate('Tags')}
-        >
+        <Chip mode="outlined" icon="tag" onPress={() => navigation.navigate('Tags')}>
           {tag ? tag : 'any tags'}
         </Chip>
       </View>

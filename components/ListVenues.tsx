@@ -138,6 +138,7 @@ export default function ListVenues({ navigation, route }) {
   return (
     <>
       <Searchbar
+        style={{ marginBottom: 5 }}
         placeholder="Search"
         onChangeText={(text) => {
           setQuery(text);
