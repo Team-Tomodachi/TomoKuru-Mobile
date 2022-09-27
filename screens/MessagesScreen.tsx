@@ -5,6 +5,7 @@ import { useCollectionData } from 'react-firebase-hooks/firestore';
 import { View, Text, FlatList, TextInput, Button } from 'react-native';
 import { styles } from '../styles/styles';
 import useUser from '../hooks/useUser';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function MessagesScreen({ route }) {
   const messagesRef = collection(firestore, `${route.params?.collectionName}`);
@@ -15,7 +16,7 @@ export default function MessagesScreen({ route }) {
   const { data } = useUser();
 
   return (
-    <>
+    <SafeAreaView>
       <FlatList
         data={messages}
         keyExtractor={(item, index) => index}
@@ -42,6 +43,6 @@ export default function MessagesScreen({ route }) {
           }}
         />
       </View>
-    </>
+    </SafeAreaView>
   );
 }
