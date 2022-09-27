@@ -11,6 +11,9 @@ import VenueDetailScreen from './screens/VenueDetailScreen';
 import { useCallback } from 'react';
 import * as SplashScreen from 'expo-splash-screen';
 import { useFonts } from 'expo-font';
+import TagSelect from './components/TagSelect';
+import LocationSelectScreen from './screens/LocationSelectScreen';
+import { Button } from 'react-native';
 
 const queryClient = new QueryClient();
 const Stack = createNativeStackNavigator();
@@ -60,6 +63,22 @@ export default function App() {
               name="Modal User"
               component={ModalUser}
               options={{ headerShown: false, presentation: 'modal' }}
+            />
+            <Stack.Screen
+              name="Tags"
+              component={TagSelect}
+              options={({ navigation }) => ({
+                presentation: 'modal',
+                headerLeft: () => <Button title="Close" onPress={() => navigation.goBack()} />,
+              })}
+            />
+            <Stack.Screen
+              name="Locations"
+              component={LocationSelectScreen}
+              options={({ navigation }) => ({
+                presentation: 'modal',
+                headerLeft: () => <Button title="Close" onPress={() => navigation.goBack()} />,
+              })}
             />
             <Stack.Group>
               <Stack.Screen name="Group Details" component={GroupDetailScreen} />

@@ -1,27 +1,29 @@
-import { View, Dimensions, FlatList } from 'react-native';
+import { FlatList, Button, View } from 'react-native';
 import { styles } from '../styles/styles';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Constants from 'expo-constants';
 import { Searchbar, Chip } from 'react-native-paper';
-import BottomModal from './BottomModal';
 import GroupListItem from './GroupListItem';
 
-export default function ListGroups({ navigation }) {
-  const [query, setQuery] = useState<string>('');
-  const [tag, setTag] = useState<string>('');
+export default function ListGroups({ navigation, route }) {
+  const [query, setQuery] = useState<string | undefined>();
+  const [tag, setTag] = useState<string | undefined>();
   const [groupData, setGroupData] = useState([]);
-  const [isModalVisibile, setModalVisibile] = useState<boolean>(false);
 
   useEffect(() => {
     filterGroup(query, tag);
   }, [query, tag]);
 
+  useEffect(() => {
+    setTag(route.params?.selectedTag);
+  }, [route.params?.selectedTag]);
+
   const isPrivate = (privacy: boolean) => {
     return privacy === false ? 'public' : 'private';
   };
 
-  const filterGroup = (query: string, tag: string) => {
+  const filterGroup = (query: string | undefined, tag: string | undefined) => {
     axios
       .get(`${Constants?.expoConfig?.extra?.apiURL}/api/groups`, {
         params: {
@@ -34,24 +36,28 @@ export default function ListGroups({ navigation }) {
       });
   };
 
+  const resetFilter = () => {
+    setQuery(undefined);
+    setTag(undefined);
+  };
+
   return (
-    <View>
-      <BottomModal isVisible={isModalVisibile} setIsVisible={setModalVisibile} setTag={setTag} />
+    <>
       <Searchbar
+        style={{ marginBottom: 5 }}
         placeholder="Search"
         onChangeText={(text) => {
           setQuery(text);
         }}
-        value={query}
+        value={query ? query : ''}
       />
-      <Chip
-        mode="outlined"
-        style={styles('w:28')}
-        icon="tag"
-        onPress={() => setModalVisibile(true)}
-      >
-        {tag.length === 0 ? 'any tags' : tag}
-      </Chip>
+      <View style={styles('flex:row')}>
+        <Button title="Reset" onPress={resetFilter} />
+        <Chip mode="outlined" icon="tag" onPress={() => navigation.navigate('Tags')}>
+          {tag ? tag : 'any tags'}
+        </Chip>
+      </View>
+
       <FlatList
         data={groupData}
         renderItem={({ item }) => {
@@ -59,6 +65,6 @@ export default function ListGroups({ navigation }) {
         }}
         keyExtractor={(item) => item.id}
       />
-    </View>
+    </>
   );
 }

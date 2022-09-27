@@ -1,19 +1,37 @@
-import { View, ScrollView, Dimensions, KeyboardAvoidingView, ActionSheetIOS } from 'react-native';
+import {
+  View,
+  ScrollView,
+  Dimensions,
+  KeyboardAvoidingView,
+  ActionSheetIOS,
+  FlatList,
+  Button,
+} from 'react-native';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import VenueListItem from './VenueListItem';
 import { Chip, Searchbar } from 'react-native-paper';
 import { styles } from '../styles/styles';
-import { FlashList } from '@shopify/flash-list';
 
-export default function ListVenues({ navigation }) {
+export default function ListVenues({ navigation, route }) {
   const [query, setQuery] = useState('');
-  const [location, setLocation] = useState('');
+  const [location, setLocation] = useState<string | undefined>();
   const [smoking, setSmoking] = useState('');
   const [capacity, setCapacity] = useState<number | undefined>();
   const [outdoor, setOutdoor] = useState<boolean | undefined>();
   const [venueData, setVenueData] = useState([]);
-  const [isLocationModalVisibile, setLocationModalVisibile] = useState(false);
+
+  useEffect(() => {
+    setLocation(route.params?.selectedLocation);
+  }, [route.params?.selectedLocation]);
+
+  const resetFilter = () => {
+    setQuery('');
+    setLocation(undefined);
+    setSmoking('');
+    setCapacity(undefined);
+    setOutdoor(undefined);
+  };
 
   const smokingActionSheet = () =>
     ActionSheetIOS.showActionSheetWithOptions(
@@ -97,7 +115,7 @@ export default function ListVenues({ navigation }) {
 
   const filterVenues = (
     query: string,
-    location: string,
+    location: string | undefined,
     smoking: string,
     capacity: number | undefined,
     outdoor: boolean | undefined,
@@ -118,55 +136,61 @@ export default function ListVenues({ navigation }) {
   };
 
   return (
-    <ScrollView>
-      <KeyboardAvoidingView>
-        <Searchbar
-          placeholder="Search"
-          onChangeText={(text) => {
-            setQuery(text);
-          }}
-          value={query}
-        />
-        {isLocationModalVisibile ? (
-          <Searchbar
-            placeholder="Location"
-            onChangeText={(text) => {
-              setLocation(text);
-            }}
-            value={location}
-          />
-        ) : null}
+    <>
+      <Searchbar
+        style={{ marginBottom: 5 }}
+        placeholder="Search"
+        onChangeText={(text) => {
+          setQuery(text);
+        }}
+        value={query}
+      />
+
+      <View style={styles('flex:row')}>
+        <Button title="Reset" onPress={resetFilter} />
         <ScrollView horizontal={true}>
-          <View style={styles('bg-opacity:0', 'flex:row', 'h:10', 'justify:evenly', 'p:1')}>
-            <Chip
-              mode="outlined"
-              icon="map-marker"
-              onPress={() => setLocationModalVisibile(!isLocationModalVisibile)}
-            >
-              {location.length === 0 ? 'Location' : location}
-            </Chip>
-            <Chip mode="outlined" icon="smoking-off" onPress={smokingActionSheet}>
-              {smoking.length === 0 ? 'Smoking' : smoking}
-            </Chip>
-            <Chip mode="outlined" icon="table-chair" onPress={outdoorActionSheet}>
-              {outdoor ? 'Outdoor Seating: Required' : 'Outdoor Seating: Not Required'}
-            </Chip>
-            <Chip mode="outlined" icon="account-multiple" onPress={capacityActionSheet}>
-              {!capacity ? 'Capacity' : capacity}
-            </Chip>
-          </View>
+          <Chip
+            style={styles('mr:1')}
+            mode="outlined"
+            icon="map-marker"
+            onPress={() => navigation.navigate('Locations')}
+          >
+            {location ? location : 'Location'}
+          </Chip>
+          <Chip
+            style={styles('mr:1')}
+            mode="outlined"
+            icon="smoking-off"
+            onPress={smokingActionSheet}
+          >
+            {smoking.length === 0 ? 'Smoking' : smoking}
+          </Chip>
+          <Chip
+            style={styles('mr:1')}
+            mode="outlined"
+            icon="table-chair"
+            onPress={outdoorActionSheet}
+          >
+            {outdoor ? 'Outdoor Seating: Required' : 'Outdoor Seating: Not Required'}
+          </Chip>
+          <Chip
+            style={styles('mr:1')}
+            mode="outlined"
+            icon="account-multiple"
+            onPress={capacityActionSheet}
+          >
+            {!capacity ? 'Capacity' : capacity}
+          </Chip>
         </ScrollView>
-        <View style={styles('w:full')}>
-          <FlashList
-            estimatedItemSize={170}
-            data={venueData}
-            keyExtractor={(venue) => venue.id}
-            renderItem={(venue) => {
-              return <VenueListItem singleVenue={venue.item} />;
-            }}
-          />
-        </View>
-      </KeyboardAvoidingView>
-    </ScrollView>
+      </View>
+      <FlatList
+        estimatedItemSize={170}
+        data={venueData}
+        keyExtractor={(venue, index) => index}
+        renderItem={(venue) => {
+          return <VenueListItem singleVenue={venue.item} />;
+        }}
+      />
+    </>
   );
 }
