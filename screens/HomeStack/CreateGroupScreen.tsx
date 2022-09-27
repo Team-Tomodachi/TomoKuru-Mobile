@@ -9,6 +9,7 @@ import {
   TouchableWithoutFeedback,
   Platform,
   Image,
+  Pressable,
 } from 'react-native';
 import { Formik } from 'formik';
 import { styles } from '../../styles/styles';
@@ -28,7 +29,7 @@ interface Group {
   photoURL: string;
 }
 
-export default function CreateGroupScreen() {
+export default function CreateGroupScreen({ navigation, route }) {
   const initialValues: Group = {
     groupName: '',
     groupDesciption: '',
@@ -75,6 +76,7 @@ export default function CreateGroupScreen() {
       style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
+      <Text>Group Photo</Text>
       <Image
         source={{
           uri: imageUri,
@@ -109,6 +111,7 @@ export default function CreateGroupScreen() {
               user_id: id,
               private: values.isPrivate,
               photo_url: imageRef,
+              tag_id: route.params?.tagId,
             }).catch(function (error) {
               console.log('Axios Post Error!', error);
               return Promise.reject(error);
@@ -137,8 +140,12 @@ export default function CreateGroupScreen() {
                   placeholder={values.groupDesciption}
                 ></TextInput>
               </View>
-              <Text>Group Photo</Text>
-
+              <Text>Tag</Text>
+              <Pressable onPress={() => navigation.push('Tags')}>
+                <Text style={styles('text:2xl')}>
+                  {route.params?.selectedTag || 'Select a tag'}
+                </Text>
+              </Pressable>
               <Button onPress={handleSubmit}>Submit</Button>
             </View>
           )}
