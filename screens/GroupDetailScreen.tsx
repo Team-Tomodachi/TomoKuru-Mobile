@@ -46,63 +46,57 @@ export default function GroupDetailScreen({ navigation, route }) {
 
   return (
     <ScrollView
-      contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}
       style={{
         backgroundColor: 'white',
       }}
     >
       <View
-        style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'center',
+          marginLeft: 20,
+        }}
       >
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'center',
-            marginLeft: 20,
-          }}
-        >
-          <Image
-            style={styles.image}
-            source={
-              image.length === 0
-                ? require('../assets/place-holder.jpg')
-                : {
-                  uri: image,
-                }
-            }
-          />
-        </View>
-        <Text style={styles.title}>{singleGroup.group_name} </Text>
-        <Text style={styles.details}>{singleGroup.group_description} </Text>
-        <Text style={styles.detailsUnderlined}>Group Leader: {singleGroup.group_leader} </Text>
-        <Text style={styles.detailsUnderlined}>Privacy:{singleGroup.private} </Text>
-        <GroupMemberList groupID={singleGroup.id} />
-        {userJoined ? <TouchableOpacity
-          onPress={() =>
-            navigation.navigate('Messages', {
-              collectionName: `group_${singleGroup.id}`,
-            })
+        <Image
+          style={styles.image}
+          source={
+            image.length === 0
+              ? require('../assets/place-holder.jpg')
+              : {
+                uri: image,
+              }
           }
-          style={styles.button}
-        >
-          <Text style={styles.details}>Message</Text>
-        </TouchableOpacity> : <TouchableOpacity
-          onPress={() => {
-            if (!id) {
-              Alert.alert('Please Login to Join Groups!');
-              return;
-            }
-            setUserJoined(true);
-            axios.post(`http://tomokuru.i-re.io/api/groups/members/${singleGroup.id}/${id}`);
-            Alert.alert(`You have joined ${singleGroup.group_name}`);
-          }}
-          style={styles.button}
-        >
-          <Text style={styles.details}>Join This Group</Text>
-        </TouchableOpacity>}
-        <Button title="Back" onPress={() => navigation.goBack()}></Button>
+        />
       </View>
+      <Text style={styles.title}>{singleGroup.group_name} </Text>
+      <Text style={styles.details}>{singleGroup.group_description} </Text>
+      <Text style={styles.detailsUnderlined}>Group Leader: {singleGroup.group_leader} </Text>
+      <Text style={styles.detailsUnderlined}>Privacy:{singleGroup.private} </Text>
+      <GroupMemberList groupID={singleGroup.id} />
+      {userJoined ? <TouchableOpacity
+        onPress={() =>
+          navigation.navigate('Messages', {
+            collectionName: `group_${singleGroup.id}`,
+          })
+        }
+        style={styles.button}
+      >
+        <Text style={styles.details}>Message</Text>
+      </TouchableOpacity> : <TouchableOpacity
+        onPress={() => {
+          if (!id) {
+            Alert.alert('Please Login to Join Groups!');
+            return;
+          }
+          setUserJoined(true);
+          axios.post(`http://tomokuru.i-re.io/api/groups/members/${singleGroup.id}/${id}`);
+          Alert.alert(`You have joined ${singleGroup.group_name}`);
+        }}
+        style={styles.button}
+      >
+        <Text style={styles.details}>Join This Group</Text>
+      </TouchableOpacity>}
     </ScrollView>
   );
 }

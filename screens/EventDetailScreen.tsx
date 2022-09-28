@@ -44,8 +44,15 @@ export default function EventDetailScreen({ navigation, route }) {
   }, []);
 
   return (
-    <View>
-      <ScrollView>
+    <ScrollView>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'center',
+          marginLeft: 25,
+        }}
+      >
         <Image
           style={styles.image}
           source={
@@ -56,46 +63,45 @@ export default function EventDetailScreen({ navigation, route }) {
               }
           }
         />
-        <Text style={styles.title}> {singleEvent.name} </Text>
-        <Text style={styles.details}> Group: {singleEvent.group_name} </Text>
-        <Text style={styles.details}> {singleEvent.description} </Text>
-        <Text style={styles.details}> Date: {new Date(Date.parse(singleEvent.start_time)).toLocaleDateString()} </Text>
-        <Text style={styles.details}> Start Time: {new Date(Date.parse(singleEvent.start_time)).toLocaleTimeString([], {
-          hour: '2-digit',
-          minute: '2-digit',
-        })} </Text>
-        <Text style={styles.details}> End Time: {singleEvent.end_time} </Text>
-        <Text style={styles.details}> Capacity {singleEvent.capacity} </Text>
-        <Text style={styles.details}> Venue: {singleEvent.location_name} </Text>
-        <View>
-          <EventAttendeeList eventID={singleEvent.id} />
-        </View>
-        {userJoined ? <TouchableOpacity
-          onPress={() =>
-            navigation.navigate('Messages', {
-              collectionName: `event_${singleEvent.id}`,
-            })
+      </View>
+      <Text style={styles.title}> {singleEvent.name} </Text>
+      <Text style={styles.details}> Group: {singleEvent.group_name} </Text>
+      <Text style={styles.details}> {singleEvent.description} </Text>
+      <Text style={styles.details}> Date: {new Date(Date.parse(singleEvent.start_time)).toLocaleDateString()} </Text>
+      <Text style={styles.details}> Start Time: {new Date(Date.parse(singleEvent.start_time)).toLocaleTimeString([], {
+        hour: '2-digit',
+        minute: '2-digit',
+      })} </Text>
+      <Text style={styles.details}> End Time: {singleEvent.end_time} </Text>
+      <Text style={styles.details}> Capacity {singleEvent.capacity} </Text>
+      <Text style={styles.details}> Venue: {singleEvent.location_name} </Text>
+      <View>
+        <EventAttendeeList eventID={singleEvent.id} />
+      </View>
+      {userJoined ? <TouchableOpacity
+        onPress={() =>
+          navigation.navigate('Messages', {
+            collectionName: `event_${singleEvent.id}`,
+          })
+        }
+        style={styles.button}
+      >
+        <Text style={styles.details}>Messages</Text>
+      </TouchableOpacity> : <TouchableOpacity
+        onPress={() => {
+          if (!id) {
+            Alert.alert('Please Login to Join Events!');
+            return;
           }
-          style={styles.button}
-        >
-          <Text style={styles.details}>Messages</Text>
-        </TouchableOpacity> : <TouchableOpacity
-          onPress={() => {
-            if (!id) {
-              Alert.alert('Please Login to Join Events!');
-              return;
-            }
-            setUserJoined(true);
-            axios.post(`http://tomokuru.i-re.io/api/events/attendees/${singleEvent.id}/${id}`);
-            Alert.alert(`You have joined the event: ${singleEvent.name}`);
-          }}
-          style={styles.button}
-        >
-          <Text style={styles.details}>Join This Event!</Text>
-        </TouchableOpacity>}
-        <Button title="Back" onPress={() => navigation.goBack()}></Button>
-      </ScrollView>
-    </View>
+          setUserJoined(true);
+          axios.post(`http://tomokuru.i-re.io/api/events/attendees/${singleEvent.id}/${id}`);
+          Alert.alert(`You have joined the event: ${singleEvent.name}`);
+        }}
+        style={styles.button}
+      >
+        <Text style={styles.details}>Join This Event!</Text>
+      </TouchableOpacity>}
+    </ScrollView>
   );
 }
 
