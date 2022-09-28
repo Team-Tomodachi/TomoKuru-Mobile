@@ -109,32 +109,32 @@ export default function CreateEventScreen({ navigation, route }) {
   };
 
   return (
-    <ScrollView>
-      <KeyboardAvoidingView
-        style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      >
-        <Text>Event Photo</Text>
-        <Image
-          source={
-            imageUri.length === 0
-              ? require('../../../assets/place-holder.jpg')
-              : {
-                uri: imageUri,
-              }
-          }
-          style={{ width: 300, height: 150, backgroundColor: 'gray' }}
-          resizeMode="cover"
-        />
-        <Button
-          icon="camera"
-          style={styles('bg:green-600', 'my:2')}
-          onPress={pickImage}
-          disabled={isUploading}
-        >
-          {isUploading ? <ActivityIndicator animating={true} color="white" /> : 'select photo'}
-        </Button>
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+    <KeyboardAvoidingView
+      style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    >
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View>
+          <Text>Event Photo</Text>
+          <Image
+            source={
+              imageUri.length === 0
+                ? require('../../../assets/place-holder.jpg')
+                : {
+                  uri: imageUri,
+                }
+            }
+            style={{ width: 300, height: 150, backgroundColor: 'gray' }}
+            resizeMode="cover"
+          />
+          <Button
+            icon="camera"
+            style={styles('bg:green-600', 'my:2')}
+            onPress={pickImage}
+            disabled={isUploading}
+          >
+            {isUploading ? <ActivityIndicator animating={true} color="white" /> : 'select photo'}
+          </Button>
           <Formik
             initialValues={initialValues}
             onSubmit={async (values: Event) => {
@@ -210,8 +210,8 @@ export default function CreateEventScreen({ navigation, route }) {
               </View>
             )}
           </Formik>
-        </TouchableWithoutFeedback>
-      </KeyboardAvoidingView>
-    </ScrollView>
+        </View>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 }
