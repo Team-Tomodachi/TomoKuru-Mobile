@@ -3,15 +3,15 @@ import { StyleSheet } from 'react-native';
 export const Styling = StyleSheet.create({
   tomoLogo: {
     fontFamily: 'Kanit-Black',
-    fontSize: 55,
-    padding: 50,
+    fontSize: 45,
+    padding: 40,
   },
 
   kuruLogo: {
     fontFamily: 'Kanit-Black-Italic',
     color: '#FCB90F',
-    fontSize: 55,
-    padding: 50,
+    fontSize: 45,
+    padding: 40,
   },
 
   tomoNoSize: {

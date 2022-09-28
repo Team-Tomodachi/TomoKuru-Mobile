@@ -50,10 +50,22 @@ export default function App() {
     return null;
   }
 
+  const MyTheme = {
+    dark: false,
+    colors: {
+      primary: '#FCB90F',
+      background: 'rgb(242, 242, 242)',
+      card: 'rgb(255, 255, 255)',
+      text: 'rgb(28, 28, 30)',
+      border: '#FCB90F',
+      notification: 'rgb(255, 69, 58)',
+    },
+  };
+
   return (
     <QueryClientProvider client={queryClient}>
       <StyleProvider>
-        <NavigationContainer onReady={onLayoutRootView}>
+        <NavigationContainer onReady={onLayoutRootView} theme={MyTheme}>
           <Stack.Navigator>
             <Stack.Screen
               name="Main Tab"

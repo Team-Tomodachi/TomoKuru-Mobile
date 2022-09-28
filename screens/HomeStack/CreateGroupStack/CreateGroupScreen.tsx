@@ -95,8 +95,8 @@ export default function CreateGroupScreen({ navigation, route }) {
             imageUri.length === 0
               ? require('../../../assets/place-holder.jpg')
               : {
-                  uri: imageUri,
-                }
+                uri: imageUri,
+              }
           }
           style={{ width: 300, height: 150, backgroundColor: 'gray' }}
           resizeMode="cover"
@@ -114,7 +114,10 @@ export default function CreateGroupScreen({ navigation, route }) {
             initialValues={initialValues}
             onSubmit={async (values) => {
               setUploading(true);
-              const photoUrl = await uploadImage();
+              let photoUrl;
+              if (imageUri.length !== 0) {
+                photoUrl = await uploadImage();
+              }
               await sendToDB(values, photoUrl);
               setUploading(false);
               Alert.alert('Group created', 'You have successfully created a group');
