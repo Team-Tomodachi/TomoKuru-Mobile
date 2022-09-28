@@ -121,6 +121,7 @@ export default function CreateGroupScreen({ navigation, route }) {
               await sendToDB(values, photoUrl);
               setUploading(false);
               Alert.alert('Group created', 'You have successfully created a group');
+              navigation.goBack();
             }}
           >
             {({ handleChange, handleBlur, handleSubmit, values }) => (

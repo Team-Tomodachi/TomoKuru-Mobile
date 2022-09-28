@@ -146,6 +146,7 @@ export default function CreateEventScreen({ navigation, route }) {
               await sendToDB(values, photoUrl);
               setUploading(false);
               Alert.alert('Event created', 'You have successfully created an event');
+              navigation.goBack();
             }}
           >
             {({ handleChange, handleBlur, handleSubmit, values, setFieldValue }) => (
