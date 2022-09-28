@@ -182,7 +182,7 @@ export default function CreateEventScreen({ navigation, route }) {
                   isVisible={isDateTimePickerVisible}
                   mode="datetime"
                   onConfirm={(time) => {
-                    setFieldValue('eventTime', time);
+                    setFieldValue('eventDateTime', time);
                     hideDateTimePicker();
                   }}
                   onCancel={hideDateTimePicker}
