@@ -17,6 +17,7 @@ import GroupMemberList from '../components/GroupMemberList';
 import useUser from '../hooks/useUser';
 import firebaseUtils from '../utils/firebaseUtils';
 import useJoinedGroups from '../hooks/useJoinedGroup';
+import { Styling } from "../styles/styling"
 
 const { height, width } = Dimensions.get('screen');
 const { getImgUrl } = firebaseUtils;
@@ -40,11 +41,14 @@ export default function GroupDetailScreen({ navigation, route }) {
   }, []);
 
   return (
-    <View>
-      <ScrollView
-        style={{
-          backgroundColor: 'white',
-        }}
+    <ScrollView
+      contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}
+      style={{
+        backgroundColor: 'white',
+      }}
+    >
+      <View
+        style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
       >
         <View
           style={{
@@ -60,8 +64,8 @@ export default function GroupDetailScreen({ navigation, route }) {
               image.length === 0
                 ? require('../assets/place-holder.jpg')
                 : {
-                    uri: image,
-                  }
+                  uri: image,
+                }
             }
           />
         </View>
@@ -97,8 +101,8 @@ export default function GroupDetailScreen({ navigation, route }) {
           </Pressable>
         ) : null}
         <Button title="Back" onPress={() => navigation.goBack()}></Button>
-      </ScrollView>
-    </View>
+      </View>
+    </ScrollView>
   );
 }
 
