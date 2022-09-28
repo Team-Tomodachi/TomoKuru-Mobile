@@ -13,7 +13,7 @@ export default function CreateEventStack() {
         name="Create Event"
         component={CreateEventScreen}
         options={({ navigation }) => ({
-          headerLeft: () => <Button title="Close" onPress={() => navigation.popToTop()} />,
+          headerLeft: () => <Button color={'#FCB90F'} title="Close" onPress={() => navigation.popToTop()} />,
         })}
       />
       <Stack.Screen name="Select Venue" component={VenueSelectScreen} />
