@@ -70,8 +70,16 @@ export default function EventDetailScreen({ navigation, route }) {
         <View>
           <EventAttendeeList eventID={singleEvent.id} />
         </View>
-        <TouchableOpacity
-          disabled={userJoined}
+        {userJoined ? <TouchableOpacity
+          onPress={() =>
+            navigation.navigate('Messages', {
+              collectionName: `event_${singleEvent.id}`,
+            })
+          }
+          style={styles.button}
+        >
+          <Text style={styles.details}>Messages</Text>
+        </TouchableOpacity> : <TouchableOpacity
           onPress={() => {
             if (!id) {
               Alert.alert('Please Login to Join Events!');
@@ -84,18 +92,7 @@ export default function EventDetailScreen({ navigation, route }) {
           style={styles.button}
         >
           <Text style={styles.details}>Join This Event!</Text>
-        </TouchableOpacity>
-        {userJoined ? (
-          <Pressable
-            onPress={() =>
-              navigation.navigate('Messages', {
-                collectionName: `event_${singleEvent.id}`,
-              })
-            }
-          >
-            <Text>Messages</Text>
-          </Pressable>
-        ) : null}
+        </TouchableOpacity>}
         <Button title="Back" onPress={() => navigation.goBack()}></Button>
       </ScrollView>
     </View>

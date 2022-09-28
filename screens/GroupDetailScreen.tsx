@@ -78,8 +78,16 @@ export default function GroupDetailScreen({ navigation, route }) {
         <Text style={styles.detailsUnderlined}>Group Leader: {singleGroup.group_leader} </Text>
         <Text style={styles.detailsUnderlined}>Privacy:{singleGroup.private} </Text>
         <GroupMemberList groupID={singleGroup.id} />
-        <TouchableOpacity
-          disabled={userJoined}
+        {userJoined ? <TouchableOpacity
+          onPress={() =>
+            navigation.navigate('Messages', {
+              collectionName: `group_${singleGroup.id}`,
+            })
+          }
+          style={styles.button}
+        >
+          <Text style={styles.details}>Message</Text>
+        </TouchableOpacity> : <TouchableOpacity
           onPress={() => {
             if (!id) {
               Alert.alert('Please Login to Join Groups!');
@@ -92,18 +100,7 @@ export default function GroupDetailScreen({ navigation, route }) {
           style={styles.button}
         >
           <Text style={styles.details}>Join This Group</Text>
-        </TouchableOpacity>
-        {userJoined ? (
-          <Pressable
-            onPress={() =>
-              navigation.navigate('Messages', {
-                collectionName: `group_${singleGroup.id}`,
-              })
-            }
-          >
-            <Text>Messages</Text>
-          </Pressable>
-        ) : null}
+        </TouchableOpacity>}
         <Button title="Back" onPress={() => navigation.goBack()}></Button>
       </View>
     </ScrollView>
