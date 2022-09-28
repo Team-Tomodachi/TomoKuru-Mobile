@@ -23,8 +23,8 @@ export default function EventListItem({ singleEvent }) {
 
   useEffect(() => {
     (async () => {
-      if (singleEvent.photo_url) {
-        const imgUrl = await getImgUrl(singleEvent.photo_url);
+      if (singleEvent?.photo_url) {
+        const imgUrl = await getImgUrl(singleEvent?.photo_url);
         if (imgUrl) setImage(imgUrl);
       }
     })();
@@ -64,8 +64,8 @@ export default function EventListItem({ singleEvent }) {
             image.length === 0
               ? require('../assets/place-holder.jpg')
               : {
-                  uri: image,
-                }
+                uri: image,
+              }
           }
         />
         <View
@@ -81,7 +81,7 @@ export default function EventListItem({ singleEvent }) {
               fontWeight: '700',
             }}
           >
-            {singleEvent.name}
+            {singleEvent?.name}
           </Text>
           <Text
             style={{
@@ -90,9 +90,9 @@ export default function EventListItem({ singleEvent }) {
               color: '#8F8F8F',
             }}
           >
-            Date: {new Date(Date.parse(singleEvent.start_time)).toLocaleDateString()}
+            Date: {new Date(Date.parse(singleEvent?.start_time)).toLocaleDateString()}
           </Text>
-          <Text>{shortenDescription(singleEvent.description)}</Text>
+          <Text>{shortenDescription(singleEvent?.description)}</Text>
         </View>
       </View>
     </TouchableOpacity>

@@ -23,7 +23,7 @@ const { height, width } = Dimensions.get('screen');
 const { getImgUrl } = firebaseUtils;
 
 export default function EventDetailScreen({ navigation, route }) {
-  const singleEvent = route.params.selectedEvent;
+  const singleEvent = route.params?.selectedEvent;
   const [image, setImage] = useState('');
   const [userJoined, setUserJoined] = useState(false);
   const { id } = useUser().data;
