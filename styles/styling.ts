@@ -3,14 +3,14 @@ import { StyleSheet } from 'react-native';
 export const Styling = StyleSheet.create({
   tomoLogo: {
     fontFamily: 'Kanit-Black',
-    fontSize: 60,
+    fontSize: 55,
     padding: 50,
   },
 
   kuruLogo: {
     fontFamily: 'Kanit-Black-Italic',
     color: '#FCB90F',
-    fontSize: 60,
+    fontSize: 55,
     padding: 50,
   },
 
@@ -77,5 +77,13 @@ export const Styling = StyleSheet.create({
   formField: {
     fontFamily: 'OpenSans-Regular',
     fontSize: 18,
+  },
+
+  nativeButton: {
+    backgroundColor: '#FCB90F',
+    padding: 5,
+    paddingLeft: 15,
+    paddingRight: 15,
+    margin: 15,
   },
 });
