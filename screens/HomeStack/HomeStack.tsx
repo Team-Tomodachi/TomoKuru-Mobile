@@ -17,7 +17,7 @@ export default function HomeStack() {
       <Stack.Group
         screenOptions={({ navigation }) => ({
           presentation: 'modal',
-          headerLeft: () => <Button title="Close" onPress={() => navigation.popToTop()} />,
+          headerLeft: () => <Button color={'#FCB90F'} title="Close" onPress={() => navigation.popToTop()} />,
         })}
       >
         <Stack.Screen

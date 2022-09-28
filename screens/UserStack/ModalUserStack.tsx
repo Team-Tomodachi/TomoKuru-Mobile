@@ -52,8 +52,8 @@ export default function ModalUser() {
             options={({ navigation }) => ({
               headerLeft: () => {
                 return (
-                  <Pressable onPress={() => navigation.popToTop()} style={Styling.navigationButton}>
-                    <Text style={Styling.navigationButtonText}>BACK</Text>
+                  <Pressable onPress={() => navigation.popToTop()}>
+                    <Text style={{ color: '#FCB90F' }}>Close</Text>
                   </Pressable>
                 );
               },
@@ -69,8 +69,8 @@ export default function ModalUser() {
             options={({ navigation }) => ({
               headerLeft: () => {
                 return (
-                  <Pressable onPress={() => navigation.popToTop()} style={Styling.navigationButton}>
-                    <Text style={Styling.navigationButtonText}>BACK</Text>
+                  <Pressable onPress={() => navigation.popToTop()}>
+                    <Text style={{ color: '#FCB90F' }}>Close</Text>
                   </Pressable>
                 );
               },

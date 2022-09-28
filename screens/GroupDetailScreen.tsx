@@ -24,20 +24,23 @@ const { getImgUrl } = firebaseUtils;
 
 export default function GroupDetailScreen({ navigation, route }) {
   const singleGroup = route.params.selectedGroup;
-  const { data } = useUser();
+  const { id } = useUser().data;
   const [image, setImage] = useState('');
   const [userJoined, setUserJoined] = useState(false);
 
-  const joinedGroups = useJoinedGroups().data;
+  const { data, isFetched, isFetching } = useJoinedGroups();
 
   useEffect(() => {
+    if (!isFetching) {
+      const joinedId = data.map(group => group.id);
+      setUserJoined(joinedId.includes(singleGroup.id));
+    }
     (async () => {
       if (singleGroup.photo_url) {
         const imgUrl = await getImgUrl(singleGroup.photo_url);
         if (imgUrl) setImage(imgUrl);
       }
     })();
-    if (joinedGroups?.map((group) => group.id).includes(singleGroup.id)) setUserJoined(true);
   }, []);
 
   return (
@@ -82,7 +85,7 @@ export default function GroupDetailScreen({ navigation, route }) {
               return;
             }
             setUserJoined(true);
-            axios.post(`http://tomokuru.i-re.io/api/groups/members/${singleGroup.id}/${data.id}`);
+            axios.post(`http://tomokuru.i-re.io/api/groups/members/${singleGroup.id}/${id}`);
             Alert.alert(`You have joined ${singleGroup.group_name}`);
           }}
           style={styles.button}

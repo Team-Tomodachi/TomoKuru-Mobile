@@ -25,18 +25,21 @@ export default function EventDetailScreen({ navigation, route }) {
   const singleEvent = route.params.selectedEvent;
   const [image, setImage] = useState('');
   const [userJoined, setUserJoined] = useState(false);
-  const { data } = useUser();
+  const { id } = useUser().data;
 
-  const joinedEvents = useJoinedEvents().data;
+  const { data, isFetching } = useJoinedEvents();
 
   useEffect(() => {
+    if (!isFetching) {
+      const joinedId = data.map(group => group.id);
+      setUserJoined(joinedId.includes(singleEvent.id));
+    }
     (async () => {
       if (singleEvent.photo_url) {
         const imgUrl = await getImgUrl(singleEvent.photo_url);
         if (imgUrl) setImage(imgUrl);
       }
     })();
-    if (joinedEvents?.map((event) => event.id).includes(singleEvent.id)) setUserJoined(true);
   }, []);
 
   return (
@@ -48,15 +51,18 @@ export default function EventDetailScreen({ navigation, route }) {
             image.length === 0
               ? require('../assets/place-holder.jpg')
               : {
-                  uri: image,
-                }
+                uri: image,
+              }
           }
         />
         <Text style={styles.title}> {singleEvent.name} </Text>
         <Text style={styles.details}> Group: {singleEvent.group_name} </Text>
         <Text style={styles.details}> {singleEvent.description} </Text>
-        <Text style={styles.details}> Date: {singleEvent.date} </Text>
-        <Text style={styles.details}> Start Time: {singleEvent.start_time} </Text>
+        <Text style={styles.details}> Date: {new Date(Date.parse(singleEvent.start_time)).toLocaleDateString()} </Text>
+        <Text style={styles.details}> Start Time: {new Date(Date.parse(singleEvent.start_time)).toLocaleTimeString([], {
+          hour: '2-digit',
+          minute: '2-digit',
+        })} </Text>
         <Text style={styles.details}> End Time: {singleEvent.end_time} </Text>
         <Text style={styles.details}> Capacity {singleEvent.capacity} </Text>
         <Text style={styles.details}> Venue: {singleEvent.location_name} </Text>
@@ -71,7 +77,7 @@ export default function EventDetailScreen({ navigation, route }) {
               return;
             }
             setUserJoined(true);
-            axios.post(`http://tomokuru.i-re.io/api/events/attendees/${singleEvent.id}/${data.id}`);
+            axios.post(`http://tomokuru.i-re.io/api/events/attendees/${singleEvent.id}/${id}`);
             Alert.alert(`You have joined the event: ${singleEvent.name}`);
           }}
           style={styles.button}
