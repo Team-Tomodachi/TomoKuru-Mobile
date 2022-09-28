@@ -41,57 +41,49 @@ export default function VenueDetailScreen({ navigation, route }) {
   };
 
   return (
-    <View>
-      <ScrollView>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'center',
-            marginLeft: 25,
-          }}
-        >
-          <Image
-            style={styles.image}
-            source={
-              image.length === 0
-                ? require('../assets/place-holder.jpg')
-                : {
-                    uri: image,
-                  }
-            }
-          />
-        </View>
-        <Text style={styles.title}>{singleVenue.location_name} </Text>
-        <Text style={styles.detailsItalicized}>{singleVenue.venue_type} </Text>
-        <Text style={styles.details}> {singleVenue.description} </Text>
-        <Text style={styles.details}>
-          🏙{singleVenue.city_ward}, {singleVenue.prefecture}
-        </Text>
-        <Text style={styles.details}> 📞 {singleVenue.phone_num} </Text>
-        <Text style={styles.details}>📍{singleVenue.address} </Text>
-        <TouchableOpacity>
-          <Button title="🗺Open in Maps🗺" onPress={goToMaps} />
-        </TouchableOpacity>
-        <Text style={styles.details}> ✉️ {singleVenue.venue_email} </Text>
-        <Text style={styles.details}>🪑{singleVenue.num_seats} </Text>
-        <Text style={styles.details}>🚬 {singleVenue.smoking} </Text>
-        {/* <Text> {singleVenue.outdoor_seating} </Text>
+    <ScrollView>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'center',
+          marginLeft: 25,
+        }}
+      >
+        <Image
+          style={styles.image}
+          source={
+            image.length === 0
+              ? require('../assets/place-holder.jpg')
+              : {
+                uri: image,
+              }
+          }
+        />
+      </View>
+      <Text style={styles.title}>{singleVenue.location_name} </Text>
+      <Text style={styles.detailsItalicized}>{singleVenue.venue_type} </Text>
+      <Text style={styles.details}> {singleVenue.description} </Text>
+      <Text style={styles.details}>
+        🏙{singleVenue.city_ward}, {singleVenue.prefecture}
+      </Text>
+      <Text style={styles.details}> 📞 {singleVenue.phone_num} </Text>
+      <Text style={styles.details}>📍{singleVenue.address} </Text>
+      <TouchableOpacity>
+        <Button title="🗺Open in Maps🗺" onPress={goToMaps} />
+      </TouchableOpacity>
+      <Text style={styles.details}> ✉️ {singleVenue.venue_email} </Text>
+      <Text style={styles.details}>🪑{singleVenue.num_seats} </Text>
+      <Text style={styles.details}>🚬 {singleVenue.smoking} </Text>
+      {/* <Text> {singleVenue.outdoor_seating} </Text>
         <Text> {singleVenue.venue_url} </Text>
         <Text> {singleVenue.photo_link} </Text> */}
-        {showPackages ? (
-          <ViewPackages singleVenue={singleVenue.id} />
-        ) : (
-          <Button title="Show Packages" onPress={() => setShowPackages(true)} />
-        )}
-        <Button
-          title="Go Back"
-          onPress={() => {
-            goBackHidePackages();
-          }}
-        />
-      </ScrollView>
-    </View>
+      {showPackages ? (
+        <ViewPackages singleVenue={singleVenue.id} />
+      ) : (
+        <Button title="Show Packages" onPress={() => setShowPackages(true)} />
+      )}
+    </ScrollView>
   );
 }
 

@@ -16,7 +16,7 @@ function CreatedGroups() {
       renderItem={({ item }) => {
         return <GroupListItem singleGroup={item} />;
       }}
-      keyExtractor={(item) => item.id}
+      keyExtractor={(item, index) => index}
     />
   );
 }
@@ -30,7 +30,7 @@ function JoinedGroups() {
       renderItem={({ item }) => {
         return <GroupListItem singleGroup={item} />;
       }}
-      keyExtractor={(item) => item.id}
+      keyExtractor={(item, index) => index}
     />
   );
 }

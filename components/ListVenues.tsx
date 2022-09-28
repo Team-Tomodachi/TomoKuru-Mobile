@@ -131,7 +131,7 @@ export default function ListVenues({ navigation, route }) {
         },
       })
       .then((response) => {
-        setVenueData(response.data);
+        setVenueData(response.data.filter(el => el.id !== '298e1689-c6c9-4c22-adad-97fce8604d6f'));
       });
   };
 

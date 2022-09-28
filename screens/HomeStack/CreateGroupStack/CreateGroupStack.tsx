@@ -12,7 +12,7 @@ export default function CreateGroupStack() {
         name="Create Group"
         component={CreateGroupScreen}
         options={({ navigation }) => ({
-          headerLeft: () => <Button title="Close" onPress={() => navigation.popToTop()} />,
+          headerLeft: () => <Button color={'#FCB90F'} title="Close" onPress={() => navigation.popToTop()} />,
         })}
       />
       <Stack.Screen name="Tags" component={TagSelect} />

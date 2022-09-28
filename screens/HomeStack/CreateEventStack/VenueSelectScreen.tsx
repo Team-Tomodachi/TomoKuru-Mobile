@@ -6,7 +6,7 @@ import { styles } from '../../../styles/styles';
 
 export default function VenueSelectScreen({ navigation }) {
   const allVenues = useQuery(['allVenues'], () =>
-    axios.get('http://tomokuru.i-re.io/api/venues').then((res) => res.data),
+    axios.get('http://tomokuru.i-re.io/api/venues').then((res) => res.data.filter(el => el.id !== '298e1689-c6c9-4c22-adad-97fce8604d6f')),
   );
 
   return (

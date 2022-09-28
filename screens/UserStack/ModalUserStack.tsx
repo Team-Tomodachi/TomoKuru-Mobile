@@ -13,25 +13,24 @@ export default function ModalUser() {
   const { isUserSignedIn } = useAuthStore();
 
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={({ navigation }) => ({
+      headerLeft: () => {
+        return (
+          <Pressable onPress={() => navigation.popToTop()}>
+            <Text style={{ color: '#FCB90F' }}>Close</Text>
+          </Pressable>
+        );
+      },
+      headerTitleStyle: {
+        fontFamily: 'OpenSans-ExtraBold',
+        fontSize: 20,
+      },
+    })}>
       {isUserSignedIn ? (
         <>
           <Stack.Screen
             name="Profile"
             component={UserScreen}
-            options={({ navigation }) => ({
-              headerLeft: () => {
-                return (
-                  <Pressable onPress={() => navigation.popToTop()} style={Styling.navigationButton}>
-                    <Text style={Styling.navigationButtonText}>BACK</Text>
-                  </Pressable>
-                );
-              },
-              headerTitleStyle: {
-                fontFamily: 'OpenSans-ExtraBold',
-                fontSize: 20,
-              },
-            })}
           />
           <Stack.Screen
             name="Edit Details"
@@ -49,36 +48,10 @@ export default function ModalUser() {
           <Stack.Screen
             name="Sign in"
             component={SignInScreen}
-            options={({ navigation }) => ({
-              headerLeft: () => {
-                return (
-                  <Pressable onPress={() => navigation.popToTop()}>
-                    <Text style={{ color: '#FCB90F' }}>Close</Text>
-                  </Pressable>
-                );
-              },
-              headerTitleStyle: {
-                fontFamily: 'OpenSans-ExtraBold',
-                fontSize: 20,
-              },
-            })}
           />
           <Stack.Screen
             name="Sign up"
             component={SignUpScreen}
-            options={({ navigation }) => ({
-              headerLeft: () => {
-                return (
-                  <Pressable onPress={() => navigation.popToTop()}>
-                    <Text style={{ color: '#FCB90F' }}>Close</Text>
-                  </Pressable>
-                );
-              },
-              headerTitleStyle: {
-                fontFamily: 'OpenSans-ExtraBold',
-                fontSize: 20,
-              },
-            })}
           />
         </>
       )}
