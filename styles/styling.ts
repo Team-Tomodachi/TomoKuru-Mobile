@@ -86,4 +86,6 @@ export const Styling = StyleSheet.create({
     paddingRight: 15,
     margin: 15,
   },
+
+  
 });
