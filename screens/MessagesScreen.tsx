@@ -29,7 +29,7 @@ export default function MessagesScreen({ route }) {
               return <Text style={[Styling.actionButton]}>{item.message} -{item.user_name}</Text>;
             }}
           />
-          <TextInput placeholder="Username" style={styles.textInput} onChangeText={(text) => setMessageToSend(text)} />
+          <TextInput placeholder="Message" style={styles.textInput} onChangeText={(text) => setMessageToSend(text)} value={messageToSend} />
           <Pressable
             disabled={messageToSend.length === 0}
             style={Styling.actionButton}
