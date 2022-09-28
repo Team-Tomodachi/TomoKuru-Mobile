@@ -7,14 +7,14 @@ import useAuthStore from '../store/auth';
 
 export default function ProfileImage() {
   const { isUserSignedIn } = useAuthStore();
-  const { data, isPlaceholderData } = useUser();
+  const { data } = useUser();
   const [profileImage, setProfileImage] = useState<string>('');
 
-  if (data) {
-    const fileRef = ref(getStorage(), data.photo_url || 'users/new-user.png');
+  if (data && isUserSignedIn) {
+    const fileRef = ref(getStorage(), data.photo_url);
     getDownloadURL(fileRef)
       .then((res) => setProfileImage(res))
-      .catch((error) => {});
+      .catch((error) => console.log(error));
   }
 
   useEffect(() => {
