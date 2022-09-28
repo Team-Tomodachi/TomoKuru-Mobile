@@ -21,7 +21,7 @@ export default function MessagesScreen({ route }) {
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={styles.container}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={styles.inner}>
+        <>
           <FlatList
             data={messages}
             keyExtractor={(item, index) => index}
@@ -29,8 +29,9 @@ export default function MessagesScreen({ route }) {
               return <Text style={[Styling.actionButton]}>{item.message} -{item.user_name}</Text>;
             }}
           />
-          <TextInput placeholder="Username" style={styles.textInput} />
+          <TextInput placeholder="Username" style={styles.textInput} onChangeText={(text) => setMessageToSend(text)} />
           <Pressable
+            disabled={messageToSend.length === 0}
             style={Styling.actionButton}
             onPress={() => {
               addDoc(messagesRef, {
@@ -45,7 +46,7 @@ export default function MessagesScreen({ route }) {
           >
             <Text style={Styling.actionButtonText}>SEND</Text>
           </Pressable>
-        </View>
+        </>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
   )
@@ -54,6 +55,7 @@ export default function MessagesScreen({ route }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    padding: 5
   },
   inner: {
     padding: 24,
