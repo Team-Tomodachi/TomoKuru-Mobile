@@ -26,10 +26,10 @@ export default function MessagesScreen({ route }) {
             data={messages}
             keyExtractor={(item, index) => index}
             renderItem={({ item }) => {
-              return <Text style={[Styling.actionButton]}>{item.message} -{item.user_name}</Text>;
+              return <Text style={[styles.messageBox]}>{item.message} -{item.user_name}</Text>;
             }}
           />
-          <TextInput placeholder="Username" style={styles.textInput} onChangeText={(text) => setMessageToSend(text)} />
+          <TextInput placeholder="Say something nice" style={styles.textInput} onChangeText={(text) => setMessageToSend(text)} />
           <Pressable
             disabled={messageToSend.length === 0}
             style={Styling.actionButton}
@@ -44,7 +44,7 @@ export default function MessagesScreen({ route }) {
               setMessageToSend('');
             }}
           >
-            <Text style={Styling.actionButtonText}>SEND</Text>
+            <Text style={[Styling.actionButtonText, { textAlign: "center" }]}>SEND</Text>
           </Pressable>
         </>
       </TouchableWithoutFeedback>
@@ -67,6 +67,8 @@ const styles = StyleSheet.create({
     marginBottom: 48,
   },
   textInput: {
+    fontFamily: "OpenSans-Medium",
+    fontSize: 16,
     height: 40,
     borderColor: '#000000',
     borderBottomWidth: 1,
@@ -75,5 +77,31 @@ const styles = StyleSheet.create({
   btnContainer: {
     backgroundColor: 'white',
     marginTop: 12,
+    textAlign: "center",
+  },
+  messageBox: {
+    backgroundColor: '#B5B5B5',
+    fontFamily: "OpenSans-Medium",
+    borderRadius: 5,
+    fontSize: 16,
+    padding: 7,
+    margin: 7,
+    marginLeft: 15,
+    marginRight: 15,
+    paddingLeft: 10,
+    paddingRight: 10
+
+    // textAlign: "center",
+    // paddingLeft: 50,
+    // paddingRight: 50,
+    // marginRight: 15,
+    // borderRadius: 5,
+    // margin: 15,
+  },
+  messageText: {
+    // backgroundColor: '#FCB90F',
+    // fontSize: 20,
+    // fontFamily: 'OpenSans-ExtraBold',
+    textAlign: "right"
   },
 });
