@@ -25,13 +25,14 @@ export default function EventDetailScreen({ navigation, route }) {
   const singleEvent = route.params.selectedEvent;
   const [image, setImage] = useState('');
   const [userJoined, setUserJoined] = useState(false);
-  const { data } = useUser();
+  const { id } = useUser().data;
 
-  const joinedEvents = useJoinedEvents().data;
+  const { data, isFetching } = useJoinedEvents();
 
   useEffect(() => {
-    if (joinedEvents) {
-      if (joinedEvents?.map((event) => event.id).includes(singleEvent.id)) setUserJoined(true);
+    if (!isFetching) {
+      const joinedId = data.map(group => group.id);
+      setUserJoined(joinedId.includes(singleEvent.id));
     }
     (async () => {
       if (singleEvent.photo_url) {
@@ -76,7 +77,7 @@ export default function EventDetailScreen({ navigation, route }) {
               return;
             }
             setUserJoined(true);
-            axios.post(`http://tomokuru.i-re.io/api/events/attendees/${singleEvent.id}/${data.id}`);
+            axios.post(`http://tomokuru.i-re.io/api/events/attendees/${singleEvent.id}/${id}`);
             Alert.alert(`You have joined the event: ${singleEvent.name}`);
           }}
           style={styles.button}
