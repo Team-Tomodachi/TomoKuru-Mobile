@@ -27,14 +27,14 @@ export default function UserScreen({ navigation }) {
   const [image, setImage] = useState<string>('');
   const [isUploading, setUploading] = useState<boolean>(false);
 
-  const { signUserOut } = useAuthStore();
+  const { isUserSignedIn, signUserOut } = useAuthStore();
   const [status, requestPermission] = ImagePicker.useCameraPermissions();
 
   const queryClient = useQueryClient();
-  const { data, isPlaceholderData } = useUser();
+  const { data } = useUser();
 
-  if (data) {
-    const fileRef = ref(getStorage(), data.photo_url || 'users/user-png');
+  if (data.photo_url && isUserSignedIn) {
+    const fileRef = ref(getStorage(), data.photo_url);
     getDownloadURL(fileRef)
       .then((res) => setImage(res))
       .catch((error) => {
