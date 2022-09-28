@@ -68,8 +68,8 @@ export default function GroupListItem({ singleGroup }) {
             image.length === 0
               ? require('../assets/place-holder.jpg')
               : {
-                  uri: image,
-                }
+                uri: image,
+              }
           }
         />
         <View
@@ -86,7 +86,7 @@ export default function GroupListItem({ singleGroup }) {
           >
             {singleGroup.group_name}
           </Text>
-          <Text
+          {/* <Text
             style={{
               fontStyle: 'italic',
               color: '#8F8F8F',
@@ -94,7 +94,7 @@ export default function GroupListItem({ singleGroup }) {
           >
             {isPrivate(singleGroup.private) === 'private' ? 'Private Group' : 'Public Group'},{' '}
             {singleGroup.members_num} Members
-          </Text>
+          </Text> */}
           <Text>{shortenDescription(singleGroup.group_description)}</Text>
         </View>
       </View>
