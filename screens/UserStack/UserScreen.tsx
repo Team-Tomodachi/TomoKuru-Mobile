@@ -21,6 +21,7 @@ import axios from 'axios';
 import Constants from 'expo-constants';
 import useUserStore from '../../store/user';
 import useUser from '../../hooks/useUser';
+import { Styling } from "../../styles/styling"
 
 export default function UserScreen({ navigation }) {
   const [image, setImage] = useState<string>('');
@@ -108,7 +109,7 @@ export default function UserScreen({ navigation }) {
       )}
       <Button
         icon="camera"
-        style={styles('bg:green-600', 'my:2')}
+        style={[styles('my:3'), Styling.nativeButton]}
         onPress={pickImage}
         disabled={isUploading}
       >
@@ -118,16 +119,17 @@ export default function UserScreen({ navigation }) {
           'update profile picture'
         )}
       </Button>
+
       <Button
         icon="pencil"
-        style={styles('bg:yellow-400', 'my:2')}
+        style={[styles('my:3'), Styling.nativeButton]}
         onPress={() => navigation.navigate('Edit Details')}
       >
         update account details
       </Button>
       <Button
         icon="logout"
-        style={styles('bg:red-500', 'my:2')}
+        style={styles('bg:red-600', 'my:3')}
         onPress={async () => {
           try {
             await signOut(auth);

@@ -78,4 +78,12 @@ export const Styling = StyleSheet.create({
     fontFamily: 'OpenSans-Regular',
     fontSize: 18,
   },
+
+  nativeButton: {
+    backgroundColor: '#FCB90F',
+    padding: 5,
+    paddingLeft: 15,
+    paddingRight: 15,
+    margin: 15,
+  },
 });
