@@ -56,7 +56,7 @@ export default function GroupDetailScreen({ navigation, route }) {
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'center',
-          margin: 10
+          margin: 5
         }}
       >
         <Image
@@ -131,8 +131,8 @@ const styles = StyleSheet.create({
     marginBottom: 2,
   },
   details: {
-    fontSize: 20,
-    fontFamily: "OpenSans-Medium",
+    fontSize: 16,
+    fontFamily: "OpenSans-Regular",
   },
   buttonText: {
     fontSize: 20,
