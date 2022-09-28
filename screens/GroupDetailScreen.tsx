@@ -18,6 +18,7 @@ import useUser from '../hooks/useUser';
 import firebaseUtils from '../utils/firebaseUtils';
 import useJoinedGroups from '../hooks/useJoinedGroup';
 import { Styling } from "../styles/styling"
+import useAuthStore from '../store/auth';
 
 const { height, width } = Dimensions.get('screen');
 const { getImgUrl } = firebaseUtils;
@@ -27,11 +28,11 @@ export default function GroupDetailScreen({ navigation, route }) {
   const { id } = useUser().data;
   const [image, setImage] = useState('');
   const [userJoined, setUserJoined] = useState(false);
-
-  const { data, isFetched, isFetching } = useJoinedGroups();
+  const { isUserSignedIn } = useAuthStore();
+  const { data } = useJoinedGroups();
 
   useEffect(() => {
-    if (!isFetching) {
+    if (data && isUserSignedIn) {
       const joinedId = data.map(group => group.id);
       setUserJoined(joinedId.includes(singleGroup.id));
     }
@@ -80,7 +81,7 @@ export default function GroupDetailScreen({ navigation, route }) {
         <TouchableOpacity
           disabled={userJoined}
           onPress={() => {
-            if (!data?.id) {
+            if (!id) {
               Alert.alert('Please Login to Join Groups!');
               return;
             }

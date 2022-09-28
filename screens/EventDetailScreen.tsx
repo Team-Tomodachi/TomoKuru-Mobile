@@ -17,6 +17,7 @@ import useUser from '../hooks/useUser';
 import firebaseUtils from '../utils/firebaseUtils';
 import axios from 'axios';
 import useJoinedEvents from '../hooks/useJoinedEvent';
+import useAuthStore from '../store/auth';
 
 const { height, width } = Dimensions.get('screen');
 const { getImgUrl } = firebaseUtils;
@@ -26,13 +27,13 @@ export default function EventDetailScreen({ navigation, route }) {
   const [image, setImage] = useState('');
   const [userJoined, setUserJoined] = useState(false);
   const { id } = useUser().data;
-
-  const { data, isFetching } = useJoinedEvents();
+  const { isUserSignedIn } = useAuthStore();
+  const { data } = useJoinedEvents();
 
   useEffect(() => {
-    if (!isFetching) {
-      const joinedId = data.map(group => group.id);
-      setUserJoined(joinedId.includes(singleEvent.id));
+    if (data && isUserSignedIn) {
+      const joinedId = data.map(event => event.id);
+      if (joinedId.includes(singleEvent.id)) setUserJoined(true);
     }
     (async () => {
       if (singleEvent.photo_url) {
@@ -72,7 +73,7 @@ export default function EventDetailScreen({ navigation, route }) {
         <TouchableOpacity
           disabled={userJoined}
           onPress={() => {
-            if (!data.id) {
+            if (!id) {
               Alert.alert('Please Login to Join Events!');
               return;
             }
