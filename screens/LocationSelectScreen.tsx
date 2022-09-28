@@ -1,4 +1,4 @@
-import { View, Text, FlatList, Pressable } from 'react-native';
+import { View, Text, FlatList, Pressable, SafeAreaView } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { styles } from '../styles/styles';
 import { Searchbar } from 'react-native-paper';
@@ -34,12 +34,12 @@ export default function LocationSelectScreen({ navigation }) {
   const [filterRes, setFilterRes] = useState([]);
 
   useEffect(() => {
-    const filtered = wards.filter((ward) => ward.indexOf(location) !== -1);
-    setFilterRes(filtered);
+    const filtered = wards.filter(ward => ward.toLowerCase().includes(location.toLowerCase()))
+    setFilterRes(filtered)
   }, [location]);
 
   return (
-    <View style={styles('flex:1')}>
+    <SafeAreaView style={styles('flex:1')}>
       <Searchbar value={location} onChangeText={(text) => setLocation(text)} />
       <FlatList
         data={filterRes.filter((ward: string) => ward.indexOf(location) !== -1)}
@@ -59,6 +59,6 @@ export default function LocationSelectScreen({ navigation }) {
           );
         }}
       />
-    </View>
+    </SafeAreaView>
   );
 }
