@@ -39,7 +39,6 @@ export default function HomeScreen({ navigation }) {
               <Text style={Styling.actionButtonText}>CREATE EVENT</Text>
             </Pressable>
 
-            {/* <Button onPress={() => navigation.navigate('Create Event Stack')} title="Create Event" /> */}
 
           </View>
         ) : (
