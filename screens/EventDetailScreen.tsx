@@ -30,13 +30,15 @@ export default function EventDetailScreen({ navigation, route }) {
   const joinedEvents = useJoinedEvents().data;
 
   useEffect(() => {
+    if (joinedEvents) {
+      if (joinedEvents?.map((event) => event.id).includes(singleEvent.id)) setUserJoined(true);
+    }
     (async () => {
       if (singleEvent.photo_url) {
         const imgUrl = await getImgUrl(singleEvent.photo_url);
         if (imgUrl) setImage(imgUrl);
       }
     })();
-    if (joinedEvents?.map((event) => event.id).includes(singleEvent.id)) setUserJoined(true);
   }, []);
 
   return (
@@ -55,8 +57,8 @@ export default function EventDetailScreen({ navigation, route }) {
         <Text style={styles.title}> {singleEvent.name} </Text>
         <Text style={styles.details}> Group: {singleEvent.group_name} </Text>
         <Text style={styles.details}> {singleEvent.description} </Text>
-        <Text style={styles.details}> Date: {singleEvent.date} </Text>
-        <Text style={styles.details}> Start Time: {singleEvent.start_time} </Text>
+        <Text style={styles.details}> Date: {new Date(Date.parse(singleEvent.start_time)).toLocaleDateString()} </Text>
+        <Text style={styles.details}> Start Time: {new Date(Date.parse(singleEvent.start_time)).toLocaleTimeString()} </Text>
         <Text style={styles.details}> End Time: {singleEvent.end_time} </Text>
         <Text style={styles.details}> Capacity {singleEvent.capacity} </Text>
         <Text style={styles.details}> Venue: {singleEvent.location_name} </Text>

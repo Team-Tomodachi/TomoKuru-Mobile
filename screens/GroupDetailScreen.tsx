@@ -30,13 +30,15 @@ export default function GroupDetailScreen({ navigation, route }) {
   const joinedGroups = useJoinedGroups().data;
 
   useEffect(() => {
+    if (joinedGroups) {
+      if (joinedGroups?.map((group) => group.id).includes(singleGroup.id)) setUserJoined(true);
+    }
     (async () => {
       if (singleGroup.photo_url) {
         const imgUrl = await getImgUrl(singleGroup.photo_url);
         if (imgUrl) setImage(imgUrl);
       }
     })();
-    if (joinedGroups?.map((group) => group.id).includes(singleGroup.id)) setUserJoined(true);
   }, []);
 
   return (

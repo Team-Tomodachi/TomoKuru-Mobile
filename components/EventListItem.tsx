@@ -90,7 +90,7 @@ export default function EventListItem({ singleEvent }) {
               color: '#8F8F8F',
             }}
           >
-            Date: {singleEvent.date}
+            Date: {new Date(Date.parse(singleEvent.start_time)).toLocaleDateString()}
           </Text>
           <Text>{shortenDescription(singleEvent.description)}</Text>
         </View>
