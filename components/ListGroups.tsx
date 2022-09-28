@@ -65,7 +65,7 @@ export default function ListGroups({ navigation, route }) {
         renderItem={({ item }) => {
           return <GroupListItem singleGroup={item} />;
         }}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item, index) => index}
       />
     </>
   );

@@ -16,7 +16,7 @@ function CreatedEvents() {
       renderItem={({ item }) => {
         return <EventListItem singleEvent={item} />;
       }}
-      keyExtractor={(item) => item.id}
+      keyExtractor={(item, index) => index}
     />
   );
 }
