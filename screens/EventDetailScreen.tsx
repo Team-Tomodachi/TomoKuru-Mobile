@@ -50,15 +50,18 @@ export default function EventDetailScreen({ navigation, route }) {
             image.length === 0
               ? require('../assets/place-holder.jpg')
               : {
-                  uri: image,
-                }
+                uri: image,
+              }
           }
         />
         <Text style={styles.title}> {singleEvent.name} </Text>
         <Text style={styles.details}> Group: {singleEvent.group_name} </Text>
         <Text style={styles.details}> {singleEvent.description} </Text>
         <Text style={styles.details}> Date: {new Date(Date.parse(singleEvent.start_time)).toLocaleDateString()} </Text>
-        <Text style={styles.details}> Start Time: {new Date(Date.parse(singleEvent.start_time)).toLocaleTimeString()} </Text>
+        <Text style={styles.details}> Start Time: {new Date(Date.parse(singleEvent.start_time)).toLocaleTimeString([], {
+          hour: '2-digit',
+          minute: '2-digit',
+        })} </Text>
         <Text style={styles.details}> End Time: {singleEvent.end_time} </Text>
         <Text style={styles.details}> Capacity {singleEvent.capacity} </Text>
         <Text style={styles.details}> Venue: {singleEvent.location_name} </Text>
