@@ -13,6 +13,10 @@ import { useState, useEffect } from 'react';
 import openMap from 'react-native-open-maps';
 import firebaseUtils from '../utils/firebaseUtils';
 import ViewPackages from '../components/ViewPackages';
+import { Styling } from "../styles/styling"
+import Feather from '@expo/vector-icons/Feather';
+import * as Linking from 'expo-linking';
+
 
 const { height, width } = Dimensions.get('screen');
 const { getImgUrl } = firebaseUtils;
@@ -40,14 +44,24 @@ export default function VenueDetailScreen({ navigation, route }) {
     openMap({ query: singleVenue.address, provider: 'google' });
   };
 
+  const callNum = () => {
+    const url = `tel:${singleVenue.phone_num}`;
+    Linking.openURL(url);
+  };
+
   return (
-    <ScrollView>
+    <ScrollView
+      style={{
+        backgroundColor: 'white',
+      }}
+      contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}
+    >
       <View
         style={{
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'center',
-          marginLeft: 25,
+          margin: 5,
         }}
       >
         <Image
@@ -61,29 +75,70 @@ export default function VenueDetailScreen({ navigation, route }) {
           }
         />
       </View>
-      <Text style={styles.title}>{singleVenue.location_name} </Text>
-      <Text style={styles.detailsItalicized}>{singleVenue.venue_type} </Text>
-      <Text style={styles.details}> {singleVenue.description} </Text>
-      <Text style={styles.details}>
-        🏙{singleVenue.city_ward}, {singleVenue.prefecture}
-      </Text>
-      <Text style={styles.details}> 📞 {singleVenue.phone_num} </Text>
-      <Text style={styles.details}>📍{singleVenue.address} </Text>
-      <TouchableOpacity>
-        <Button title="🗺Open in Maps🗺" onPress={goToMaps} />
-      </TouchableOpacity>
-      <Text style={styles.details}> ✉️ {singleVenue.venue_email} </Text>
-      <Text style={styles.details}>🪑{singleVenue.num_seats} </Text>
-      <Text style={styles.details}>🚬 {singleVenue.smoking} </Text>
-      {/* <Text> {singleVenue.outdoor_seating} </Text>
+      <View
+        style={
+          Styling.greyBox
+        }
+      >
+        <Text style={styles.title}>{singleVenue.location_name}</Text>
+        <Text style={styles.venueType}>{singleVenue.venue_type} - {singleVenue.prefecture}, {singleVenue.city_ward}</Text>
+        <Text style={styles.details}>{singleVenue.description}</Text>
+        <Text style={styles.detailsItalic}>Maximum Capacity: {singleVenue.num_seats} </Text>
+        <Text style={styles.detailsItalic}>{singleVenue.smoking}</Text>
+        <Text style={styles.location}>{singleVenue.address} </Text>
+        <TouchableOpacity
+          onPress={goToMaps}
+          style={styles.actionButton}
+        >
+          <Text
+            style={styles.actionButtonText}
+          >
+            <Feather name="map" color="black" size={18}></Feather>   View Map
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={callNum}
+          style={styles.actionButton}
+        >
+          <Text
+            style={styles.actionButtonText}
+          >
+            <Feather name="phone" color="black" size={18}></Feather>   {singleVenue.phone_num}
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => Linking.openURL(`mailto:${singleVenue.venue_email}`).catch(error => {
+            console.log(error);
+          })}
+          style={styles.actionButton}
+        >
+          <Text
+            style={styles.actionButtonText}
+          >
+            <Feather name="mail" color="black" size={18}></Feather>   {singleVenue.venue_email}
+          </Text>
+        </TouchableOpacity>
+        {/* <Text> {singleVenue.outdoor_seating} </Text>
         <Text> {singleVenue.venue_url} </Text>
         <Text> {singleVenue.photo_link} </Text> */}
-      {showPackages ? (
-        <ViewPackages singleVenue={singleVenue.id} />
-      ) : (
-        <Button title="Show Packages" onPress={() => setShowPackages(true)} />
-      )}
-    </ScrollView>
+        {showPackages ? (
+          <ViewPackages singleVenue={singleVenue.id} />
+        ) : (
+          <>
+            <TouchableOpacity
+              onPress={() => setShowPackages(true)}
+              style={styles.actionButton}
+            >
+              <Text
+                style={styles.actionButtonText}
+              >
+                <Feather name="info" color="black" size={18}></Feather>   Show Packagaes
+              </Text>
+            </TouchableOpacity>
+          </>
+        )}
+      </View>
+    </ScrollView >
   );
 }
 
@@ -94,41 +149,68 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   button: {
-    height: height * 0.1,
+    // height: height * 0.1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'pink',
-    padding: 10,
+    backgroundColor: '#FCB90F',
+    padding: 7,
   },
   countContainer: {
     alignItems: 'center',
     padding: 10,
   },
   title: {
-    fontSize: 30,
-    // fontFamily: "OpenSans",
-    textDecorationLine: 'underline',
+    fontSize: 25,
+    fontFamily: "OpenSans-Bold",
+    marginBottom: 2,
   },
   details: {
-    fontSize: 20,
-    // fontFamily: "OpenSans",
+    fontSize: 17,
+    fontFamily: "OpenSans-Medium",
+    marginBottom: 7,
   },
-  detailsUnderlined: {
-    fontSize: 20,
-    // fontFamily: "OpenSans",
-    textDecorationLine: 'underline',
+  detailsItalic: {
+    fontSize: 16,
+    fontFamily: "OpenSans-Italic",
+    color: "#4B4B4B",
   },
-  detailsItalicized: {
+  group: {
     fontSize: 20,
-    // fontFamily: "OpenSans",
-    fontStyle: 'italic',
+    fontFamily: "OpenSans-BoldItalic",
+    marginBottom: 5,
+  },
+  buttonText: {
+    fontSize: 20,
+    fontFamily: "OpenSans-Bold",
   },
   image: {
     height: height * 0.3,
     width: width * 0.9,
-    marginTop: 20,
     marginLeft: 20,
-    marginRight: 50,
-    marginBottom: 20,
+    marginRight: 20,
+    marginBottom: 10,
+  },
+  venueType: {
+    fontSize: 18,
+    fontFamily: "OpenSans-MediumItalic",
+    marginBottom: 7,
+    color: "#4B4B4B",
+  },
+  location: {
+    fontSize: 18,
+    fontFamily: "OpenSans-SemiBold",
+    marginTop: 15,
+    color: "#4B4B4B",
+  },
+  actionButton: {
+    backgroundColor: '#FCB90F',
+    padding: 7,
+    margin: 10
+  },
+  actionButtonText: {
+    backgroundColor: '#FCB90F',
+    fontSize: 18,
+    fontFamily: 'OpenSans-ExtraBold',
+    textAlign: "center",
   },
 });

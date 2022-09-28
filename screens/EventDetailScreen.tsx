@@ -155,8 +155,10 @@ const styles = StyleSheet.create({
   },
   image: {
     height: height * 0.3,
-    width: width * 0.6,
-    margin: 15
+    width: width * 0.9,
+    marginLeft: 20,
+    marginRight: 20,
+    marginBottom: 10,
   },
   time: {
     fontSize: 18,
