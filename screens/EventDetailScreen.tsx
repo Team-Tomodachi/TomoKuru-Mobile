@@ -75,9 +75,9 @@ export default function EventDetailScreen({ navigation, route }) {
       <Text style={styles.details}> End Time: {singleEvent.end_time} </Text>
       <Text style={styles.details}> Capacity {singleEvent.capacity} </Text>
       <Text style={styles.details}> Venue: {singleEvent.location_name} </Text>
-      <View>
+      {/* <View>
         <EventAttendeeList eventID={singleEvent.id} />
-      </View>
+      </View> */}
       {userJoined ? <TouchableOpacity
         onPress={() =>
           navigation.navigate('Messages', {
