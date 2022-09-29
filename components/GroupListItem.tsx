@@ -81,7 +81,7 @@ export default function GroupListItem({ singleGroup }) {
           <Text
             style={{
               fontSize: 18,
-              fontWeight: '700',
+              fontFamily: "OpenSans-Bold",
             }}
           >
             {singleGroup.group_name}
@@ -95,7 +95,10 @@ export default function GroupListItem({ singleGroup }) {
             {isPrivate(singleGroup.private) === 'private' ? 'Private Group' : 'Public Group'},{' '}
             {singleGroup.members_num} Members
           </Text> */}
-          <Text>{shortenDescription(singleGroup.group_description)}</Text>
+          <Text style={{
+            fontFamily: 'OpenSans-Medium',
+            fontSize: 14,
+          }}>{shortenDescription(singleGroup.group_description)}</Text>
         </View>
       </View>
     </TouchableOpacity>
