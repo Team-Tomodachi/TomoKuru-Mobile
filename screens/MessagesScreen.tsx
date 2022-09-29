@@ -74,6 +74,7 @@ export default function MessagesScreen({ route }) {
           }}
         />
       )}
+      placeholder="Say something nice"
     />
   )
 }
