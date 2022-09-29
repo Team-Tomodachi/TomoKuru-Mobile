@@ -12,7 +12,9 @@ export default function HomeScreen({ navigation }) {
       {
         isUserSignedIn ? (
           <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-
+            <Text style={Styling.tomoLogo}>
+              Tomo<Text style={Styling.kuruLogo}>Kuru</Text>
+            </Text>
             <Pressable
               style={Styling.actionButton}
               onPress={() => navigation.navigate('User Groups')}

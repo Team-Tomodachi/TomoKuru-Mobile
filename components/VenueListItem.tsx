@@ -73,12 +73,20 @@ export default function ListVenueItems({ singleVenue }) {
             width: width * 0.5,
           }}
         >
-          <Text style={{ fontSize: 18, fontWeight: '700' }}>{singleVenue.location_name}</Text>
-          <Text style={{ fontStyle: 'italic', color: '#8F8F8F' }}>{singleVenue.venue_type}</Text>
-          <Text style={{ fontStyle: 'italic', color: '#8F8F8F' }}>
-            {singleVenue.prefecture} , {singleVenue.city_ward}
+          <Text style={{
+            fontSize: 18,
+            fontFamily: "OpenSans-Bold",
+          }}>{singleVenue.location_name}</Text>
+          <Text style={{
+            fontFamily: "OpenSans-MediumItalic",
+            color: '#8F8F8F',
+          }}>
+            {singleVenue.venue_type} - {singleVenue.prefecture}, {singleVenue.city_ward}
           </Text>
-          <Text>{shortenDescription(singleVenue.description)}</Text>
+          <Text style={{
+            fontFamily: 'OpenSans-Medium',
+            fontSize: 14,
+          }}>{shortenDescription(singleVenue.description)}</Text>
         </View>
       </View>
     </TouchableOpacity>

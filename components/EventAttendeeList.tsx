@@ -23,9 +23,14 @@ export default function EventAttendeeList({ eventID }) {
   };
 
   return (
-    <Text style={styles.details}>
-      Users Attending: {getAttendeeList()} ({attendeeList.length} users){' '}
-    </Text>
+    <>
+      <Text style={styles.details}>
+        {attendeeList.length} Attendees
+      </Text>
+      <Text style={styles.secondary}>
+        {/* {getAttendeeList()} */}
+      </Text>
+    </>
   );
 }
 
@@ -52,8 +57,10 @@ const styles = StyleSheet.create({
     textDecorationLine: 'underline',
   },
   details: {
-    fontSize: 20,
-    // fontFamily: "OpenSans",
+    fontSize: 18,
+    fontFamily: "OpenSans-Bold",
+    // marginTop: 15,
+    marginBottom: 2,
   },
   detailsUnderlined: {
     fontSize: 20,
@@ -68,4 +75,9 @@ const styles = StyleSheet.create({
     marginRight: 50,
     marginBottom: 20,
   },
+  secondary: {
+    fontFamily: "OpenSans-Regular",
+    fontSize: 16,
+    // marginBottom: 20,
+  }
 });

@@ -75,22 +75,23 @@ export default function EventListItem({ singleEvent }) {
           <Text
             style={{
               fontSize: 18,
-              // fontFamily: "OpenSans",
-              fontWeight: '700',
+              fontFamily: "OpenSans-Bold",
             }}
           >
             {singleEvent?.name}
           </Text>
           <Text
             style={{
-              // fontFamily: "OpenSans",
-              fontStyle: 'italic',
+              fontFamily: "OpenSans-MediumItalic",
               color: '#8F8F8F',
             }}
           >
-            Date: {new Date(Date.parse(singleEvent?.start_time)).toLocaleDateString()}
+            {new Date(Date.parse(singleEvent?.start_time)).toLocaleDateString()}
           </Text>
-          <Text>{shortenDescription(singleEvent?.description)}</Text>
+          <Text style={{
+            fontFamily: 'OpenSans-Medium',
+            fontSize: 14,
+          }}>{shortenDescription(singleEvent?.description)}</Text>
         </View>
       </View>
     </TouchableOpacity>

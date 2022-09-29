@@ -18,6 +18,7 @@ import firebaseUtils from '../utils/firebaseUtils';
 import axios from 'axios';
 import useJoinedEvents from '../hooks/useJoinedEvent';
 import useAuthStore from '../store/auth';
+import { Styling } from "../styles/styling"
 
 const { height, width } = Dimensions.get('screen');
 const { getImgUrl } = firebaseUtils;
@@ -44,13 +45,18 @@ export default function EventDetailScreen({ navigation, route }) {
   }, []);
 
   return (
-    <ScrollView>
+    <ScrollView
+      style={{
+        backgroundColor: 'white',
+      }}
+      contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}
+    >
       <View
         style={{
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'center',
-          marginLeft: 25,
+          margin: 5,
         }}
       >
         <Image
@@ -64,43 +70,50 @@ export default function EventDetailScreen({ navigation, route }) {
           }
         />
       </View>
-      <Text style={styles.title}> {singleEvent.name} </Text>
-      <Text style={styles.details}> Group: {singleEvent.group_name} </Text>
-      <Text style={styles.details}> {singleEvent.description} </Text>
-      <Text style={styles.details}> Date: {new Date(Date.parse(singleEvent.start_time)).toLocaleDateString()} </Text>
-      <Text style={styles.details}> Start Time: {new Date(Date.parse(singleEvent.start_time)).toLocaleTimeString([], {
-        hour: '2-digit',
-        minute: '2-digit',
-      })} </Text>
-      <Text style={styles.details}> End Time: {singleEvent.end_time} </Text>
-      <Text style={styles.details}> Capacity {singleEvent.capacity} </Text>
-      <Text style={styles.details}> Venue: {singleEvent.location_name} </Text>
-      {/* <View>
-        <EventAttendeeList eventID={singleEvent.id} />
-      </View> */}
-      {userJoined ? <TouchableOpacity
-        onPress={() =>
-          navigation.navigate('Messages', {
-            collectionName: `event_${singleEvent.id}`,
-          })
+      <View
+        style={
+          Styling.greyBox
         }
-        style={styles.button}
       >
-        <Text style={styles.details}>Messages</Text>
-      </TouchableOpacity> : <TouchableOpacity
-        onPress={() => {
-          if (!id) {
-            Alert.alert('Please Login to Join Events!');
-            return;
+        <Text style={styles.title}>{singleEvent.name}</Text>
+        <Text style={styles.group}>{singleEvent.group_name}</Text>
+        <Text style={styles.location}>{singleEvent.location_name} </Text>
+        <Text style={styles.time}>
+          {new Date(Date.parse(singleEvent.start_time)).toLocaleDateString()} - {new Date(Date.parse(singleEvent.start_time)).toLocaleTimeString([], {
+            hour: '2-digit',
+            minute: '2-digit',
+          })}
+        </Text>
+        {/* <Text style={styles.details}>End Time: {singleEvent.end_time} </Text> */}
+        {/* <Text style={styles.details}>Capacity {singleEvent.capacity} </Text> */}
+        <Text style={styles.details}>{singleEvent.description}</Text>
+        <View>
+          <EventAttendeeList eventID={singleEvent.id} />
+        </View>
+        {userJoined ? <TouchableOpacity
+          onPress={() =>
+            navigation.navigate('Messages', {
+              collectionName: `event_${singleEvent.id}`,
+            })
           }
-          setUserJoined(true);
-          axios.post(`http://tomokuru.i-re.io/api/events/attendees/${singleEvent.id}/${id}`);
-          Alert.alert(`You have joined the event: ${singleEvent.name}`);
-        }}
-        style={styles.button}
-      >
-        <Text style={styles.details}>Join This Event!</Text>
-      </TouchableOpacity>}
+          style={styles.button}
+        >
+          <Text style={styles.buttonText}>Messages</Text>
+        </TouchableOpacity> : <TouchableOpacity
+          onPress={() => {
+            if (!id) {
+              Alert.alert('Please Login to Join Events!');
+              return;
+            }
+            setUserJoined(true);
+            axios.post(`http://tomokuru.i-re.io/api/events/attendees/${singleEvent.id}/${id}`);
+            Alert.alert(`You have joined the event: ${singleEvent.name}`);
+          }}
+          style={styles.button}
+        >
+          <Text style={styles.buttonText}>Join This Event</Text>
+        </TouchableOpacity>}
+      </View>
     </ScrollView>
   );
 }
@@ -112,11 +125,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   button: {
-    height: height * 0.1,
+    // height: height * 0.1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'pink',
-    padding: 10,
+    backgroundColor: '#FCB90F',
+    padding: 7,
   },
   countContainer: {
     alignItems: 'center',
@@ -124,24 +137,40 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 30,
-    // fontFamily: "OpenSans",
-    textDecorationLine: 'underline',
+    fontFamily: "OpenSans-Bold",
+    marginBottom: 2,
   },
   details: {
-    fontSize: 20,
-    // fontFamily: "OpenSans",
+    fontSize: 16,
+    fontFamily: "OpenSans-Regular",
   },
-  detailsUnderlined: {
+  group: {
     fontSize: 20,
-    // fontFamily: "OpenSans",
-    textDecorationLine: 'underline',
+    fontFamily: "OpenSans-BoldItalic",
+    marginBottom: 5,
+  },
+  buttonText: {
+    fontSize: 20,
+    fontFamily: "OpenSans-Bold",
   },
   image: {
     height: height * 0.3,
     width: width * 0.9,
     marginTop: 20,
     marginLeft: 20,
-    marginRight: 50,
-    marginBottom: 20,
+    marginRight: 20,
+    marginBottom: 10,
+  },
+  time: {
+    fontSize: 18,
+    fontFamily: "OpenSans-MediumItalic",
+    marginBottom: 5,
+    color: "#4B4B4B",
+  },
+  location: {
+    fontSize: 18,
+    fontFamily: "OpenSans-SemiBold",
+    marginTop: 5,
+    color: "#4B4B4B",
   },
 });

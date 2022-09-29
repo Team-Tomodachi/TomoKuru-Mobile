@@ -25,9 +25,14 @@ export default function GroupMemberList(props: any) {
   };
 
   return (
-    <Text style={styles.details}>
-      Current Members: {getMemberList()} ({groupMemberData.length} members){' '}
-    </Text>
+    <>
+      <Text style={styles.details}>
+        {groupMemberData.length} Members
+      </Text>
+      <Text style={styles.secondary}>
+        {getMemberList()}
+      </Text>
+    </>
   );
 }
 
@@ -55,11 +60,13 @@ const styles = StyleSheet.create({
   },
   details: {
     fontSize: 20,
-    // fontFamily: "OpenSans",
+    fontFamily: "OpenSans-Bold",
+    marginTop: 15,
+    marginBottom: 2,
   },
   detailsUnderlined: {
     fontSize: 20,
-    // fontFamily: "OpenSans",
+    // fontFamily: "OpenSans-Bold",
     textDecorationLine: 'underline',
   },
   image: {
@@ -70,4 +77,9 @@ const styles = StyleSheet.create({
     marginRight: 50,
     marginBottom: 20,
   },
+  secondary: {
+    fontFamily: "OpenSans-Regular",
+    fontSize: 16,
+    marginBottom: 20,
+  }
 });
