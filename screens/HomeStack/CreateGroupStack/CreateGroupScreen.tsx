@@ -11,6 +11,7 @@ import {
   Image,
   Pressable,
   ScrollView,
+  TouchableOpacity,
 } from 'react-native';
 import { Formik } from 'formik';
 import { styles } from '../../../styles/styles';
@@ -22,6 +23,7 @@ import { getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 import * as ImagePicker from 'expo-image-picker';
 import uuid from 'react-native-uuid';
 import { Button } from 'react-native-paper';
+import { Styling } from '../../../styles/styling';
 
 interface Group {
   groupName: string;
@@ -87,10 +89,11 @@ export default function CreateGroupScreen({ navigation, route }) {
     <KeyboardAvoidingView
       style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      keyboardVerticalOffset={100}
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View>
-          <Text>Group Photo</Text>
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <Text style={[styles('w:56', 'text-align:justify'), Styling.h2Text]}>Group Photo</Text>
           <Image
             source={
               imageUri.length === 0
@@ -126,25 +129,26 @@ export default function CreateGroupScreen({ navigation, route }) {
           >
             {({ handleChange, handleBlur, handleSubmit, values }) => (
               <View>
-                <Text>Group Name</Text>
+                <Text style={[styles('w:56', 'text-align:justify'), Styling.h2Text]}>Group Name</Text>
                 <TextInput
-                  style={styles('border:1', 'p:1', 'w:56', 'm:5')}
+                  style={[styles('border:1', 'p:2', 'w:56', 'm:5', 'mt:1'), Styling.formField]}
                   onChangeText={handleChange('groupName')}
                   onBlur={handleBlur('groupName')}
                   value={values.groupName}
                   placeholder={values.groupName}
                 />
-                <Text>Group Description</Text>
-                <View style={styles('border:1', 'p:1', 'w:56', 'm:5', 'h:20')}>
-                  <TextInput
-                    onChangeText={handleChange('groupDesciption')}
-                    onBlur={handleBlur('groupDesciption')}
-                    multiline={true}
-                    value={values.groupDesciption}
-                    placeholder={values.groupDesciption}
-                  ></TextInput>
-                </View>
-                <Text>Tag</Text>
+                <Text style={[styles('w:56', 'text-align:justify'), Styling.h2Text]}>Group Description</Text>
+
+                <TextInput
+                  style={[styles('border:1', 'p:2', 'w:56', 'm:5', 'mt:1', 'mb:7'), Styling.formField]}
+                  onChangeText={handleChange('groupDesciption')}
+                  onBlur={handleBlur('groupDesciption')}
+                  multiline={true}
+                  value={values.groupDesciption}
+                  placeholder={values.groupDesciption}
+                ></TextInput>
+
+                <Text style={[styles('w:56', 'text-align:justify'), Styling.h2Text]}>Tag</Text>
                 <Pressable
                   onPress={() =>
                     navigation.navigate('Tags', {
@@ -152,11 +156,16 @@ export default function CreateGroupScreen({ navigation, route }) {
                     })
                   }
                 >
-                  <Text style={styles('text:2xl')}>
+                  <Text style={styles('text:xl')}>
                     {route.params?.selectedTag || 'Select a tag'}
                   </Text>
                 </Pressable>
-                <Button onPress={handleSubmit}>Submit</Button>
+                <TouchableOpacity
+                  onPress={handleSubmit}
+                  style={[Styling.actionButton, { backgroundColor: '#CC960C', alignItems: "center" }]}
+                >
+                  <Text style={[Styling.actionButtonText, { backgroundColor: '#CC960C' }]}>SUBMIT</Text>
+                </TouchableOpacity>
               </View>
             )}
           </Formik>

@@ -11,6 +11,7 @@ import {
   Pressable,
   Image,
   ScrollView,
+  TouchableOpacity,
 } from 'react-native';
 import { Formik } from 'formik';
 import { styles } from '../../../styles/styles';
@@ -24,6 +25,7 @@ import uuid from 'react-native-uuid';
 import { ActivityIndicator } from 'react-native-paper';
 import { Button } from 'react-native-paper';
 import useUserCreatedGroup from '../../../hooks/useUserGroup';
+import { Styling } from '../../../styles/styling';
 
 interface Event {
   eventName: string;
@@ -112,10 +114,11 @@ export default function CreateEventScreen({ navigation, route }) {
     <KeyboardAvoidingView
       style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      keyboardVerticalOffset={100}
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View>
-          <Text>Event Photo</Text>
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <Text style={[styles('w:56', 'text-align:justify'), Styling.h2Text]}>Event Photo</Text>
           <Image
             source={
               imageUri.length === 0
@@ -151,25 +154,25 @@ export default function CreateEventScreen({ navigation, route }) {
           >
             {({ handleChange, handleBlur, handleSubmit, values, setFieldValue }) => (
               <View>
-                <Text>Event Name</Text>
+                <Text style={[styles('w:56', 'text-align:justify'), Styling.h2Text]}>Event Name</Text>
                 <TextInput
-                  style={styles('border:1', 'p:1', 'w:56', 'm:5')}
+                  style={[styles('border:1', 'p:2', 'w:56', 'my:1'), Styling.formField]}
                   onChangeText={handleChange('eventName')}
                   onBlur={handleBlur('eventName')}
                   value={values.eventName}
                   placeholder={values.eventName}
                 />
-                <Text>Event Description</Text>
-                <View style={styles('border:1', 'p:1', 'w:56', 'm:5', 'h:20')}>
-                  <TextInput
-                    onChangeText={handleChange('eventDescription')}
-                    onBlur={handleBlur('eventDescription')}
-                    multiline={true}
-                    value={values.eventDescription}
-                    placeholder={values.eventDescription}
-                  ></TextInput>
-                </View>
-                <Text>Event Date & Time</Text>
+                <Text style={[styles('w:56', 'text-align:justify'), Styling.h2Text]}>Event Description</Text>
+                <TextInput
+                  style={[styles('border:1', 'p:2', 'w:56', 'my:1'), Styling.formField]}
+                  onChangeText={handleChange('eventDescription')}
+                  onBlur={handleBlur('eventDescription')}
+                  multiline={true}
+                  value={values.eventDescription}
+                  placeholder={values.eventDescription}
+                ></TextInput>
+
+                <Text style={[styles('w:56', 'text-align:justify'), Styling.h2Text]}>Event Date & Time</Text>
                 <Button onPress={showDateTimePicker}>
                   {values.eventDateTime.toLocaleDateString() +
                     ' ' +
@@ -187,7 +190,7 @@ export default function CreateEventScreen({ navigation, route }) {
                   }}
                   onCancel={hideDateTimePicker}
                 />
-                <Text>Group</Text>
+                <Text style={[styles('w:56', 'text-align:justify'), Styling.h2Text]}>Group</Text>
                 <Pressable
                   onPress={() => {
                     if (!Array.isArray(createdGroup)) {
@@ -197,17 +200,22 @@ export default function CreateEventScreen({ navigation, route }) {
                     navigation.push('Select Group');
                   }}
                 >
-                  <Text style={styles('text:2xl')}>
+                  <Text style={styles('text:xl')}>
                     {route?.params?.groupName || 'Select a group'}
                   </Text>
                 </Pressable>
-                <Text>Event Venue</Text>
+                <Text style={[styles('w:56', 'text-align:justify'), Styling.h2Text]}>Event Venue</Text>
                 <Pressable onPress={() => navigation.push('Select Venue')}>
-                  <Text style={styles('text:2xl')}>
+                  <Text style={styles('text:xl')}>
                     {route?.params?.venueName || 'Select a venue'}
                   </Text>
                 </Pressable>
-                <Button onPress={handleSubmit}>Submit</Button>
+                <TouchableOpacity
+                  onPress={handleSubmit}
+                  style={[Styling.actionButton, { backgroundColor: '#CC960C', alignItems: "center" }]}
+                >
+                  <Text style={[Styling.actionButtonText, { backgroundColor: '#CC960C' }]}>SUBMIT</Text>
+                </TouchableOpacity>
               </View>
             )}
           </Formik>
