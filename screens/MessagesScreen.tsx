@@ -4,7 +4,7 @@ import { collection, addDoc, query, orderBy, limit, serverTimestamp, DocumentDat
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 import { StyleSheet } from 'react-native';
 import useUser from '../hooks/useUser';
-import { GiftedChat } from 'react-native-gifted-chat';
+import { Bubble, GiftedChat } from 'react-native-gifted-chat';
 import { uuidv4 } from '@firebase/util';
 
 export default function MessagesScreen({ route }) {
@@ -87,6 +87,27 @@ export default function MessagesScreen({ route }) {
       user={{
         _id: data.id,
       }}
+      renderBubble={props => (
+        <Bubble
+          {...props}
+          wrapperStyle={{
+            left: {
+              backgroundColor: '#fff',
+            },
+            right: {
+              backgroundColor: '#FCB90F',
+            },
+          }}
+          textStyle={{
+            left: {
+              color: '#000',
+            },
+            right: {
+              color: '#000',
+            },
+          }}
+        />
+      )}
     />
   )
 }
