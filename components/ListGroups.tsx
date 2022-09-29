@@ -52,7 +52,7 @@ export default function ListGroups({ navigation, route }) {
         value={query ? query : ''}
       />
       <View style={styles('flex:row')}>
-        <Button title="Reset" onPress={resetFilter} />
+        <Button color={'#FCB90F'} title="Reset" onPress={resetFilter} />
         <Chip mode="outlined" icon="tag" onPress={() => navigation.navigate('Tags', {
           prevScreen: "Groups"
         })}>
