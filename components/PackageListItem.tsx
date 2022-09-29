@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Text, View } from 'react-native';
+import { Styling } from '../styles/styling';
 
 export default function PackageListItem({ singlePackage }) {
   return (
@@ -11,19 +12,18 @@ export default function PackageListItem({ singlePackage }) {
         margin: 10,
         marginLeft: 15,
         marginRight: 15,
-        paddingTop: 10,
-        paddingBottom: 10,
+        padding: 10,
         backgroundColor: 'white',
       }}
     >
-      <Text style={{ fontSize: 18, fontWeight: '700' }}>{singlePackage.package_name}</Text>
-      <Text>Description: {singlePackage.description}</Text>
-      <Text>Cost per person: {singlePackage.package_per_person_cost}</Text>
-      <Text>Duration: {singlePackage.duration}</Text>
-      <Text>Food: {singlePackage.food}</Text>
-      <Text>Drinks: {singlePackage.drinks}</Text>
-      <Text>Capacity: {singlePackage.maximum_number_of_people}</Text>
-      <Text>Other Notes: {singlePackage.other_notes}</Text>
+      <Text style={Styling.h2Text}>{singlePackage.package_name}</Text>
+      <Text style={Styling.sectionText}>Description: {singlePackage.description}</Text>
+      <Text style={Styling.sectionText}>Cost per person: {singlePackage.package_per_person_cost}</Text>
+      <Text style={Styling.sectionText}>Duration: {singlePackage.duration}</Text>
+      <Text style={Styling.sectionText}>Food: {singlePackage.food}</Text>
+      <Text style={Styling.sectionText}>Drinks: {singlePackage.drinks}</Text>
+      <Text style={Styling.sectionText}>Capacity: {singlePackage.maximum_number_of_people}</Text>
+      <Text style={Styling.sectionText}>Other Notes: {singlePackage.other_notes}</Text>
     </View>
   );
 }
