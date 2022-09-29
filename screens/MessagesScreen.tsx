@@ -2,13 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { firestore } from '../firebase';
 import { collection, addDoc, query, orderBy, limit, serverTimestamp, DocumentData } from 'firebase/firestore';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
-import { View, Text, FlatList, TextInput, Pressable, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Button, StyleSheet, Keyboard } from 'react-native';
+import { StyleSheet } from 'react-native';
 import useUser from '../hooks/useUser';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { Styling } from "../styles/styling"
-import { reauthenticateWithPopup } from 'firebase/auth';
 import { GiftedChat } from 'react-native-gifted-chat';
-import * as R from 'remeda';
 import { uuidv4 } from '@firebase/util';
 
 export default function MessagesScreen({ route }) {
@@ -33,7 +29,6 @@ export default function MessagesScreen({ route }) {
   }
 
   useEffect(() => {
-    console.log(messages)
     if (messages) {
       const temp = [];
       for (let value of messages) {
