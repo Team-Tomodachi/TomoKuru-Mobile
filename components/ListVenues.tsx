@@ -147,7 +147,7 @@ export default function ListVenues({ navigation, route }) {
       />
 
       <View style={styles('flex:row')}>
-        <Button title="Reset" onPress={resetFilter} />
+        <Button color={'#FCB90F'} title="Reset" onPress={resetFilter} />
         <ScrollView horizontal={true}>
           <Chip
             style={styles('mr:1')}

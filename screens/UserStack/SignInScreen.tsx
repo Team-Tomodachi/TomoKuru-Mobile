@@ -8,6 +8,7 @@ import {
   TouchableWithoutFeedback,
   Platform,
   Alert,
+  TouchableOpacity,
 } from 'react-native';
 import React, { useState } from 'react';
 import { styles } from '../../styles/styles';
@@ -72,14 +73,13 @@ export default function SignInScreen({ navigation }) {
             autoCapitalize={'none'}
             secureTextEntry={true}
           ></TextInput>
-          <Pressable
+          <TouchableOpacity
             onPress={async () => {
               try {
                 await signInWithEmailAndPassword(auth, email, password);
                 setCanFetch(true);
                 setUserInfo('', '', email);
                 signUserIn();
-                navigation.popToTop();
               } catch (error) {
                 if (error instanceof FirebaseError) {
                   console.log('There was an error', error);
@@ -92,7 +92,14 @@ export default function SignInScreen({ navigation }) {
             style={Styling.actionButton}
           >
             <Text style={Styling.actionButtonText}>SIGN IN</Text>
-          </Pressable>
+          </TouchableOpacity>
+          <Text>or</Text>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('Modal User', { screen: 'Sign up' })}
+            style={[Styling.actionButton, { backgroundColor: '#CC960C' }]}
+          >
+            <Text style={[Styling.actionButtonText, { backgroundColor: '#CC960C' }]}>SIGN UP</Text>
+          </TouchableOpacity>
         </View>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>

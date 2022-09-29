@@ -46,19 +46,17 @@ export default function ListVenueItems({ singleVenue }) {
           margin: 10,
           marginLeft: 15,
           marginRight: 15,
-          paddingTop: 10,
-          paddingBottom: 10,
+          paddingVertical: 10,
+          paddingHorizontal: 5,
           backgroundColor: 'white',
         }}
       >
         <Image
           style={{
             height: height * 0.1,
-            width: width * 0.2,
-            marginTop: 20,
-            marginLeft: 20,
-            marginRight: 50,
-            marginBottom: 20,
+            width: width * 0.25,
+            marginRight: 10,
+            borderRadius: 5
           }}
           source={
             image.length === 0
