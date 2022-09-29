@@ -32,7 +32,7 @@ export default function ListGroups({ navigation, route }) {
         },
       })
       .then((response) => {
-        setGroupData(response.data);
+        setGroupData(response.data.filter(group => group.group_name !== "No group associated"));
       });
   };
 
