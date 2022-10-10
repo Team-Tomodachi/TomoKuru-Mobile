@@ -10,7 +10,7 @@ export default function ProfileImage() {
   const { data } = useUser();
   const [profileImage, setProfileImage] = useState<string>('');
 
-  if (data.photo_url && isUserSignedIn) {
+  if (isUserSignedIn) {
     const fileRef = ref(getStorage(), data.photo_url);
     getDownloadURL(fileRef)
       .then((res) => setProfileImage(res))
