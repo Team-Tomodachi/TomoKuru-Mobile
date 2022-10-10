@@ -24,12 +24,18 @@ import * as ImagePicker from 'expo-image-picker';
 import uuid from 'react-native-uuid';
 import { Button } from 'react-native-paper';
 import { Styling } from '../../../styles/styling';
+import * as yup from 'yup';
 
 interface Group {
   groupName: string;
   groupDesciption: string;
   isPrivate: boolean;
 }
+
+const loginValidationSchema = yup.object().shape({
+  groupName: yup.string().required('A group name is required'),
+  groupDesciption: yup.string().required('A group description is required'),
+});
 
 export default function CreateGroupScreen({ navigation, route }) {
   const initialValues: Group = {
@@ -38,8 +44,8 @@ export default function CreateGroupScreen({ navigation, route }) {
     isPrivate: false,
   };
 
-  const { data } = useUser();
-  const { id } = data;
+  // const { data } = useUser();
+  // const { id } = data;
 
   const [imageUri, setImageUri] = useState('');
   const [status, requestPermission] = ImagePicker.useCameraPermissions();
@@ -99,8 +105,8 @@ export default function CreateGroupScreen({ navigation, route }) {
               imageUri.length === 0
                 ? require('../../../assets/place-holder.jpg')
                 : {
-                  uri: imageUri,
-                }
+                    uri: imageUri,
+                  }
             }
             style={{ width: 300, height: 150, backgroundColor: 'gray' }}
             resizeMode="cover"
@@ -115,6 +121,7 @@ export default function CreateGroupScreen({ navigation, route }) {
           </Button>
           <Formik
             initialValues={initialValues}
+            validationSchema={loginValidationSchema}
             onSubmit={async (values) => {
               setUploading(true);
               let photoUrl;
@@ -127,9 +134,11 @@ export default function CreateGroupScreen({ navigation, route }) {
               navigation.goBack();
             }}
           >
-            {({ handleChange, handleBlur, handleSubmit, values }) => (
+            {({ handleChange, handleBlur, handleSubmit, errors, values }) => (
               <View>
-                <Text style={[styles('w:56', 'text-align:justify'), Styling.h2Text]}>Group Name</Text>
+                <Text style={[styles('w:56', 'text-align:justify'), Styling.h2Text]}>
+                  Group Name
+                </Text>
                 <TextInput
                   style={[styles('border:1', 'p:2', 'w:56', 'm:5', 'mt:1'), Styling.formField]}
                   onChangeText={handleChange('groupName')}
@@ -137,17 +146,28 @@ export default function CreateGroupScreen({ navigation, route }) {
                   value={values.groupName}
                   placeholder={values.groupName}
                 />
-                <Text style={[styles('w:56', 'text-align:justify'), Styling.h2Text]}>Group Description</Text>
-
+                {errors.groupName && (
+                  <Text style={[{ color: 'red' }, Styling.formField]}>{errors.groupName}</Text>
+                )}
+                <Text style={[styles('w:56', 'text-align:justify'), Styling.h2Text]}>
+                  Group Description
+                </Text>
                 <TextInput
-                  style={[styles('border:1', 'p:2', 'w:56', 'm:5', 'mt:1', 'mb:7'), Styling.formField]}
+                  style={[
+                    styles('border:1', 'p:2', 'w:56', 'm:5', 'mt:1', 'mb:7'),
+                    Styling.formField,
+                  ]}
                   onChangeText={handleChange('groupDesciption')}
                   onBlur={handleBlur('groupDesciption')}
                   multiline={true}
                   value={values.groupDesciption}
                   placeholder={values.groupDesciption}
                 ></TextInput>
-
+                {errors.groupDesciption && (
+                  <Text style={[{ color: 'red' }, Styling.formField]}>
+                    {errors.groupDesciption}
+                  </Text>
+                )}
                 <Text style={[styles('w:56', 'text-align:justify'), Styling.h2Text]}>Tag</Text>
                 <Pressable
                   onPress={() =>
@@ -162,9 +182,14 @@ export default function CreateGroupScreen({ navigation, route }) {
                 </Pressable>
                 <TouchableOpacity
                   onPress={handleSubmit}
-                  style={[Styling.actionButton, { backgroundColor: '#CC960C', alignItems: "center" }]}
+                  style={[
+                    Styling.actionButton,
+                    { backgroundColor: '#CC960C', alignItems: 'center' },
+                  ]}
                 >
-                  <Text style={[Styling.actionButtonText, { backgroundColor: '#CC960C' }]}>SUBMIT</Text>
+                  <Text style={[Styling.actionButtonText, { backgroundColor: '#CC960C' }]}>
+                    SUBMIT
+                  </Text>
                 </TouchableOpacity>
               </View>
             )}
