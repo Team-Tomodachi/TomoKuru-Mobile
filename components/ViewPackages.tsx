@@ -1,10 +1,8 @@
 import * as React from 'react';
-import { View, Dimensions } from 'react-native';
-
+import { View, FlatList } from 'react-native';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import PackageListItem from './PackageListItem';
-import { FlashList } from '@shopify/flash-list';
 import { styles } from '../styles/styles';
 
 export default function ViewPackages({ singleVenue }) {
@@ -20,12 +18,11 @@ export default function ViewPackages({ singleVenue }) {
 
   return (
     <View style={styles('w:full')}>
-      <FlashList
-        estimatedItemSize={140}
+      <FlatList
         data={packages}
         keyExtractor={(item) => item.id}
-        renderItem={(item) => {
-          return <PackageListItem singlePackage={item.item} />;
+        renderItem={({ item }) => {
+          return <PackageListItem singlePackage={item} />;
         }}
       />
     </View>
