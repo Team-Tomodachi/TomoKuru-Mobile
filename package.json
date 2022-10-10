@@ -46,7 +46,6 @@
     "react-native-uuid": "^2.0.1",
     "react-native-web": "~0.18.7",
     "react-native-zephyr": "^1.1.0",
-    "react-navigation-tabs": "^2.11.2",
     "use-long-press": "^2.0.2",
     "zustand": "^4.1.1"
   },
