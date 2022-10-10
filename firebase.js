@@ -1,15 +1,20 @@
-import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
-import Constants from "expo-constants";
+import { initializeApp } from 'firebase/app';
+import { getAuth } from 'firebase/auth';
+import Constants from 'expo-constants';
+import { getStorage } from 'firebase/storage';
+import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
-  apiKey: Constants.manifest.extra.fbApiKey,
-  authDomain: Constants.manifest.extra.fbAuthDomain,
-  projectId: Constants.manifest.extra.fbProjectId,
-  storageBucket: Constants.manifest.extra.fbStorageBucket,
-  messagingSenderId: Constants.manifest.extra.fbMessagingSenderId,
-  appId: Constants.manifest.extra.fbAppId,
+  apiKey: Constants.expoConfig.extra.fbApiKey,
+  authDomain: Constants.expoConfig.extra.fbAuthDomain,
+  projectId: Constants.expoConfig.extra.fbProjectId,
+  storageBucket: Constants.expoConfig.extra.fbStorageBucket,
+  messagingSenderId: Constants.expoConfig.extra.fbMessagingSenderId,
+  appId: Constants.expoConfig.extra.fbAppId,
 };
 
 const app = initializeApp(firebaseConfig);
+export const storage = getStorage(app, 'gs://tomokuru-auth.appspot.com');
 export const auth = getAuth(app);
+export const firestore = getFirestore(app);
+export default app;
